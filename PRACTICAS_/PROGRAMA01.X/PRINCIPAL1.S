@@ -1,11 +1,15 @@
-;/**@brief ESTE PROGRAMA LEE LOS VALORES COLOCADOS EN EL PUERTO D
-; * (RD3, RD2, RD2, RD0) MEDIANTE UN DIP-SWITCH Y LOS COLOCA EN EL 
-; * PUERTO B (RB3, RB2, RB1, RB0) DONDE SE TIENEN CONECTADOS LEDS
-; * PARA VISUALIZAR LA SALIDA
+;/**@brief ESTE PROGRAMA MUESTRA LOS BLOQUES QUE FORMAN UN PROGRAMA 
+; * EN ENSAMBLADOR, LOS BLOQUES SON:
+; * BLOQUE 1. OPCIONES DE CONFIGURACION DEL DSC: OSCILADOR, WATCHDOG,
+; *	BROWN OUT RESET, POWER ON RESET Y CODIGO DE PROTECCION
+; * BLOQUE 2. EQUIVALENCIAS Y DECLARACIONES GLOBALES
+; * BLOQUE 3. ESOACIOS DE MEMORIA: PROGRAMA, DATOS X, DATOS Y, DATOS NEAR
+; * BLOQUE 4. CÓDIGO DE APLICACIÓN
 ; * @device: DSPIC30F4013
+; * @oscilator: FRC, 7.3728MHz
 ; */
-        .equ __30F4013, 1
-        .include "p30F4013.inc"
+    .equ __30F4013, 1
+    .include "p30F4013.inc"
 ;******************************************************************************
 ; BITS DE CONFIGURACIÓN
 ;******************************************************************************
@@ -40,7 +44,7 @@
 ;******************************************************************************
 ; SECCIÓN DE DECLARACIÓN DE CONSTANTES CON LA DIRECTIVA .EQU (= DEFINE EN C)
 ;******************************************************************************
-        .equ MUESTRAS, 64         ;NÚMERO DE MUESTRAS
+    .equ MUESTRAS, 64         ;NÚMERO DE MUESTRAS
 
 ;******************************************************************************
 ; DECLARACIONES GLOBALES
@@ -50,34 +54,34 @@
 ;FUNCIÓN DESDE UN OTRO PROGRAMA EN ENSAMBLADOR O EN C COLOCANDO LA DECLARACIÓN
 ;"EXTERN"
 ;..............................................................................
-        .global _wreg_init
-	.global _RETARDO_1S
+    .global _wreg_init   
+    ;global _RETARDO_1S
 ;..............................................................................
 ;ETIQUETA DE LA PRIMER LINEA DE CÓDIGO
 ;..............................................................................
-        .global __reset          
+    .global __reset          
 ;..............................................................................
 ;DECLARACIÓN DE LA ISR DEL TIMER 1 COMO GLOBAL
 ;..............................................................................
-        .global __T1Interrupt    
+    .global __T1Interrupt    
 
 ;******************************************************************************
 ;CONSTANTES ALMACENADAS EN EL ESPACIO DE LA MEMORIA DE PROGRAMA
 ;******************************************************************************
-        .section .myconstbuffer, code
+    .section .myconstbuffer, code
 ;..............................................................................
 ;ALINEA LA SIGUIENTE PALABRA ALMACENADA EN LA MEMORIA 
 ;DE PROGRAMA A UNA DIRECCION MULTIPLO DE 2
 ;..............................................................................
-        .palign 2                
+    .palign 2                
 
 ps_coeff:
-        .hword   0x0002, 0x0003, 0x0005, 0x000A
+    .hword   0x0002, 0x0003, 0x0005, 0x000A
 
 ;******************************************************************************
 ;VARIABLES NO INICIALIZADAS EN EL ESPACIO X DE LA MEMORIA DE DATOS
 ;******************************************************************************
-         .section .xbss, bss, xmemory
+    .section .xbss, bss, xmemory
 
 x_input: .space 2*MUESTRAS        ;RESERVANDO ESPACIO (EN BYTES) A LA VARIABLE
 
@@ -85,14 +89,14 @@ x_input: .space 2*MUESTRAS        ;RESERVANDO ESPACIO (EN BYTES) A LA VARIABLE
 ;VARIABLES NO INICIALIZADAS EN EL ESPACIO Y DE LA MEMORIA DE DATOS
 ;******************************************************************************
 
-          .section .ybss, bss, ymemory
+    .section .ybss, bss, ymemory
 
 y_input:  .space 2*MUESTRAS       ;RESERVANDO ESPACIO (EN BYTES) A LA VARIABLE
 ;******************************************************************************
 ;VARIABLES NO INICIALIZADAS LA MEMORIA DE DATOS CERCANA (NEAR), LOCALIZADA
 ;EN LOS PRIMEROS 8KB DE RAM
 ;******************************************************************************
-          .section .nbss, bss, near
+    .section .nbss, bss, near
 
 var1:     .space 2               ;LA VARIABLE VAR1 RESERVA 1 WORD DE ESPACIO
 
@@ -102,83 +106,91 @@ var1:     .space 2               ;LA VARIABLE VAR1 RESERVA 1 WORD DE ESPACIO
 .text					;INICIO DE LA SECCION DE CODIGO
 
 __reset:
-        MOV	#__SP_init, 	W15	;INICIALIZA EL STACK POINTER
+    MOV	#__SP_init, W15 ;INICIALIZA EL STACK POINTER
 
-        MOV 	#__SPLIM_init, 	W0     	;INICIALIZA EL REGISTRO STACK POINTER LIMIT 
-        MOV 	W0, 		SPLIM
+    MOV #__SPLIM_init, W0 ;INICIALIZA EL REGISTRO STACK POINTER LIMIT 
+    MOV W0, SPLIM
 
-        NOP                       	;UN NOP DESPUES DE LA INICIALIZACION DE SPLIM
+    NOP ;UN NOP DESPUES DE LA INICIALIZACION DE SPLIM
 
-        CALL 	_WREG_INIT          	;SE LLAMA A LA RUTINA DE INICIALIZACION DE REGISTROS
-                                  	;OPCIONALMENTE USAR RCALL EN LUGAR DE CALL
-        CALL    INI_PERIFERICOS
-	CLR	W0
+    CALL _WREG_INIT ;SE LLAMA A LA RUTINA DE INICIALIZACION DE REGISTROS
+    CALL INI_PERIFERICOS ;OPCIONALMENTE USAR RCALL EN LUGAR DE CALL
+    
 CICLO:
-	MOV PORTD, W0		; W0 = PORTB
-	NOP
+    MOV	PORTD, W0 ; W0 = PORTD
+    NOP
+    AND	W0, #0XF, W0 ; W0 &= 0XF // PRIMEROS 4 BITS 
+		     ; AND 0XF, W0 // OPERACIÓN OPCIONAL
+    BTSC PORTF, #0
+    GOTO PLUS_FIVE
+    GOTO MINUS_FIVE
+    
+CONTINUE: 
+    MOV W0, PORTB
+    NOP
+    GOTO CICLO
 
-	;MOV #0X000F, W1    OPCION 2
-	;AND W0,W1, W0
-
-	AND W0, #0XF, W0	; Macara de bits -> 00000...0001111
-	MOV W0, PORTB		; PORTB = W0
-	NOP 
-	GOTO CICLO
-	RETURN	
-
+    
+PLUS_FIVE:
+    ADD #5, W0
+    NOP
+    GOTO CONTINUE
+    
+MINUS_FIVE:
+    SUB #5, W0
+    NOP
+    GOTO CONTINUE
+    
 ;/**@brief ESTA RUTINA INICIALIZA LOS PERIFERICOS DEL DSC
-; * PORTD: 
-; * RD0 - ENTRADA, DIPSWITCH 0 
-; * RD1 - ENTRADA, DIPSWITCH 1 
-; * RD2 - ENTRADA, DIPSWITCH 2 
-; * RD3 - ENTRADA, DIPSWITCH 3 
-; * PORTB: 
-; * RB0 - SALIDA, LED 0 
-; * RB1 - SALIDA, LED 1 
-; * RB2 - SALIDA, LED 2 
-; * RB3 - SALIDA, LED 3 
 ; */
 INI_PERIFERICOS:
-	CLR	PORTD
-	NOP
-	CLR	LATD 
-	NOP
-	SETM	TRISD
-	NOP
-	
-	CLR	PORTB
-	NOP
-	CLR	LATB
-	NOP
-	CLR	TRISB
-	NOP
-	SETM	ADPCFG
-        RETURN
+    ; INDICAMOS QUE PORTD ES ENTRADA
+    CLR	    PORTD   ; PORTD = 0
+    NOP
+    CLR	    LATD    ; LATD = 0
+    NOP
+    SETM    TRISD   ; TRISD = 0XFFFF
+    NOP
+    
+    ; INDICAMOS QUE PORTB ES SALIDA
+    CLR	    PORTB   ; PORTB = 0
+    NOP
+    CLR	    LATB    ; LATB = 0
+    NOP
+    CLR	    TRISB   ; TRISB = 0
+    NOP
+    
+    ; INDICAMOS QUE RF0 ES ENTRADA
+    BSET    TRISF, #0x0
+    NOP
+    
+    SETM    ADPCFG  ; ADPCFG = 0XFFFF
+    RETURN
 
 ;/**@brief ESTA RUTINA INICIALIZA LOS REGISTROS Wn A 0X0000
 ; */
 _WREG_INIT:
-        CLR 	W0
-        MOV 	W0, 				W14
-        REPEAT 	#12
-        MOV 	W0, 				[++W14]
-        CLR 	W14
-        RETURN
+    CLR 	W0
+    MOV 	W0, 				W14
+    REPEAT 	#12
+    MOV 	W0, 				[++W14]
+    CLR 	W14
+    RETURN
 
 ;/**@brief ISR (INTERRUPT SERVICE ROUTINE) DEL TIMER 1
 ; * SE USA PUSH.S PARA GUARDAR LOS REGISTROS W0, W1, W2, W3, 
 ; * C, Z, N Y DC EN LOS REGISTROS SOMBRA
 ; */
 __T1Interrupt:
-        PUSH.S 
+    PUSH.S 
 
 
-        BCLR IFS0, #T1IF           ;SE LIMPIA LA BANDERA DE INTERRUPCION DEL TIMER 1
+    BCLR IFS0, #T1IF           ;SE LIMPIA LA BANDERA DE INTERRUPCION DEL TIMER 1
 
-        POP.S
+    POP.S
 
-        RETFIE                     ;REGRESO DE LA ISR
+    RETFIE                     ;REGRESO DE LA ISR
 
 
 .END                               ;TERMINACION DEL CODIGO DE PROGRAMA EN ESTE ARCHIVO
-	
+
