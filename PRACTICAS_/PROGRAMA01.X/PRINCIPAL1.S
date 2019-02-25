@@ -114,34 +114,17 @@ __reset:
         CALL    INI_PERIFERICOS
 	CLR	W0
 CICLO:
-	MOV	W0,		PORTB
-        NOP
-	INC	W0,		W0
-	CALL	_RETARDO_1S
-        GOTO    CICLO     
+	MOV PORTD, W0		; W0 = PORTB
+	NOP
 
-; /** 
-;	Esta rutina genera un retardo de un segundo
-; **/
-_RETARDO_1S:
-    PUSH	W0	; Debemos de meter en la pila
-    PUSH	W1	; Para evitar que se haga un cagadero
-    MOV #10,	W1
-CICLO2_1S:
-    ;MOV	#3,	W0
-    CLR W0		    ; W0 = 0x0000 => 0000 
-CICLO1_1S:
-    DEC W0,	W0	    ; W0 = 0XFFFF => 1111 : Lo pone en el valor máximo positivo
-    BRA NZ,	CICLO1_1S	
-    
-    DEC W1,	W1	    ; W0 = 0XFFFF => 1111 : Lo pone en el valor máximo positivo
-    BRA NZ,	CICLO2_1S	
-    
-    
-    POP W1	    ; Evita el problema con las rutinas
-    POP W0	    ; Siempre se debe de meter y sacar los registros que vamos a utilizar
-    
-    RETURN	
+	;MOV #0X000F, W1    OPCION 2
+	;AND W0,W1, W0
+
+	AND W0, #0XF, W0	; Macara de bits -> 00000...0001111
+	MOV W0, PORTB		; PORTB = W0
+	NOP 
+	GOTO CICLO
+	RETURN	
 
 ;/**@brief ESTA RUTINA INICIALIZA LOS PERIFERICOS DEL DSC
 ; * PORTD: 
