@@ -123,7 +123,7 @@ __reset:
 CICLO:
 	MOV	PORTD,		W0	; W0 = PORTD
         NOP
-	AND	#0X00F,		W0	; W0 = W0 & 0X000F
+	AND	#0XF,		W0	; W0 = W0 & 0X000F
 	
 	
 	; ----- COMPARACIONES -------
@@ -172,19 +172,19 @@ CICLO:
 	DIGITO_0:
 	    MOV	    #DIG_0,	W0
 	    NOP
-	    MOV	    W0,	PORTB
+	    MOV	    W0,	PORTB		    ;	PORTB =  0X7E
 	    NOP
 	    GOTO    CICLO	    
 	
 	DIGITO_1:
 	    MOV	    #DIG_1,	W0
 	    NOP
-	    MOV	    W0,	PORTB
+	    MOV	    W0,	PORTB		    ;	PORTB =  0X30
 	    NOP
 	    GOTO    CICLO	        
 	    
 	DIGITO_2:
-	    MOV	    #DIG_2,	W0	    ;	W0 = 0X6D (EN HEXADECIMAL = 2)
+	    MOV	    #DIG_2,	W0	    
 	    NOP
 	    MOV	    W0,		PORTB	    ;	PORTB =  0X6D
 	    NOP
@@ -193,17 +193,52 @@ CICLO:
 	DIGITO_3:
 	    MOV	    #DIG_3,	W0
 	    NOP
-	    MOV	    W0,	PORTB
+	    MOV	    W0,	PORTB		    ;	PORTB =  0X79
 	    NOP
 	    GOTO    CICLO	    
 	    
 	DIGITO_4:
-	    MOV	    #DIG_4,	W0	    ;	W0 = 0X6D (EN HEXADECIMAL = 2)
+	    MOV	    #DIG_4,	W0	    
 	    NOP
-	    MOV	    W0,		PORTB	    ;	PORTB =  0X6D
+	    MOV	    W0,		PORTB	    ;	PORTB =  0X33
 	    NOP
 	    GOTO    CICLO
+	
+	DIGITO_5:
+	    MOV	    #DIG_5,	W0
+	    NOP
+	    MOV	    W0,	PORTB		    ;	PORTB =  0X5B
+	    NOP
+	    GOTO    CICLO	    
 	    
+	DIGITO_6:
+	    MOV	    #DIG_6,	W0	    
+	    NOP
+	    MOV	    W0,		PORTB	    ;	PORTB =  0X5F
+	    NOP
+	    GOTO    CICLO
+	
+	DIGITO_7:
+	    MOV	    #DIG_7,	W0
+	    NOP
+	    MOV	    W0,	PORTB		    ;	PORTB =  0X70
+	    NOP
+	    GOTO    CICLO	    
+	    
+	DIGITO_8:
+	    MOV	    #DIG_8,	W0	    
+	    NOP
+	    MOV	    W0,		PORTB	    ;	PORTB =  0X7F
+	    NOP
+	    GOTO    CICLO
+	
+	DIGITO_9:
+	    MOV	    #DIG_9,	W0
+	    NOP
+	    MOV	    W0,	PORTB		    ;	PORTB =  0X7B
+	    NOP
+	    GOTO    CICLO	    
+	    	    
 	NOP
 	GOTO    CICLO     
 	
