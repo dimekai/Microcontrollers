@@ -1,13 +1,17 @@
-;/**@brief ESTE PROGRAMA LEE LOS VALORES COLOCADOS EN EL PUERTO D
-; * (RD3, RD2, RD2, RD0) MEDIANTE UN DIP-SWITCH Y LOS COLOCA EN EL 
-; * PUERTO B (RB3, RB2, RB1, RB0) DONDE SE TIENEN CONECTADOS LEDS
-; * PARA VISUALIZAR LA SALIDA
+;/**@brief ESTE PROGRAMA MUESTRA LOS BLOQUES QUE FORMAN UN PROGRAMA 
+; * EN ENSAMBLADOR, LOS BLOQUES SON:
+; * BLOQUE 1. OPCIONES DE CONFIGURACION DEL DSC: OSCILADOR, WATCHDOG,
+; *	BROWN OUT RESET, POWER ON RESET Y CODIGO DE PROTECCION
+; * BLOQUE 2. EQUIVALENCIAS Y DECLARACIONES GLOBALES
+; * BLOQUE 3. ESOACIOS DE MEMORIA: PROGRAMA, DATOS X, DATOS Y, DATOS NEAR
+; * BLOQUE 4. CÃ“DIGO DE APLICACIÃ“N
 ; * @device: DSPIC30F4013
+; * @oscilator: FRC, 7.3728MHz
 ; */
-        .equ __30F4013, 1
-        .include "p30F4013.inc"
+    .equ __30F4013, 1
+    .include "p30F4013.inc"
 ;******************************************************************************
-; BITS DE CONFIGURACIÓN
+; BITS DE CONFIGURACIÃ“N
 ;******************************************************************************
 ;..............................................................................
 ;SE DESACTIVA EL CLOCK SWITCHING Y EL FAIL-SAFE CLOCK MONITOR (FSCM) Y SE 
@@ -25,58 +29,58 @@
 ;SE ACTIVA EL POWER ON RESET (POR), BROWN OUT RESET (BOR), POWER UP TIMER (PWRT)
 ;Y EL MASTER CLEAR (MCLR)
 ;POR: AL MOMENTO DE ALIMENTAR EL DSPIC OCURRE UN RESET CUANDO EL VOLTAJE DE 
-;ALIMENTACIÓN ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V
-;BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÓN DECAE
+;ALIMENTACIÃ“N ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V
+;BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÃ“N DECAE
 ;POR DEBAJO DE UN CIERTO UMBRAL ESTABLECIDO (2.7V) 
 ;PWRT: MANTIENE AL DSPIC EN RESET POR UN CIERTO TIEMPO ESTABLECIDO, ESTO AYUDA
-;A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÓN SE HA ESTABILIZADO (16ms) 
+;A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÃ“N SE HA ESTABILIZADO (16ms) 
 ;..............................................................................
         config __FBORPOR, PBOR_ON & BORV27 & PWRT_16 & MCLR_EN
 ;..............................................................................
-;SE DESACTIVA EL CÓDIGO DE PROTECCIÓN
+;SE DESACTIVA EL CÃ“DIGO DE PROTECCIÃ“N
 ;..............................................................................
    	config __FGS, CODE_PROT_OFF & GWRP_OFF      
 
 ;******************************************************************************
-; SECCIÓN DE DECLARACIÓN DE CONSTANTES CON LA DIRECTIVA .EQU (= DEFINE EN C)
+; SECCIÃ“N DE DECLARACIÃ“N DE CONSTANTES CON LA DIRECTIVA .EQU (= DEFINE EN C)
 ;******************************************************************************
-        .equ MUESTRAS, 64         ;NÚMERO DE MUESTRAS
+    .equ MUESTRAS, 64         ;NÃšMERO DE MUESTRAS
 
 ;******************************************************************************
 ; DECLARACIONES GLOBALES
 ;******************************************************************************
 ;..............................................................................
-;PROPORCIONA ALCANCE GLOBAL A LA FUNCIÓN _wreg_init, ESTO PERMITE LLAMAR A LA 
-;FUNCIÓN DESDE UN OTRO PROGRAMA EN ENSAMBLADOR O EN C COLOCANDO LA DECLARACIÓN
+;PROPORCIONA ALCANCE GLOBAL A LA FUNCIÃ“N _wreg_init, ESTO PERMITE LLAMAR A LA 
+;FUNCIÃ“N DESDE UN OTRO PROGRAMA EN ENSAMBLADOR O EN C COLOCANDO LA DECLARACIÃ“N
 ;"EXTERN"
 ;..............................................................................
-        .global _wreg_init     
+    .global _wreg_init     
 ;..............................................................................
-;ETIQUETA DE LA PRIMER LINEA DE CÓDIGO
+;ETIQUETA DE LA PRIMER LINEA DE CÃ“DIGO
 ;..............................................................................
-        .global __reset          
+    .global __reset          
 ;..............................................................................
-;DECLARACIÓN DE LA ISR DEL TIMER 1 COMO GLOBAL
+;DECLARACIÃ“N DE LA ISR DEL TIMER 1 COMO GLOBAL
 ;..............................................................................
-        .global __T1Interrupt    
+    .global __T1Interrupt    
 
 ;******************************************************************************
 ;CONSTANTES ALMACENADAS EN EL ESPACIO DE LA MEMORIA DE PROGRAMA
 ;******************************************************************************
-        .section .myconstbuffer, code
+    .section .myconstbuffer, code
 ;..............................................................................
 ;ALINEA LA SIGUIENTE PALABRA ALMACENADA EN LA MEMORIA 
 ;DE PROGRAMA A UNA DIRECCION MULTIPLO DE 2
 ;..............................................................................
-        .palign 2                
+    .palign 2                
 
 ps_coeff:
-        .hword   0x0002, 0x0003, 0x0005, 0x000A
+    .hword   0x0002, 0x0003, 0x0005, 0x000A
 
 ;******************************************************************************
 ;VARIABLES NO INICIALIZADAS EN EL ESPACIO X DE LA MEMORIA DE DATOS
 ;******************************************************************************
-         .section .xbss, bss, xmemory
+    .section .xbss, bss, xmemory
 
 x_input: .space 2*MUESTRAS        ;RESERVANDO ESPACIO (EN BYTES) A LA VARIABLE
 
@@ -84,14 +88,14 @@ x_input: .space 2*MUESTRAS        ;RESERVANDO ESPACIO (EN BYTES) A LA VARIABLE
 ;VARIABLES NO INICIALIZADAS EN EL ESPACIO Y DE LA MEMORIA DE DATOS
 ;******************************************************************************
 
-          .section .ybss, bss, ymemory
+    .section .ybss, bss, ymemory
 
 y_input:  .space 2*MUESTRAS       ;RESERVANDO ESPACIO (EN BYTES) A LA VARIABLE
 ;******************************************************************************
 ;VARIABLES NO INICIALIZADAS LA MEMORIA DE DATOS CERCANA (NEAR), LOCALIZADA
 ;EN LOS PRIMEROS 8KB DE RAM
 ;******************************************************************************
-          .section .nbss, bss, near
+    .section .nbss, bss, near
 
 var1:     .space 2               ;LA VARIABLE VAR1 RESERVA 1 WORD DE ESPACIO
 
@@ -101,82 +105,85 @@ var1:     .space 2               ;LA VARIABLE VAR1 RESERVA 1 WORD DE ESPACIO
 .text					;INICIO DE LA SECCION DE CODIGO
 
 __reset:
-        MOV	#__SP_init, 	W15	;INICIALIZA EL STACK POINTER
+    MOV	#__SP_init, W15 ;INICIALIZA EL STACK POINTER
 
-        MOV 	#__SPLIM_init, 	W0     	;INICIALIZA EL REGISTRO STACK POINTER LIMIT 
-        MOV 	W0, 		SPLIM
+    MOV #__SPLIM_init, W0 ;INICIALIZA EL REGISTRO STACK POINTER LIMIT 
+    MOV W0, SPLIM
 
-        NOP                       	;UN NOP DESPUES DE LA INICIALIZACION DE SPLIM
+    NOP ;UN NOP DESPUES DE LA INICIALIZACION DE SPLIM
 
-        CALL 	_WREG_INIT          	;SE LLAMA A LA RUTINA DE INICIALIZACION DE REGISTROS
-                                  	;OPCIONALMENTE USAR RCALL EN LUGAR DE CALL
-        CALL    INI_PERIFERICOS
-CICLO:
-	MOV	PORTD,		W0
-        NOP
-	AND	#0X00F,		W0
-	MOV	W0,		PORTB
-	NOP
-        GOTO    CICLO     
+    CALL _WREG_INIT ;SE LLAMA A LA RUTINA DE INICIALIZACION DE REGISTROS
+    CALL INI_PERIFERICOS ;OPCIONALMENTE USAR RCALL EN LUGAR DE CALL
 
+; portb = 0
+; while true:
+; 	portd(0) = 1 ? ++portb : --portb
+; 	sleep(1s)
+
+; PORTN must be in lowercase
+    
+    clr w1 ; w1 = 0, w1 will be a counter 
+ciclo:
+    mov	PORTD, w0  ; w0 = portd, use w0(0) as a control bit to increment or dec
+    nop 	   ; do nothing, use this instruction after using any portN 
+    inc w1, w1 	   
+    btss w0, #0    ; bit test skip if set, skip the next line if w0(0) = '1'
+    dec2 w1, w1    
+    mov w1, PORTB  
+    nop		   
+    ; aqui va la funcion que no hace nada por un seg aprox v:
+    goto ciclo 
+    
 ;/**@brief ESTA RUTINA INICIALIZA LOS PERIFERICOS DEL DSC
-; * PORTD: 
-; * RD0 - ENTRADA, DIPSWITCH 0 
-; * RD1 - ENTRADA, DIPSWITCH 1 
-; * RD2 - ENTRADA, DIPSWITCH 2 
-; * RD3 - ENTRADA, DIPSWITCH 3 
-; * PORTB: 
-; * RB0 - SALIDA, LED 0 
-; * RB1 - SALIDA, LED 1 
-; * RB2 - SALIDA, LED 2 
-; * RB3 - SALIDA, LED 3 
 ; */
 INI_PERIFERICOS:
-	CLR	PORTD
-	NOP
-	CLR	LATD
-	NOP
-	MOV	#0X000F,	W0
-	MOV	W0,		TRISD
-	NOP
-	
-	CLR	PORTB
-	NOP
-	CLR	LATB
-	NOP
-	CLR	TRISB
-	NOP
-	SETM	ADPCFG
-	
-        RETURN
+    ; INDICAMOS QUE PORTD ES ENTRADA
+    CLR PORTD ; PORTD = 0
+    NOP
+    CLR LATD ; LATD = 0
+    NOP
+    SETM TRISD ; TRISD = 0XFFFF
+    NOP
+    ; INDICAMOS QUE PORTB ES SALIDA
+    CLR PORTB ; PORTB = 0
+    NOP
+    CLR LATB ; LATB = 0
+    NOP
+    CLR TRISB ; TRISB = 0
+    NOP
+    ; INDICAMOS QUE RF0 ES ENTRADA
+    BSET TRISD, #0x0
+    NOP
+    
+    SETM ADPCFG ; ADPCFG = 0XFFFF
+    RETURN
 
 ;/**@brief ESTA RUTINA INICIALIZA LOS REGISTROS Wn A 0X0000
 ; */
 _WREG_INIT:
-        CLR 	W0
-        MOV 	W0, 				W14
-        REPEAT 	#12
-        MOV 	W0, 				[++W14]
-        CLR 	W14
-        RETURN
+    CLR 	W0
+    MOV 	W0, 				W14
+    REPEAT 	#12
+    MOV 	W0, 				[++W14]
+    CLR 	W14
+    RETURN
 
 ;/**@brief ISR (INTERRUPT SERVICE ROUTINE) DEL TIMER 1
 ; * SE USA PUSH.S PARA GUARDAR LOS REGISTROS W0, W1, W2, W3, 
 ; * C, Z, N Y DC EN LOS REGISTROS SOMBRA
 ; */
 __T1Interrupt:
-        PUSH.S 
+    PUSH.S 
 
 
-        BCLR IFS0, #T1IF           ;SE LIMPIA LA BANDERA DE INTERRUPCION DEL TIMER 1
+    BCLR IFS0, #T1IF           ;SE LIMPIA LA BANDERA DE INTERRUPCION DEL TIMER 1
 
-        POP.S
+    POP.S
 
-        RETFIE                     ;REGRESO DE LA ISR
+    RETFIE                     ;REGRESO DE LA ISR
 
 
 .END                               ;TERMINACION DEL CODIGO DE PROGRAMA EN ESTE ARCHIVO
-
 
 
 
