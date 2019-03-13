@@ -4,14 +4,14 @@
 ; *	BROWN OUT RESET, POWER ON RESET Y CODIGO DE PROTECCION
 ; * BLOQUE 2. EQUIVALENCIAS Y DECLARACIONES GLOBALES
 ; * BLOQUE 3. ESOACIOS DE MEMORIA: PROGRAMA, DATOS X, DATOS Y, DATOS NEAR
-; * BLOQUE 4. CÓDIGO DE APLICACIÓN
+; * BLOQUE 4. CÃ“DIGO DE APLICACIÃ“N
 ; * @device: DSPIC30F4013
 ; * @oscilator: FRC, 7.3728MHz
 ; */
     .equ __30F4013, 1
     .include "p30F4013.inc"
 ;******************************************************************************
-; BITS DE CONFIGURACIÓN
+; BITS DE CONFIGURACIÃ“N
 ;******************************************************************************
 ;..............................................................................
 ;SE DESACTIVA EL CLOCK SWITCHING Y EL FAIL-SAFE CLOCK MONITOR (FSCM) Y SE 
@@ -29,39 +29,39 @@
 ;SE ACTIVA EL POWER ON RESET (POR), BROWN OUT RESET (BOR), POWER UP TIMER (PWRT)
 ;Y EL MASTER CLEAR (MCLR)
 ;POR: AL MOMENTO DE ALIMENTAR EL DSPIC OCURRE UN RESET CUANDO EL VOLTAJE DE 
-;ALIMENTACIÓN ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V
-;BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÓN DECAE
+;ALIMENTACIÃ“N ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V
+;BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÃ“N DECAE
 ;POR DEBAJO DE UN CIERTO UMBRAL ESTABLECIDO (2.7V) 
 ;PWRT: MANTIENE AL DSPIC EN RESET POR UN CIERTO TIEMPO ESTABLECIDO, ESTO AYUDA
-;A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÓN SE HA ESTABILIZADO (16ms) 
+;A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÃ“N SE HA ESTABILIZADO (16ms) 
 ;..............................................................................
         config __FBORPOR, PBOR_ON & BORV27 & PWRT_16 & MCLR_EN
 ;..............................................................................
-;SE DESACTIVA EL CÓDIGO DE PROTECCIÓN
+;SE DESACTIVA EL CÃ“DIGO DE PROTECCIÃ“N
 ;..............................................................................
    	config __FGS, CODE_PROT_OFF & GWRP_OFF      
 
 ;******************************************************************************
-; SECCIÓN DE DECLARACIÓN DE CONSTANTES CON LA DIRECTIVA .EQU (= DEFINE EN C)
+; SECCIÃ“N DE DECLARACIÃ“N DE CONSTANTES CON LA DIRECTIVA .EQU (= DEFINE EN C)
 ;******************************************************************************
-    .equ MUESTRAS, 64         ;NÚMERO DE MUESTRAS
+    .equ MUESTRAS, 64         ;NÃšMERO DE MUESTRAS
 
 ;******************************************************************************
 ; DECLARACIONES GLOBALES
 ;******************************************************************************
 ;..............................................................................
-;PROPORCIONA ALCANCE GLOBAL A LA FUNCIÓN _wreg_init, ESTO PERMITE LLAMAR A LA 
-;FUNCIÓN DESDE UN OTRO PROGRAMA EN ENSAMBLADOR O EN C COLOCANDO LA DECLARACIÓN
+;PROPORCIONA ALCANCE GLOBAL A LA FUNCIÃ“N _wreg_init, ESTO PERMITE LLAMAR A LA 
+;FUNCIÃ“N DESDE UN OTRO PROGRAMA EN ENSAMBLADOR O EN C COLOCANDO LA DECLARACIÃ“N
 ;"EXTERN"
 ;..............................................................................
     .global _wreg_init   
     ;global _RETARDO_1S
 ;..............................................................................
-;ETIQUETA DE LA PRIMER LINEA DE CÓDIGO
+;ETIQUETA DE LA PRIMER LINEA DE CÃ“DIGO
 ;..............................................................................
     .global __reset          
 ;..............................................................................
-;DECLARACIÓN DE LA ISR DEL TIMER 1 COMO GLOBAL
+;DECLARACIÃ“N DE LA ISR DEL TIMER 1 COMO GLOBAL
 ;..............................................................................
     .global __T1Interrupt    
 
@@ -120,8 +120,8 @@ CICLO:
     MOV	PORTD, W0 ; W0 = PORTD
     NOP
     AND	W0, #0XF, W0 ; W0 &= 0XF // PRIMEROS 4 BITS 
-		     ; AND 0XF, W0 // OPERACIÓN OPCIONAL
-    BTSC PORTF, #0
+		     ; AND 0XF, W0 // OPERACIÃ“N OPCIONAL
+    BTSC PORTF, #0   ; WARNING, no hay nop despues de esta intruccion, funcionara ?
     GOTO PLUS_FIVE
     GOTO MINUS_FIVE
     
