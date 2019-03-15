@@ -85,14 +85,21 @@ void iniPerifericos( void );
 void iniInterrupciones( void );
 void funcion1();           // Se manda a llamar la funcion. Es case sensitive.
 short int funcion2();
+short int funcion3(short int, short int);
+short int funcion4(char *);
 
 int main (void)
 {       
-    short int dato; // de 16 bits
+    short int dato01, dato02, dato03; // de 16 bits porque el valor de w0 de ensamblador
+                              // para que coincidad con el tamaño del registro
+    char cadena[] = "Hola mundo";
     iniPerifericos();
     iniInterrupciones();
+    
     funcion1();
-    dato = funcion2();
+    dato01 = funcion2();
+    dato02 = funcion3(5,12);
+    dato03 = funcion4(cadena);
     for(;EVER;){
         Nop();
     }
