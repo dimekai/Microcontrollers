@@ -50,7 +50,7 @@
 	.equ DIG_6,	0X5F	    ; 6 EN DISPLAY
 	.equ DIG_7,	0X70	    ; 7 EN DISPLAY
 	.equ DIG_8,	0X7F	    ; 8 EN DISPLAY
-	.equ DIG_9,	0X7B	    ; 9 EN DISPLAY
+	.equ DIG_9,	0X7B	    ; 9 EN DISPLAY 
 ;******************************************************************************
 ; DECLARACIONES GLOBALES
 ;******************************************************************************
