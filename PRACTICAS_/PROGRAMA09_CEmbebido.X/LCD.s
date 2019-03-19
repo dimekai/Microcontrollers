@@ -4,8 +4,12 @@
     .GLOBAL _funcion2	    ; Con esta directiva puedo compartir los modulos
     .GLOBAL _funcion3
     .GLOBAL _funcion4
+    .GLOBAL _var
+    
 _funcion1:
     mov	#3,	w0
+    mov w0,	_var
+    
     return
 
     ; El valor del primer registro del procesador

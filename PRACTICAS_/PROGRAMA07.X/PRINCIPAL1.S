@@ -40,7 +40,7 @@
 ;******************************************************************************
 ; SECCI�N DE DECLARACI�N DE CONSTANTES CON LA DIRECTIVA .EQU (= DEFINE EN C)
 ;******************************************************************************
-        .equ MUESTRAS,	64	    ;N�MERO DE MUESTRAS
+        .equ MUESTRAS,	64	    ; NUMERO DE MUESTRAS
 	.equ DIG_0,	0X7E	    ; 0 EN DISPLAY
 	.equ DIG_1,	0X30	    ; 1 EN DISPLAY
 	.equ DIG_2,	0X6D	    ; 2 EN DISPLAY
