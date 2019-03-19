@@ -87,6 +87,7 @@ void funcion1();           // Se manda a llamar la funcion. Es case sensitive.
 short int funcion2();
 short int funcion3(short int, short int);
 short int funcion4(char *);
+short int var;
 
 int main (void)
 {       
@@ -96,6 +97,7 @@ int main (void)
     iniPerifericos();
     iniInterrupciones();
     
+    var = 5;
     funcion1();
     dato01 = funcion2();
     dato02 = funcion3(5,12);

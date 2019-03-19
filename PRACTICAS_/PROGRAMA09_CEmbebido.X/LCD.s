@@ -5,11 +5,75 @@
     .GLOBAL _funcion3
     .GLOBAL _funcion4
     .GLOBAL _var
+    .GLOBAL _comandoLCD
+    .GLOBAL _datoLCD
+    .GLOBAL _busyFlagLCD
+    .GLOBAL _iniLCD8bits
+    
+    .EQU    RS_LCD,	RF2  
+    .EQU    RW_LSD,	RF3
+    .EQU    ENABLE_LCD, RD2
+    
+_comandoLCD:
+    BCLR    PORTF, #RS_LCD
+    NOP
+    BCLR    PORTF, #RW_LCD
+    NOP
+    BSET    PORTD, #ENABLE_LCD
+    NOP
+    
+    MOV.B   WREG,   PORTB
+    NOP
+    BCLR    PORTD, #ENABLE_LCD
+    NOP
+  
+    RETURN
+
+_datoLCD:
+    BSET    PORTF, #RS_LCD
+    NOP
+    BCLR    PORTF, #RW_LCD
+    NOP
+    BSET    PORTD, #ENABLE_LCD
+    NOP
+    
+    MOV.B   WREG,   PORTB
+    NOP
+    BCLR    PORTD, #ENABLE_LCD
+    NOP
+  
+    RETURN    
+    
+_busyFlagLCD:
+    ;.... aqui va el demas choro
+    RETURN;
+    
+ 
+_iniLCD8bits:
+    ; ------- TABLA DE INICIALIZACION -------------
+    CALL    RETARDO_15ms	; -- RETARDO 01
+    MOV	    #0X30,  W0
+    CALL    _comandoLCD
+    CALL    RETARDO_15ms	; -- RETARDO 02
+    MOV	    #0X30,  W0
+    CALL    _comandoLCD
+    CALL    RETARDO_15ms	; -- RETARDO 03
+    MOV	    #0X30,  W0
+    CALL    _comandoLCD
+    
+    ; ------- TABLA DE CONFIGURACIÓN ---------------
+    CALL    _busyFlagLCD
+    MOV	    #0X38,  W0
+    CALL    _comandoLCD
+    ; CONTINUARA..... CON LA TABLA
+    
+    RETURN
     
 _funcion1:
+    push	w0
     mov	#3,	w0
     mov w0,	_var
-    
+    pop		w0
     return
 
     ; El valor del primer registro del procesador
