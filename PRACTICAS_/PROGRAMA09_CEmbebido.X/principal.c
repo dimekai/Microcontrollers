@@ -87,6 +87,11 @@ void funcion1();           // Se manda a llamar la funcion. Es case sensitive.
 short int funcion2();
 short int funcion3(short int, short int);
 short int funcion4(char *);
+
+/* |----- FUNCIONES DECLARADAS EN ENSABLADOR ----| */
+void iniLCD8bits( void );
+
+
 short int var;
 
 int main (void)
@@ -102,6 +107,10 @@ int main (void)
     dato01 = funcion2();
     dato02 = funcion3(5,12);
     dato03 = funcion4(cadena);
+    
+    iniLCD8bits();
+    //datoLCD(cadena[0]);
+    
     for(;EVER;){
         Nop();
     }
