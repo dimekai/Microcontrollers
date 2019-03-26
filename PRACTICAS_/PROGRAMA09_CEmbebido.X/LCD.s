@@ -23,6 +23,9 @@
     
 ; |------------------ FUNCION COMANDO_LCD ------------------|
 _comandoLCD:
+    CLR	    TRISD
+    NOP
+    
     BCLR    PORTF, #RS_LCD	; RS = 0
     NOP
     BCLR    PORTF, #RW_LCD	; RW = 0
@@ -47,15 +50,13 @@ _comandoLCD:
 ; por paranoico.
 RETARDO_15ms:	
 	PUSH.S					; push w0, w1, w2, w3
-	MOV	#8750,	w0	
+	MOV	#8800,	w0	
 RETARDO_15ms_loop:
 	DEC 	w0, 	w0
 	BRA 	NZ, 	RETARDO_15ms_loop	; if nz goto label
 	POP.S					; pop w0, ..., w3
 	RETURN
 	
-
-
 ; 	FUNCION imprimeLCD =====================================================
 _imprimeLCD:
 	push 	w2			; pointer
@@ -73,6 +74,11 @@ imprimeLcdEnd:
     
 ; |------------------- FUNCION DATO LCD -------------------|    
 _datoLCD:
+    CLR	    TRISF
+    NOP
+    CLR	    TRISD
+    NOP
+    
     BSET    PORTF, #RS_LCD	;   RS = 1
     NOP
     BCLR    PORTF, #RW_LCD	;   RW = 0
@@ -89,6 +95,12 @@ _datoLCD:
 
 ; |------------------- FUNCION BUSY_FLAG -------------------|   
 _busyFlagLCD:
+    PUSH    W0
+    CLR	    TRISF
+    NOP
+    CLR	    TRISD
+    NOP
+    
     BCLR    PORTF,  #RS_LCD	;   RS = 0
     NOP
     SETM.B  TRISB		;   Prendemos la parte baja - TRISB OR 0X00FF
@@ -108,6 +120,7 @@ PROCESO:
     MOV		#0XFF00,    W0	    ;   Se usara para realizar la masacara de bits
     IOR		TRISB,	    WREG    ;	TRISB = TRISB OR 0XFF00 
     
+    POP	    W0
     RETURN;
     
 ; |------------------- FUNCION INICIALIZAR LCD DE 8 BITS -------------------|
@@ -124,6 +137,7 @@ PROCESO:
 ; | 0  | 0  | 0  | 0  | 1  | D=1 | C=1 | B=1 | DISPLAY ON/OFF |  0X0F  |
     
 _iniLCD8bits:
+    CLR	    W0
     ; ------- TABLA DE INICIALIZACION -------------
     CALL    RETARDO_15ms	; -- RETARDO 01
     MOV	    #0X30,  W0

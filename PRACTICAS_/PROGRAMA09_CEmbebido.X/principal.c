@@ -99,18 +99,21 @@ short int var;
 
 int main (void)
 {       
-    short int dato01, dato02, dato03; // de 16 bits porque el valor de w0 de ensamblador
+    //short int dato01, dato02, dato03; // de 16 bits porque el valor de w0 de ensamblador
                               // para que coincidad con el tamaño del registro
     char cadena[] = "Hola";
     iniPerifericos();
     iniInterrupciones();
     
+    /*
     var = 5;
     funcion1();
     dato01 = funcion2();
     dato02 = funcion3(5,12);
     dato03 = funcion4(cadena);
-    
+     */
+
+    // imprimeLCD(cadena); // en caso de funcionar el codigo siguiente, probar imprimer LCD
     iniLCD8bits();
     busyFlagLCD();
     datoLCD('h');
@@ -153,7 +156,8 @@ void iniPerifericos( void ){
     Nop();
     ADPCFG = 0xFFFF;
     Nop();
-    TRISBbits.TRISB4 = 1;       // De esta forma configuras el bit 4 como entrada
+    // esta bien ?
+    // TRISBbits.TRISB4 = 1;       // De esta forma configuras el bit 4 como entrada
 }
 
 /********************************************************************************/

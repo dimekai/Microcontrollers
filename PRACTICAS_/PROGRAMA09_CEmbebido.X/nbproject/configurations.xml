@@ -41,7 +41,7 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="dsPIC30F_DFP" vendor="Microchip" version="1.0.10"/>
+        <pack name="dsPIC30F_DFP" vendor="Microchip" version="1.0.12"/>
       </packs>
       <compileType>
         <linkerTool>
