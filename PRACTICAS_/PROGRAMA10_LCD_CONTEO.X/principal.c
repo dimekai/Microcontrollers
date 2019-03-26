@@ -82,24 +82,26 @@ int var1 __attribute__ ((near));
 
 void iniPerifericos( void );
 void iniInterrupciones( void );
+
 void iniLCD8bits( void );
 void imprimeLCD(char *);
 void busyFlagLCD( void );
 void comandoLCD( char ); // o char
 void datoLCD( char );
+void INT0Interrupt(void);
 
 /*Variable a utilizar*/
 unsigned char uni, dece, cen, umi;
 
-int main (void)
-{       
-    uni = 0;    dece = 0;   cen = 0;    umi = 0;
+int main (void){
+    /*|--- INICIALIZAMOS LAS FUNCIONES Y PUERTOS DEL MICROCONTROLADOR ---|*/
     iniPerifericos();
     iniLCD8bits();
     iniInterrupciones();
-    imprimeLCD("CONTEO: ");  
+    /*--------------------------------------------------------------------*/
     
-    
+    uni = 0;    dece = 0;   cen = 0;    umi = 0;    // Inicializamos variables
+    imprimeLCD("CONTEO: ");    
     
     for(;EVER;)
     {
@@ -143,9 +145,31 @@ void iniInterrupciones( void )
 /* PARAMETROS: NINGUNO                                                      */
 /* RETORNO: NINGUNO															*/
 /****************************************************************************/
-void iniPerifericos( void )
-{
+void iniPerifericos( void ){
+    PORTB = 0;
+    Nop();
+    LATB = 0;
+    Nop();
+    TRISB = 0;
+    Nop();
     
+    PORTD= 0;
+    Nop();
+    LATD = 0;
+    Nop();
+    TRISD = 0;
+    Nop();
+    
+    // EL puerto A es INT0  por lo que se configura como entrada
+    // su respectivo TRISX
+    PORTA=0;
+    Nop();
+    LATA=0;
+    Nop();
+    TRISA=0XFFFF;
+    Nop();
+
+    ADPCFG = 0XFFFF;
 }
 
 /********************************************************************************/
