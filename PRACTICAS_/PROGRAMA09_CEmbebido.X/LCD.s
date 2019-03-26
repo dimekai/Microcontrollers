@@ -52,6 +52,26 @@ RETARDO_15ms_loop:
 	BRA 	NZ, 	RETARDO_15ms_loop	; if nz goto label
 	POP.S					; pop w0, ..., w3
 	RETURN
+	
+;	funcion int_to_char ====================================================
+int_to_char:
+	ADD    w0,    #0x30,    w0
+	RETURN
+
+; 	FUNCION imprimeLCD =====================================================
+_imprimeLCD:
+	push 	w2			; pointer
+	mov 	w0,	w2		; w2 = &string[0]
+imprimeLcdLoop:
+	mov.b	[W2++],	w0
+	cp0.b	w0
+	bra 	z,	imprimeLcdEnd	; if w0 = '\0' goto label
+	call 	_busyFlagLCD 		; ESTO ESTA BIEN ????????????????????????
+	call 	_datoLCD		; Warning, _datoLCD escribe en w0
+	goto 	imprimeLcdLoop
+imprimeLcdEnd:
+	POP 	w2
+	RETURN
     
 ; |------------------- FUNCION DATO LCD -------------------|    
 _datoLCD:
