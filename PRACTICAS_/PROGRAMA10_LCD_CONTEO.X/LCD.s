@@ -121,4 +121,18 @@ _iniLCD8bits:
     RETURN
     
 _imprimeLCD:
-    
+    ; Se manda la direccion asociada a la variable
+    ; A partir de esto, utilizamos [] para tomar la direccion que se manda
+    PUSH    W1 
+    MOV	    W0,	    W1
+    CLR	    W0		; Este sera nuestro apuntador
+CICLO:
+    MOV.B   [W1++], W0	    ; Se utiliza .b ya que cada elemento, cada letra, es un byte
+    CP0.B   W0		    ; Compara el primer byte de W0 con 0
+    BRA	    Z, FIN	    ; Si ya llego al final, si es nulo, terminamos el programa
+    CALL    _busyFlag
+    CALL    _datoLCD
+    GOTO    CICLO
+FIN:
+    POP	    W1
+    RETURN
