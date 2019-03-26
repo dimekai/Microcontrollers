@@ -87,13 +87,13 @@ PROCESO:
     
 _iniLCD8bits:
     ; ------- TABLA DE INICIALIZACION -------------
-    CALL    RETARDO_15ms	; -- RETARDO 01
+    CALL    _RETARDO_15ms	; -- RETARDO 01
     MOV	    #0X30,  W0
     CALL    _comandoLCD
-    CALL    RETARDO_15ms	; -- RETARDO 02
+    CALL    _RETARDO_15ms	; -- RETARDO 02
     MOV	    #0X30,  W0
     CALL    _comandoLCD
-    CALL    RETARDO_15ms	; -- RETARDO 03
+    CALL    _RETARDO_15ms	; -- RETARDO 03
     MOV	    #0X30,  W0
     CALL    _comandoLCD
     
@@ -130,7 +130,7 @@ CICLO:
     MOV.B   [W1++], W0	    ; Se utiliza .b ya que cada elemento, cada letra, es un byte
     CP0.B   W0		    ; Compara el primer byte de W0 con 0
     BRA	    Z, FIN	    ; Si ya llego al final, si es nulo, terminamos el programa
-    CALL    _busyFlag
+    CALL    _busyFlagLCD
     CALL    _datoLCD
     GOTO    CICLO
 FIN:

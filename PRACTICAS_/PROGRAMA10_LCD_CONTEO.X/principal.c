@@ -91,7 +91,7 @@ void datoLCD( char );
 void INT0Interrupt(void);
 
 /*Variable a utilizar*/
-unsigned char uni, dece, cen, umi;
+unsigned char uni, dec, cen, umi;
 
 int main (void){
     /*|--- INICIALIZAMOS LAS FUNCIONES Y PUERTOS DEL MICROCONTROLADOR ---|*/
@@ -100,7 +100,7 @@ int main (void){
     iniInterrupciones();
     /*--------------------------------------------------------------------*/
     
-    uni = 0;    dece = 0;   cen = 0;    umi = 0;    // Inicializamos variables
+    uni = 0;    dec = 0;   cen = 0;    umi = 0;    // Inicializamos variables
     imprimeLCD("CONTEO: ");    
     
     for(;EVER;)
@@ -115,7 +115,7 @@ int main (void){
         datoLCD( cen + 0x30);   
         
         busyFlagLCD();
-        datoLCD( dece + 0x30);
+        datoLCD( dec + 0x30);
         
         busyFlagLCD();
         datoLCD( uni + 0x30);
@@ -133,9 +133,11 @@ void iniInterrupciones( void )
 {
     /* | --- INICIALIZACION DE INTERRUPCIONES --- |*/
     /* |---- ACTIVAMOS EL MECANISMO ---| */
-    IFS0BITS.INT0IF    = 0;         // Apagamos bandera
-    INTCON2BITS.INT0EP = 1;         // Habilitamos el flanco
-    IEC0BITS.INT0IE    = 1;           
+    
+
+    IFS0bits.INT0IF    = 0;         // Apagamos bandera
+    INTCON2bits.INT0EP = 1;         // Habilitamos el flanco
+    IEC0bits.INT0IE    = 1;           
     //Habilitacion de interrupcion del periférico 1
     //Habilitacion de interrupcion del periférico 2
     //Habilitacion de interrupcion del periférico 3
@@ -148,28 +150,12 @@ void iniInterrupciones( void )
 void iniPerifericos( void ){
     PORTB = 0;
     Nop();
-    LATB = 0;
+    LATB  = 0;
     Nop();
     TRISB = 0;
     Nop();
     
-    PORTD= 0;
-    Nop();
-    LATD = 0;
-    Nop();
-    TRISD = 0;
-    Nop();
-    
-    // EL puerto A es INT0  por lo que se configura como entrada
-    // su respectivo TRISX
-    PORTA=0;
-    Nop();
-    LATA=0;
-    Nop();
-    TRISA=0XFFFF;
-    Nop();
-
-    ADPCFG = 0XFFFF;
+    TRISBbits.TRISB4 = 1;       // De esta forma configuras el bit 4 como entrada
 }
 
 /********************************************************************************/
