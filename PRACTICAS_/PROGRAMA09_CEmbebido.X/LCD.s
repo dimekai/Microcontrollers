@@ -36,6 +36,42 @@ _comandoLCD:
   
     RETURN
 
+; En el DSPIC cada instruccion tarda 542 ns en ejecutarse, la instruccion DEC
+; requiere un ciclo de trabajo util, BRA siempre requiere dos, en caso de no 
+; ejecutarse el salto se remplaza por la instruccion NOP. Asi, las instrucciones
+; DEC W0, W0
+; BRA NZ, LABEL
+; requieren tres ciclos de reloj, 542 ns * 3 = 1716 ns, 
+; tenemos 1716 n W = 15 ms -> W \aprox 8741.2588, pongo valores de mas en w0
+; por paranoico.
+RETARDO_15ms:	
+	PUSH.S					; push w0, w1, w2, w3
+	MOV	#8750,	w0	
+RETARDO_15ms_loop:
+	DEC 	w0, 	w0
+	BRA 	NZ, 	RETARDO_15ms_loop	; if nz goto label
+	POP.S					; pop w0, ..., w3
+	RETURN
+	
+;	funcion int_to_char ====================================================
+int_to_char:
+	ADD    w0,    #0x30,    w0
+	RETURN
+
+; 	FUNCION imprimeLCD =====================================================
+_imprimeLCD:
+	push 	w2			; pointer
+	mov 	w0,	w2		; w2 = &string[0]
+imprimeLcdLoop:
+	mov.b	[W2++],	w0
+	cp0.b	w0
+	bra 	z,	imprimeLcdEnd	; if w0 = '\0' goto label
+	call 	_busyFlagLCD 		; ESTO ESTA BIEN ????????????????????????
+	call 	_datoLCD		; Warning, _datoLCD escribe en w0
+	goto 	imprimeLcdLoop
+imprimeLcdEnd:
+	POP 	w2
+	RETURN
     
 ; |------------------- FUNCION DATO LCD -------------------|    
 _datoLCD:
@@ -101,7 +137,7 @@ _iniLCD8bits:
     MOV	    #0X30,  W0
     CALL    _comandoLCD
     
-    ; ------- TABLA DE CONFIGURACIÓN ---------------
+    ; ------- TABLA DE CONFIGURACIÃ“N ---------------
     CALL    _busyFlagLCD
     MOV	    #0X38,  W0	    ;	CODIGO: 0X38 - FUNCTION SET
     CALL    _comandoLCD
