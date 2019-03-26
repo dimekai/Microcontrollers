@@ -17,7 +17,7 @@
     ; |------------ EQUIVALENCIAS ------------|
     ; Este es el equivalente a definicion de macros (#define) en C
     .EQU    RS_LCD,	RF2 ; RS
-    .EQU    RW_LSD,	RF3 ; RW
+    .EQU    RW_LCD,	RF3 ; RW
     .EQU    ENABLE_LCD, RD2 ; ENABLE
     .EQU    BF_LCD,	RB7 ; BF: BUSY_FLAG
     
@@ -54,10 +54,7 @@ RETARDO_15ms_loop:
 	POP.S					; pop w0, ..., w3
 	RETURN
 	
-;	funcion int_to_char ====================================================
-int_to_char:
-	ADD    w0,    #0x30,    w0
-	RETURN
+
 
 ; 	FUNCION imprimeLCD =====================================================
 _imprimeLCD:

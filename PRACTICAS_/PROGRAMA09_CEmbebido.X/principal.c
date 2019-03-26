@@ -87,10 +87,13 @@ void funcion1();           // Se manda a llamar la funcion. Es case sensitive.
 short int funcion2();
 short int funcion3(short int, short int);
 short int funcion4(char *);
+void imprimeLCD(char *);
+void datoLCD( char );
+void busyFlagLCD(void);
+void comandoLCD(char);
 
 /* |----- FUNCIONES DECLARADAS EN ENSABLADOR ----| */
 void iniLCD8bits( void );
-
 
 short int var;
 
@@ -98,7 +101,7 @@ int main (void)
 {       
     short int dato01, dato02, dato03; // de 16 bits porque el valor de w0 de ensamblador
                               // para que coincidad con el tamaño del registro
-    char cadena[] = "Hola mundo";
+    char cadena[] = "Hola";
     iniPerifericos();
     iniInterrupciones();
     
@@ -109,7 +112,16 @@ int main (void)
     dato03 = funcion4(cadena);
     
     iniLCD8bits();
-    //datoLCD(cadena[0]);
+    busyFlagLCD();
+    datoLCD('h');
+    busyFlagLCD();
+    datoLCD('o');
+    busyFlagLCD();
+    datoLCD('l');
+    busyFlagLCD();
+    datoLCD('a');
+    
+    //imprimeLCD(cadena);
     
     for(;EVER;){
         Nop();
@@ -139,7 +151,8 @@ void iniPerifericos( void ){
     Nop();
     TRISB = 0;
     Nop();
-    
+    ADPCFG = 0xFFFF;
+    Nop();
     TRISBbits.TRISB4 = 1;       // De esta forma configuras el bit 4 como entrada
 }
 
