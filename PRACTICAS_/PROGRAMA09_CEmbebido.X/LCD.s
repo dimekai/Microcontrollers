@@ -36,6 +36,22 @@ _comandoLCD:
   
     RETURN
 
+; En el DSPIC cada instruccion tarda 542 ns en ejecutarse, la instruccion DEC
+; requiere un ciclo de trabajo util, BRA siempre requiere dos, en caso de no 
+; ejecutarse el salto se remplaza por la instruccion NOP. Asi, las instrucciones
+; DEC W0, W0
+; BRA NZ, LABEL
+; requieren tres ciclos de reloj, 542 ns * 3 = 1716 ns, 
+; tenemos 1716 n W = 15 ms -> W \aprox 8741.2588, pongo valores de mas en w0
+; por paranoico.
+RETARDO_15ms:	
+	PUSH.S					; push w0, w1, w2, w3
+	MOV	#8750,	w0	
+RETARDO_15ms_loop:
+	DEC 	w0, 	w0
+	BRA 	NZ, 	RETARDO_15ms_loop	; if nz goto label
+	POP.S					; pop w0, ..., w3
+	RETURN
     
 ; |------------------- FUNCION DATO LCD -------------------|    
 _datoLCD:
@@ -101,7 +117,7 @@ _iniLCD8bits:
     MOV	    #0X30,  W0
     CALL    _comandoLCD
     
-    ; ------- TABLA DE CONFIGURACIÓN ---------------
+    ; ------- TABLA DE CONFIGURACIÃ“N ---------------
     CALL    _busyFlagLCD
     MOV	    #0X38,  W0	    ;	CODIGO: 0X38 - FUNCTION SET
     CALL    _comandoLCD
