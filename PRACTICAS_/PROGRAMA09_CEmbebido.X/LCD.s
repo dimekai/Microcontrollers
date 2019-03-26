@@ -12,6 +12,7 @@
     .GLOBAL _datoLCD
     .GLOBAL _busyFlagLCD
     .GLOBAL _iniLCD8bits
+    .GLOBAL _imprimeLCD
     
     ; |------------ EQUIVALENCIAS ------------|
     ; Este es el equivalente a definicion de macros (#define) en C
