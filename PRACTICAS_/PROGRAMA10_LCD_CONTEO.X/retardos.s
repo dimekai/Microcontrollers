@@ -28,7 +28,8 @@ CICLO1_1S:
 ;|---------- FUNCION DE RETARDO DE 5 ms ----------|
 _RETARDO_5ms:
 	PUSH W0
-	MOV #0xB64, W0	    ; 0xB64 = 2916
+	MOV #10,W0
+	;MOV #0xB64, W0	    ; 0xB64 = 2916
 CICLO_5ms:
 	DEC W0, W0
 	BRA NZ, CICLO_5ms
