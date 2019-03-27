@@ -50,7 +50,7 @@ _comandoLCD:
 ; por paranoico.
 RETARDO_15ms:	
 	PUSH.S					; push w0, w1, w2, w3
-	MOV	#10,	w0	
+	MOV	#8800,	w0	
 RETARDO_15ms_loop:
 	DEC 	w0, 	w0
 	BRA 	NZ, 	RETARDO_15ms_loop	; if nz goto label
