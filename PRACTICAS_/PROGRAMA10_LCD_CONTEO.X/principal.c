@@ -80,18 +80,22 @@ int y_input[MUESTRAS] __attribute__ ((space(ymemory)));
 /********************************************************************************/
 int var1 __attribute__ ((near));
 
+/*|======== FUNCIONES DE INICIALIZACION ========|*/
 void iniPerifericos( void );
 void iniInterrupciones( void );
+/*|=============================================|*/
 
-void iniLCD8bits( void );
+/*|======== FUNCIONES DEL LCD ========|*/
+void iniLCD8bits();
+void busyFlagLCD();
+void comandoLCD(char);     
+void datoLCD(char);
 void imprimeLCD(char *);
-void busyFlagLCD( void );
-void comandoLCD( char ); // o char
-void datoLCD( char );
-void INT0Interrupt(void);
+/*|===================================|*/
 
-/*Variable a utilizar*/
+/*|======== VARIABLES CONTEO ========|*/
 unsigned char uni, dec, cen, umi;
+/*|==================================|*/
 
 int main (void){
     /*|--- INICIALIZAMOS LAS FUNCIONES Y PUERTOS DEL MICROCONTROLADOR ---|*/
@@ -100,11 +104,11 @@ int main (void){
     iniInterrupciones();
     /*--------------------------------------------------------------------*/
     
-    uni = 0;    dec = 0;   cen = 0;    umi = 0;    // Inicializamos variables
+    // Inicializamos variables
+    uni = 0;    dec = 0;   cen = 0;    umi = 0;
     imprimeLCD("CONTEO: ");    
     
-    for(;EVER;)
-    {
+    for(;EVER;){
         busyFlagLCD();
         comandoLCD(0x87);   // Ubica el cursos en la posicion 7 de memoria
         
@@ -119,7 +123,7 @@ int main (void){
         
         busyFlagLCD();
         datoLCD( uni + 0x30);
-        Nop();
+        //Nop();
     }
     
     return 0;
@@ -133,8 +137,6 @@ void iniInterrupciones( void )
 {
     /* | --- INICIALIZACION DE INTERRUPCIONES --- |*/
     /* |---- ACTIVAMOS EL MECANISMO ---| */
-    
-
     IFS0bits.INT0IF    = 0;         // Apagamos bandera
     INTCON2bits.INT0EP = 1;         // Habilitamos el flanco
     IEC0bits.INT0IE    = 1;           
@@ -154,8 +156,9 @@ void iniPerifericos( void ){
     Nop();
     TRISB = 0;
     Nop();
-    
-    TRISBbits.TRISB4 = 1;       // De esta forma configuras el bit 4 como entrada
+    ADPCFG = 0xFFFF;
+    Nop();
+    //TRISBbits.TRISB4 = 1;       // De esta forma configuras el bit 4 como entrada
 }
 
 /********************************************************************************/

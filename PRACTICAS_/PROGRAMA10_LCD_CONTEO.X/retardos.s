@@ -1,10 +1,9 @@
 	.include "p30F4013.inc"
 
-        .GLOBAL _RETARDO_1S
-        .GLOBAL _RETARDO_5ms
+    .GLOBAL _RETARDO_1S
+    .GLOBAL _RETARDO_5ms
 	.GLOBAL _RETARDO_15ms
 	.GLOBAL _RETARDO_30ms
-
 
 ;|---------- FUNCION DE RETARDO DE 1 SEG ----------|
 _RETARDO_1S:
