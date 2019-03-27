@@ -86,10 +86,10 @@ PROCESO:
     NOP
     BCLR	PORTF, #RW_LCD	    ;   RW = 0
     NOP
-;   SETM    TRISB 
-    MOV		#0XFF00,    W0	    ;   Se usara para realizar la masacara de bits
+
+    SETM    TRISB           ; TRISB = 0xFFFF
     NOP
-    IOR		TRISB,	    WREG    ;	TRISB = TRISB OR 0XFF00 
+    CLR.B   TRISB           ; TRISB = 0xFF00 ; APAGA LA PARTE BAJA
     NOP
 
     POP     W0
