@@ -50,7 +50,7 @@ _comandoLCD:
 ; por paranoico.
 RETARDO_15ms:	
 	PUSH.S					; push w0, w1, w2, w3
-	MOV	#8800,	w0	
+	MOV	#10,	w0	
 RETARDO_15ms_loop:
 	DEC 	w0, 	w0
 	BRA 	NZ, 	RETARDO_15ms_loop	; if nz goto label
@@ -117,8 +117,11 @@ PROCESO:
     NOP
     BCLR	PORTF, #RW_LCD	    ;   RW = 0
     NOP
-    MOV		#0XFF00,    W0	    ;   Se usara para realizar la masacara de bits
-    IOR		TRISB,	    WREG    ;	TRISB = TRISB OR 0XFF00 
+    
+    SETM	TRISB		    ; TRISB = 0xFFFF
+    NOP
+    CLR.B	TRISB		    ; TRISB = 0xFF00 ; APAGA LA PARTE BAJA
+    NOP
     
     POP	    W0
     RETURN;
