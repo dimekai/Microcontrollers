@@ -71,10 +71,13 @@ _busyFlagLCD:
 
     BCLR    PORTF,  #RS_LCD	;   RS = 0
     NOP
+
     SETM.B  TRISB		;   Prendemos la parte baja - TRISB OR 0X00FF
     NOP
+
     BSET    PORTF,  #RW_LCD	;   RW = 1
     NOP
+    
     BSET    PORTD,  #ENABLE_LCD	;   ENABLE = 1
     NOP
     
@@ -111,15 +114,15 @@ PROCESO:
 _iniLCD8bits:
     CLR     W0
     ;|================== TABLA DE INICIALIZACION ==================|
-    CALL    _RETARDO_15ms	; -- RETARDO 01
+    CALL    RETARDO_15ms	; -- RETARDO 01
     MOV	    #0X30,  W0
     CALL    _comandoLCD
     
-    CALL    _RETARDO_15ms	; -- RETARDO 02
+    CALL    RETARDO_15ms	; -- RETARDO 02
     MOV	    #0X30,  W0
     CALL    _comandoLCD
     
-    CALL    _RETARDO_15ms	; -- RETARDO 03
+    CALL    RETARDO_15ms	; -- RETARDO 03
     MOV	    #0X30,  W0
     CALL    _comandoLCD
     
@@ -163,4 +166,24 @@ CICLO:
     GOTO    CICLO
 FIN:
     POP	    W1
+    RETURN
+
+;|================== RETARDOS ==================|
+;|---------- FUNCION DE RETARDO DE 15 ms ----------|
+RETARDO_15ms:
+    PUSH    W0
+    PUSH    W1  
+    CLR     W0
+CICLO_15ms:
+    DEC     W0,     W0
+    BRA     NZ,     CICLO_15ms
+
+    POP     W1
+    POP     W0
+    RETURN  
+
+;|---------- FUNCION DE RETARDO DE 30 ms ----------|
+RETARDO_30ms:
+    CALL RETARDO_15ms
+    CALL RETARDO_15ms
     RETURN
