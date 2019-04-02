@@ -12,7 +12,6 @@
     .GLOBAL _datoLCD
     .GLOBAL _busyFlagLCD
     .GLOBAL _iniLCD8bits
-    .GLOBAL _imprimeLCD
     
     ; |------------ EQUIVALENCIAS ------------|
     ; Este es el equivalente a definicion de macros (#define) en C
@@ -35,49 +34,28 @@ _comandoLCD:
     
     MOV.B   WREG,   PORTB	; PORTB = W0
     NOP
+
     BCLR    PORTD, #ENABLE_LCD	; ENABLE = 0
     NOP
   
     RETURN
 
-; En el DSPIC cada instruccion tarda 542 ns en ejecutarse, la instruccion DEC
-; requiere un ciclo de trabajo util, BRA siempre requiere dos, en caso de no 
-; ejecutarse el salto se remplaza por la instruccion NOP. Asi, las instrucciones
-; DEC W0, W0
-; BRA NZ, LABEL
-; requieren tres ciclos de reloj, 542 ns * 3 = 1716 ns, 
-; tenemos 1716 n W = 15 ms -> W \aprox 8741.2588, pongo valores de mas en w0
-; por paranoico.
-RETARDO_15ms:	
-	PUSH.S					; push w0, w1, w2, w3
-	MOV	#8800,	w0	
-RETARDO_15ms_loop:
-	DEC 	w0, 	w0
-	BRA 	NZ, 	RETARDO_15ms_loop	; if nz goto label
-	POP.S					; pop w0, ..., w3
-	RETURN
-	
-; 	FUNCION imprimeLCD =====================================================
-_imprimeLCD:
-	push 	w2			; pointer
-	mov 	w0,	w2		; w2 = &string[0]
-imprimeLcdLoop:
-	mov.b	[W2++],	w0
-	cp0.b	w0
-	bra 	z,	imprimeLcdEnd	; if w0 = '\0' goto label
-	call 	_busyFlagLCD 		; ESTO ESTA BIEN ????????????????????????
-	call 	_datoLCD		; Warning, _datoLCD escribe en w0
-	goto 	imprimeLcdLoop
-imprimeLcdEnd:
-	POP 	w2
-	RETURN
-    
+RETARDO_15ms:
+    PUSH    W0
+    PUSH    W1  
+    CLR     W0
+CICLO1_1S:
+    DEC     W0,     W0
+    BRA     NZ,     CICLO1_1S
+
+    POP     W1
+    POP     W0
+    return
+	    
 ; |------------------- FUNCION DATO LCD -------------------|    
 _datoLCD:
     CLR	    TRISF
-    NOP
     CLR	    TRISD
-    NOP
     
     BSET    PORTF, #RS_LCD	;   RS = 1
     NOP
@@ -88,6 +66,7 @@ _datoLCD:
     
     MOV.B   WREG,   PORTB	;   PORTB = W0
     NOP
+
     BCLR    PORTD, #ENABLE_LCD	;   ENABLE = 0
     NOP
   
@@ -97,18 +76,20 @@ _datoLCD:
 _busyFlagLCD:
     PUSH    W0
     CLR	    TRISF
-    NOP
     CLR	    TRISD
-    NOP
     
     BCLR    PORTF,  #RS_LCD	;   RS = 0
     NOP
+
     SETM.B  TRISB		;   Prendemos la parte baja - TRISB OR 0X00FF
     NOP
+
     BSET    PORTF,  #RW_LCD	;   RW = 1
     NOP
+
     BSET    PORTD,  #ENABLE_LCD	;   ENABLE = 1
     NOP
+
 PROCESO:
     BTSC	PORTB,	#BF_LCD	;   VERIFICA SI BF = 0, SI NO, SE EJECUTA EL GOTO
     GOTO	PROCESO
@@ -145,9 +126,11 @@ _iniLCD8bits:
     CALL    RETARDO_15ms	; -- RETARDO 01
     MOV	    #0X30,  W0
     CALL    _comandoLCD
+
     CALL    RETARDO_15ms	; -- RETARDO 02
     MOV	    #0X30,  W0
     CALL    _comandoLCD
+    
     CALL    RETARDO_15ms	; -- RETARDO 03
     MOV	    #0X30,  W0
     CALL    _comandoLCD
@@ -191,9 +174,12 @@ _funcion1:
     ; tanto aquel valor que se va a retornar sera W0    
 _funcion2:
     push	W1
+    push    W0
     mov	#12,	W0
     mov	#3 ,	W1
-    add	W0 ,	W1,	W0  
+    add	W0 ,	W1,	W0
+
+    pop     W0  
     pop		W1
     return
 
@@ -211,17 +197,17 @@ _funcion3:
     
 _funcion4:
     ; Se manda la direccion asociada a la variable
-    ; A partir de esto, utilizamos [] para tomar la direccion que se manda
-    clr W2		    ; Este sera nuestro apuntador   W2 = 0
+    ; A partir de esto, utilizamos [] para tomar la direccion que se manda    
     push W1
     push W2
-    ciclo:
+    clr W2          ; Este sera nuestro apuntador   W2 = 0
+ciclo:
 	mov.b   [W0++],   W1	    ; Se utiliza .b ya que cada elemento, cada letra, es un byte
 	cp0.b	W1		    ; Compara el primer byte de W1 con 0
 	bra	z,	    fin	    ; Si ya llego al final, si es nulo, terminamos el programa
 	inc	W2,	    W2	    ; W2++
 	goto    ciclo
-    fin:
+fin:
 	MOV	    W2,	W0
 	pop	    W2
 	pop	    W1	

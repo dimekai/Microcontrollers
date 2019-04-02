@@ -83,37 +83,32 @@ int var1 __attribute__ ((near));    // int var1;   es lo mismo
 
 void iniPerifericos( void );
 void iniInterrupciones( void );
+
 void funcion1();           // Se manda a llamar la funcion. Es case sensitive.
 short int funcion2();
 short int funcion3(short int, short int);
 short int funcion4(char *);
-void imprimeLCD(char *);
-void datoLCD( char );
-void busyFlagLCD(void);
-void comandoLCD(char);
 
 /* |----- FUNCIONES DECLARADAS EN ENSABLADOR ----| */
-void iniLCD8bits( void );
+void iniLCD8bits();
+void busyFlagLCD();
+void datoLCD( char );
 
 short int var;
 
-int main (void)
-{       
-    //short int dato01, dato02, dato03; // de 16 bits porque el valor de w0 de ensamblador
-                              // para que coincidad con el tamaño del registro
-    char cadena[] = "Hola";
+int main (void){       
+    short int dato01, dato02, dato03; // de 16 bits porque el valor de w0 de ensamblador
+                                      // para que coincidad con el tamaño del registro
+    char cadena[] = "hola mundo";
     iniPerifericos();
     iniInterrupciones();
     
-    /*
     var = 5;
     funcion1();
     dato01 = funcion2();
     dato02 = funcion3(5,12);
     dato03 = funcion4(cadena);
-     */
-
-    // imprimeLCD(cadena); // en caso de funcionar el codigo siguiente, probar imprimer LCD
+    
     iniLCD8bits();
     busyFlagLCD();
     datoLCD('h');
@@ -124,11 +119,11 @@ int main (void)
     busyFlagLCD();
     datoLCD('a');
     
-    //imprimeLCD(cadena);
-    
     for(;EVER;){
         Nop();
     }
+
+    return 0;
 }
 /****************************************************************************/
 /* DESCRICION:	ESTA RUTINA INICIALIZA LAS INTERRPCIONES    				*/
