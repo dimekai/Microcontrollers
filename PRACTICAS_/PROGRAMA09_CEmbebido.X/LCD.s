@@ -39,18 +39,6 @@ _comandoLCD:
     NOP
   
     RETURN
-
-RETARDO_15ms:
-    PUSH    W0
-    PUSH    W1  
-    CLR     W0
-CICLO1_1S:
-    DEC     W0,     W0
-    BRA     NZ,     CICLO1_1S
-
-    POP     W1
-    POP     W0
-    return
 	    
 ; |------------------- FUNCION DATO LCD -------------------|    
 _datoLCD:
@@ -212,3 +200,15 @@ fin:
 	pop	    W2
 	pop	    W1	
 	return    
+
+RETARDO_15ms:
+    PUSH    W0
+    PUSH    W1  
+    CLR     W0
+CICLO1_1S:
+    DEC     W0,     W0
+    BRA     NZ,     CICLO1_1S
+
+    POP     W1
+    POP     W0
+    return

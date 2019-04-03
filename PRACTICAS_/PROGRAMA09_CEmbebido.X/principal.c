@@ -92,7 +92,7 @@ short int funcion4(char *);
 /* |----- FUNCIONES DECLARADAS EN ENSABLADOR ----| */
 void iniLCD8bits();
 void busyFlagLCD();
-void datoLCD( char );
+void datoLCD(char);
 
 short int var;
 
