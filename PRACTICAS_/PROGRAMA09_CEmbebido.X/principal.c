@@ -4,13 +4,13 @@
  * BROWN OUT RESET, POWER ON RESET Y CODIGO DE PROTECCION
  * BLOQUE 2. EQUIVALENCIAS Y DECLARACIONES GLOBALES
  * BLOQUE 3. ESPACIOS DE MEMORIA: PROGRAMA, DATOS X, DATOS Y, DATOS NEAR
- * BLOQUE 4. CÓDIGO DE APLICACIÓN
+ * BLOQUE 4. CÃ“DIGO DE APLICACIÃ“N
  * @device: DSPIC30F4013
  * @oscillator: FRC, 7.3728MHz
  */
 #include "p30F4013.h"
 /********************************************************************************/
-/* 						BITS DE CONFIGURACIÓN									*/	
+/* 						BITS DE CONFIGURACIÃ“N									*/	
 /********************************************************************************/
 /* SE DESACTIVA EL CLOCK SWITCHING Y EL FAIL-SAFE CLOCK MONITOR (FSCM) Y SE 	*/
 /* ACTIVA EL OSCILADOR INTERNO (FAST RC) PARA TRABAJAR							*/
@@ -19,7 +19,7 @@
 /* TRAMPA Y SE CAMBIA EL RELOJ AL OSCILADOR FRC  								*/
 /********************************************************************************/
 //_FOSC(CSW_FSCM_OFF & FRC); 
-//SON DIRECTIVAS DE CONFIGURACIÓN.
+//SON DIRECTIVAS DE CONFIGURACIÃ“N.
 #pragma config FOSFPR = FRC             // Oscillator (Internal Fast RC (No change to Primary Osc Mode bits))
 #pragma config FCKSMEN = CSW_FSCM_OFF   // Clock Switching and Monitor (Sw Disabled, Mon Disabled)/********************************************************************************/
 /* SE DESACTIVA EL WATCHDOG														*/
@@ -30,11 +30,11 @@
 /* SE ACTIVA EL POWER ON RESET (POR), BROWN OUT RESET (BOR), 					*/	
 /* POWER UP TIMER (PWRT) Y EL MASTER CLEAR (MCLR)								*/
 /* POR: AL MOMENTO DE ALIMENTAR EL DSPIC OCURRE UN RESET CUANDO EL VOLTAJE DE 	*/	
-/* ALIMENTACIÓN ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V			*/
-/* BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÓN DECAE		*/
+/* ALIMENTACIÃ“N ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V			*/
+/* BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÃ“N DECAE		*/
 /* POR DEBAJO DE UN CIERTO UMBRAL ESTABLECIDO (2.7V) 							*/
 /* PWRT: MANTIENE AL DSPIC EN RESET POR UN CIERTO TIEMPO ESTABLECIDO, ESTO 		*/
-/* AYUDA A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÓN SE HA ESTABILIZADO (16ms) 	*/
+/* AYUDA A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÃ“N SE HA ESTABILIZADO (16ms) 	*/
 /********************************************************************************/
 //_FBORPOR( PBOR_ON & BORV27 & PWRT_16 & MCLR_EN ); 
 // FBORPOR
@@ -43,7 +43,7 @@
 #pragma config BOREN  = PBOR_ON          // PBOR Enable (Enabled)
 #pragma config MCLRE  = MCLR_EN          // Master Clear Enable (Enabled)
 /********************************************************************************/
-/*SE DESACTIVA EL CÓDIGO DE PROTECCIÓN											*/
+/*SE DESACTIVA EL CÃ“DIGO DE PROTECCIÃ“N											*/
 /********************************************************************************/
 //_FGS(CODE_PROT_OFF);      
 // FGS
@@ -51,7 +51,7 @@
 #pragma config GCP = CODE_PROT_OFF      // General Segment Code Protection (Disabled)
 
 /********************************************************************************/
-/* SECCIÓN DE DECLARACIÓN DE CONSTANTES CON DEFINE								*/
+/* SECCIÃ“N DE DECLARACIÃ“N DE CONSTANTES CON DEFINE								*/
 /********************************************************************************/
 #define EVER 1
 #define MUESTRAS 64
@@ -59,7 +59,7 @@
 /********************************************************************************/
 /* DECLARACIONES GLOBALES														*/
 /********************************************************************************/
-/*DECLARACIÓN DE LA ISR DEL TIMER 1 USANDO __attribute__						*/
+/*DECLARACIÃ“N DE LA ISR DEL TIMER 1 USANDO __attribute__						*/
 /********************************************************************************/
 void __attribute__((__interrupt__)) _T1Interrupt( void );   // ESTO ES UNA INTERRUPCION
 
@@ -98,7 +98,7 @@ short int var;
 
 int main (void){       
     short int dato01, dato02, dato03; // de 16 bits porque el valor de w0 de ensamblador
-                                      // para que coincidad con el tamaño del registro
+                                      // para que coincidad con el tamaÃ±o del registro
     char cadena[] = "hola mundo";
     iniPerifericos();
     iniInterrupciones();
@@ -132,9 +132,9 @@ int main (void){
 /****************************************************************************/
 void iniInterrupciones( void )
 {
-    //Habilitacion de interrupcion del periférico 1
-    //Habilitacion de interrupcion del periférico 2
-    //Habilitacion de interrupcion del periférico 3
+    //Habilitacion de interrupcion del perifÃ©rico 1
+    //Habilitacion de interrupcion del perifÃ©rico 2
+    //Habilitacion de interrupcion del perifÃ©rico 3
 }
 /****************************************************************************/
 /* DESCRICION:	ESTA RUTINA INICIALIZA LOS PERIFERICOS						*/
@@ -143,15 +143,25 @@ void iniInterrupciones( void )
 /****************************************************************************/
 void iniPerifericos( void ){
     // PORTB = LATB = TRISB = 0;   Genera mas codigo en el ensamblador.
-    PORTB = 0;
-    Nop();
-    LATB  = 0;
-    Nop();
+    
+    //PORTB = 0;
+    //Nop();
+    //LATB  = 0;
+    //Nop();
+    //TRISB = 0;
+    //Nop();
+    //ADPCFG = 0xFFFF;
+    //Nop();
+
     TRISB = 0;
     Nop();
-    ADPCFG = 0xFFFF;
+    LATB = 0;
     Nop();
-    // esta bien ?
+    PORTB = 0;
+    Nop();
+    ADPCFG=0xFFFF;
+    Nop();
+    
     // TRISBbits.TRISB4 = 1;       // De esta forma configuras el bit 4 como entrada
 }
 
