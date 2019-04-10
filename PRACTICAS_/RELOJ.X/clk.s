@@ -43,48 +43,46 @@ _clk_start:
 _INT0Interrupt:
     PUSH.S				; push w0, ..., w3 (registros sombra)
     
-    ; Almacenamos en registros para hacer comparaciones posteriores
+    ; Almacenamos en registros 
     MOV     #6,    W0      
     MOV     #10,   W1      
     MOV     #24,   W2     
     MOV	    #60,   W3
 
+    MOV.B	#10,   W0
     INC.B 	_useg 			; Segundos ----------------------------------------
-    MOV.B		#_useg,	W1
-    CP		w1, 	#10 	; segundo operando a lo mas tiene 5 bits
+    CP.B		_useg 	; NZ = !(_useg - 10)
     BRA 	NZ, 	FIN 
     CLR.B 	_useg
 
+    MOV 	#6,    W0
     INC.B	_dseg		    
-    MOV.B		_dseg,	W1
-    CP.B	W1,	#6 		; NZ = !(W3 - _dseg)
+    CP.B	_dseg 		; NZ = !(6 - _dseg)
     BRA		NZ,	FIN
     CLR.B	_dseg		    
     
+    MOV 	#10, 	W0
     INC.B	_umin		   	; Minutos ---------------------------------------- 
-    MOV.B		_umin,	W1
-    CP.B	W1,	#10 	; NZ = !(W3 - _dseg)
+    CP.B	_umin 			; NZ = !(10 - _dseg)
     BRA		NZ,	FIN
     CLR.B	_umin		    
     
+    MOV 	#6, 	W0
     INC.B	_dmin		    
-    MOV.B		_dmin,	W1
-    CP.B	W1,	#6 		; NZ = !(W3 - _dseg)
+    CP.B	_dmin 			; NZ = !(6 - _dseg)
     BRA		NZ,	FIN
     CLR.B	_dmin		    
 
-	; TODO
-    INC.B	_uhr 			; Horas -----------------------------------------		    
-    MOV.B		_uhr,	W1
-    CP.B	W1,  #10 	; NZ = !(W3 - _dseg)
-    BRA		NZ,	FIN
-    CLR.B	_uhr		    
+    ; TODO
+    ; INC.B	_uhr 			; Horas -----------------------------------------		    
+    ; CP.B	_uhr,  #10 	; NZ = !(W3 - _dseg)
+    ; BRA		NZ,	FIN
+    ; CLR.B	_uhr		    
 
-    INC.B	_dhr 			; 
-    MOV.B		_dhr,	W1
-    CP.B	W1,	#3 	; NZ = !(W3 - _dseg)
-    BRA		NZ,	FIN
-    CLR.B	_dhr		    
+    ; INC.B	_dhr 			; 
+    ; CP.B	_dhr,	#3 	; NZ = !(W3 - _dseg)
+    ; BRA		NZ,	FIN
+    ; CLR.B	_dhr		    
 
 FIN:
     BCLR    IFS0,   #INT0IF ; Se apaga la bandera de activación de la interrupción.
