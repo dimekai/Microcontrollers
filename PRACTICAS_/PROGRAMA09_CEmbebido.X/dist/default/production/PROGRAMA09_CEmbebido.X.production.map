@@ -92,9 +92,9 @@ section                    address   length (PC units)   length (bytes) (dec)
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-_0454BC605ca2dea1            0x800                   0            0x80  (128)
+_046DAC605cacc372            0x800                   0            0x80  (128)
 .nbss                        0x880                   0             0x4  (4)
-_0454BD805ca2dea1            0xf80                   0            0x80  (128)
+_046DAD805cacc372            0xf80                   0            0x80  (128)
 
                  Total "data" memory used (bytes):          0x104  (260) 12%
 
@@ -132,13 +132,13 @@ External Symbols in Program Memory (by address):
                   0x0001c8                  __T1Interrupt
                   0x0001dc                  __DefaultInterrupt
                   0x0001ee                  _comandoLCD
-                  0x000218                  _datoLCD
-                  0x000232                  _busyFlagLCD
-                  0x000262                  _iniLCD8bits
-                  0x0002b6                  _funcion1
-                  0x0002c0                  _funcion2
-                  0x0002d0                  _funcion3
-                  0x0002d4                  _funcion4
+                  0x000208                  _datoLCD
+                  0x000222                  _busyFlagLCD
+                  0x000252                  _iniLCD8bits
+                  0x0002a6                  _funcion1
+                  0x0002b0                  _funcion2
+                  0x0002c0                  _funcion3
+                  0x0002c4                  _funcion4
                   0x0002ee                  _main
                   0x000334                  _iniInterrupciones
                   0x00033a                  _iniPerifericos
@@ -154,15 +154,15 @@ External Symbols in Program Memory (by name):
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x000232                  _busyFlagLCD
+                  0x000222                  _busyFlagLCD
                   0x0001ee                  _comandoLCD
-                  0x000218                  _datoLCD
-                  0x0002b6                  _funcion1
-                  0x0002c0                  _funcion2
-                  0x0002d0                  _funcion3
-                  0x0002d4                  _funcion4
+                  0x000208                  _datoLCD
+                  0x0002a6                  _funcion1
+                  0x0002b0                  _funcion2
+                  0x0002c0                  _funcion3
+                  0x0002c4                  _funcion4
                   0x000334                  _iniInterrupciones
-                  0x000262                  _iniLCD8bits
+                  0x000252                  _iniLCD8bits
                   0x00033a                  _iniPerifericos
                   0x0002ee                  _main
                   0x000366                  _ps_coeff
@@ -280,7 +280,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGS0À
+ __FGS.sec        0xf8000a          0x2 /CW/_FGS@$É
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -306,10 +306,10 @@ userdata
  .debug_abbrev    0x000000         0xf7 build/default/production/principal.o
  .debug_abbrev    0x0000f7         0x14 build/default/production/LCD.o
 
-.debug_line       0x000000        0x172
+.debug_line       0x000000        0x174
  *(.debug_line)
- .debug_line      0x000000         0xcf build/default/production/principal.o
- .debug_line      0x0000cf         0xa3 build/default/production/LCD.o
+ .debug_line      0x000000         0xd1 build/default/production/principal.o
+ .debug_line      0x0000d1         0xa3 build/default/production/LCD.o
 
 .debug_frame      0x000000         0x84
  *(.debug_frame)
@@ -1039,7 +1039,7 @@ LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/PROGRAMA09_CEmbebido.X.production.elf elf32-pic30)
-LOAD /CW/_FGS0À
+LOAD /CW/_FGS@$É
 LOAD default_isr
 LOAD data_init
 
@@ -1057,15 +1057,15 @@ __c30_signature
  __c30_signature
                   0x000078          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
 
-_0454BC605ca2dea1
+_046DAC605cacc372
                     0x0800         0x80
- _0454BC605ca2dea1
+ _046DAC605cacc372
                     0x0800         0x80 build/default/production/principal.o
                     0x0800                  _x_input
 
-_0454BD805ca2dea1
+_046DAD805cacc372
                     0x0f80         0x80
- _0454BD805ca2dea1
+ _046DAD805cacc372
                     0x0f80         0x80 build/default/production/principal.o
                     0x0f80                  _y_input
 
@@ -1096,13 +1096,13 @@ _0454BD805ca2dea1
 .text             0x0001ee        0x164
  .text            0x0001ee        0x100 build/default/production/LCD.o
                   0x0001ee                  _comandoLCD
-                  0x000218                  _datoLCD
-                  0x000232                  _busyFlagLCD
-                  0x000262                  _iniLCD8bits
-                  0x0002b6                  _funcion1
-                  0x0002c0                  _funcion2
-                  0x0002d0                  _funcion3
-                  0x0002d4                  _funcion4
+                  0x000208                  _datoLCD
+                  0x000222                  _busyFlagLCD
+                  0x000252                  _iniLCD8bits
+                  0x0002a6                  _funcion1
+                  0x0002b0                  _funcion2
+                  0x0002c0                  _funcion3
+                  0x0002c4                  _funcion4
  .text            0x0002ee         0x64 build/default/production/principal.o
                   0x0002ee                  _main
                   0x000334                  _iniInterrupciones
