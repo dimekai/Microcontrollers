@@ -1,0 +1,27 @@
+
+// pseudo codigo --------------------------------------------------------------
+// Inicializar PORTB, PORTD como entrada, PORTC como salida
+
+// iniLCD8bits
+
+// TMR1 el unico al cual se le puede conectar un cristal
+// Habilitar LPOSCEN = 1 (se encuentar en oscconl)
+
+// CALL clk_remove_lock: 
+// La rutina debe ser escrita forzosamente en ensamblador 
+// escribir 0x46, 0x57 en OSCCONL para remover el candado y usar el osilador externo
+// TMR1 = 0
+// PR1 = 0x8000 (bit no. 16 en 1)
+// T1CON = 0x0002
+
+// Configuracion del TMR1
+// IFS0, #T1If = 0  
+// IEC0, #T1IE = 1
+
+// useg = dseg = 0
+// umin = dmin = 0
+// uhr = dhr = 0
+
+// imprimirLCD("Reloj")
+
+// T1CON, #TON = 1 PONER AL FINAL, inicializa el contador
