@@ -81,7 +81,6 @@ int y_input[MUESTRAS] __attribute__ ((space(ymemory)));
 /********************************************************************************/
 int var1 __attribute__ ((near));    // int var1;   es lo mismo
 
-
 void iniPerifericos( void );
 void iniInterrupciones( void );
 
@@ -91,6 +90,7 @@ void datoLCD( char );
 void busyFlagLCD( void );
 void iniLCD8bits( void );
 void imprimeLCD( char * );
+void clearLCD( void );
 
 /* |===== FUNCIONES DE NOTAS MUSICALES =====|*/
 void NOTA_DO( void );
@@ -101,13 +101,13 @@ void NOTA_SOL( void );
 void NOTA_LA( void );
 void NOTA_SI( void );
 
-char * MENSAJE_DO = "NOTA DO";
-char * MENSAJE_RE = "NOTA RE";
-char * MENSAJE_MI = "NOTA MI";
-char * MENSAJE_FA = "NOTA FA";
+char * MENSAJE_DO  = "NOTA DO";
+char * MENSAJE_RE  = "NOTA RE";
+char * MENSAJE_MI  = "NOTA MI";
+char * MENSAJE_FA  = "NOTA FA";
 char * MENSAJE_SOL = "NOTA SOL";
-char * MENSAJE_LA = "NOTA LA";
-char * MENSAJE_SI = "NOTA SI";
+char * MENSAJE_LA  = "NOTA LA";
+char * MENSAJE_SI  = "NOTA SI";
 
 int main (void){       
     
@@ -115,14 +115,13 @@ int main (void){
     iniLCD8bits();
     iniInterrupciones();
     
-    int bp = 0;
+    short bp = 0;
     
     for(;EVER;){
         
         if( PORTFbits.RF0 ){           // NOTA DO
             if( !bp ){
                 NOTA_DO();
-                imprimeLCD(MENSAJE_DO);
                 bp = 1;
             }
         }else if( PORTFbits.RF1 ){       // NOTA RE
@@ -159,7 +158,8 @@ int main (void){
             T1CONbits.TON = 0;
             PORTDbits.RD8 = 0;
             bp = 0;
-        }
+            clearLCD();
+        } 
                         
         Nop();
     }
@@ -204,7 +204,7 @@ void iniPerifericos( void ){
 /* SE USA PUSH.S PARA GUARDAR LOS REGISTROS W0, W1, W2, W3, C, Z, N Y DC EN LOS */
 /* REGISTROS SOMBRA																*/
 /********************************************************************************/
-void __attribute__((__interrupt__)) _T1Interrupt( void )
+/*void __attribute__((__interrupt__)) _T1Interrupt( void )
 {
         IFS0bits.T1IF = 0;    //SE LIMPIA LA BANDERA DE INTERRUPCION DEL TIMER 1                      
-}
+}*/
