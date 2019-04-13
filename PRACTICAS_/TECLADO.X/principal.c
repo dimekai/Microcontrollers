@@ -102,12 +102,12 @@ void NOTA_LA( void );
 void NOTA_SI( void );
 
 char * MENSAJE_DO = "NOTA DO";
-char * MENSAJE_DO = "NOTA RE";
-char * MENSAJE_DO = "NOTA MI";
-char * MENSAJE_DO = "NOTA FA";
-char * MENSAJE_DO = "NOTA SOL";
-char * MENSAJE_DO = "NOTA LA";
-char * MENSAJE_DO = "NOTA SI";
+char * MENSAJE_RE = "NOTA RE";
+char * MENSAJE_MI = "NOTA MI";
+char * MENSAJE_FA = "NOTA FA";
+char * MENSAJE_SOL = "NOTA SOL";
+char * MENSAJE_LA = "NOTA LA";
+char * MENSAJE_SI = "NOTA SI";
 
 int main (void){       
     
@@ -119,7 +119,48 @@ int main (void){
     
     for(;EVER;){
         
-        
+        if( PORTFbits.RF0 ){           // NOTA DO
+            if( !bp ){
+                NOTA_DO();
+                imprimeLCD(MENSAJE_DO);
+                bp = 1;
+            }
+        }else if( PORTFbits.RF1 ){       // NOTA RE
+            if( !bp ){
+                NOTA_RE();
+                bp = 1;
+            }
+        }else if( PORTFbits.RF2 ){       // NOTA MI
+            if( !bp ){
+                NOTA_MI();
+                bp = 1;
+            }
+        }else if( PORTFbits.RF3 ){       // NOTA FA
+            if( !bp ){
+                NOTA_FA();
+                bp = 1;
+            }
+        }else if( PORTFbits.RF4 ){       // NOTA SOL
+            if( !bp ){
+                NOTA_SOL();
+                bp = 1;
+            }
+        }else if( PORTFbits.RF5 ){       // NOTA LA
+            if( !bp ){
+                NOTA_LA();
+                bp = 1;
+            }
+        }else if( PORTFbits.RF6 ){       // NOTA SI
+            if( !bp ){
+                NOTA_SI();
+                bp = 1;
+            }
+        }else{
+            T1CONbits.TON = 0;
+            PORTDbits.RD8 = 0;
+            bp = 0;
+        }
+                        
         Nop();
     }
 

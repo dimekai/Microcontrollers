@@ -208,6 +208,8 @@ FIN:
 ; |=============== NOTAS MUSICALES ===============|
 _NOTA_DO:
     
+    PUSH    W0
+    
     CLR	    TMR1		; TMR1 = 0
     MOV	    #55,	W0	; 
     MOV	    W0,		PR1	; PR1 = 55
@@ -215,16 +217,16 @@ _NOTA_DO:
     MOV	    W0,		T1CON	; T1CON = 0x8020
     
     CALL    _busyFlagLCD
-    
-    CALL    _comandoLCD
-    CALL    _busyFlagLCD
+    MOV	    0x1,    W0		; Limpia la pantalla del LCD.
     MOV	    #_MENSAJE_DO, W0
     CALL    _imprimeLCD
     
-    
+    POP	    W0
     RETURN
 
 _NOTA_RE:
+    
+    PUSH    W0
     
     CLR	    TMR1		; TMR1 = 0
     MOV	    #49,	W0	; 
@@ -233,16 +235,16 @@ _NOTA_RE:
     MOV	    W0,		T1CON	; T1CON = 0x8020
     
     CALL    _busyFlagLCD
-    
-    CALL    _comandoLCD
-    CALL    _busyFlagLCD
+    MOV	    0x1,    W0		; Limpia la pantalla del LCD.
     MOV	    #_MENSAJE_RE, W0
     CALL    _imprimeLCD
     
-    
+    POP	    W0
     RETURN
     
 _NOTA_MI:
+    
+    PUSH    W0
     
     CLR	    TMR1		; TMR1 = 0
     MOV	    #11,	W0	; 
@@ -251,16 +253,16 @@ _NOTA_MI:
     MOV	    W0,		T1CON	; T1CON = 0x8030
     
     CALL    _busyFlagLCD
-    
-    CALL    _comandoLCD
-    CALL    _busyFlagLCD
+    MOV	    0x1,    W0		; Limpia la pantalla del LCD.
     MOV	    #_MENSAJE_MI, W0
     CALL    _imprimeLCD
     
-    
+    POP	    W0
     RETURN    
 
 _NOTA_FA:
+    
+    PUSH    W0
     
     CLR	    TMR1		; TMR1 = 0
     MOV	    #2639,	W0	; 
@@ -269,16 +271,16 @@ _NOTA_FA:
     MOV	    W0,		T1CON	; T1CON = 0x8000
     
     CALL    _busyFlagLCD
-    
-    CALL    _comandoLCD
-    CALL    _busyFlagLCD
+    MOV	    0x1,    W0		; Limpia la pantalla del LCD.
     MOV	    #_MENSAJE_FA, W0
     CALL    _imprimeLCD
     
-    
+    POP	    W0
     RETURN
 
 _NOTA_SOL:
+    
+    PUSH    W0
     
     CLR	    TMR1		; TMR1 = 0
     MOV	    #2351,	W0	; 
@@ -287,16 +289,16 @@ _NOTA_SOL:
     MOV	    W0,		T1CON	; T1CON = 0x8000
     
     CALL    _busyFlagLCD
-    
-    CALL    _comandoLCD
-    CALL    _busyFlagLCD
+    MOV	    0x1,    W0		; Limpia la pantalla del LCD.
     MOV	    #_MENSAJE_SOL, W0
     CALL    _imprimeLCD
     
-    
+    POP	    W0    
     RETURN
     
 _NOTA_LA:
+    
+    PUSH    W0
     
     CLR	    TMR1		; TMR1 = 0
     MOV	    #262,	W0	; 
@@ -305,16 +307,16 @@ _NOTA_LA:
     MOV	    W0,		T1CON	; T1CON = 0x8010
     
     CALL    _busyFlagLCD
-    
-    CALL    _comandoLCD
-    CALL    _busyFlagLCD
+    MOV	    0x1,    W0		; Limpia la pantalla del LCD.
     MOV	    #_MENSAJE_LA, W0
     CALL    _imprimeLCD
     
-    
+    POP	    W0    
     RETURN
 
 _NOTA_SI:
+    
+    PUSH    W0
     
     CLR	    TMR1		; TMR1 = 0
     MOV	    #1866,	W0	; 
@@ -323,13 +325,11 @@ _NOTA_SI:
     MOV	    W0,		T1CON	; T1CON = 0x8000
     
     CALL    _busyFlagLCD
-    
-    CALL    _comandoLCD
-    CALL    _busyFlagLCD
+    MOV	    0x1,    W0		; Limpia la pantalla del LCD.
     MOV	    #_MENSAJE_SI, W0
     CALL    _imprimeLCD
     
-    
+    POP	    W0
     RETURN    
     
 _iniInterrupciones:
