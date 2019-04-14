@@ -32,14 +32,6 @@ _clk_remove_lock:
 _clk_start:
 	BSET	T1CON, 	#TON
 
-; Variables 
-.GLOBAL _dhr  ; decenas de hora
-.GLOBAL _uhr  ; unidades de hora
-.GLOBAL _dmin ; decenas de minuto
-.GLOBAL _umin ; unidad de minuto
-.GLOBAL _dseg ; decena de segundo
-.GLOBAL _useg ; unidad de segundo
-
 _INT0Interrupt:
     PUSH.S			; push w0, ..., w3 (registros sombra)
 

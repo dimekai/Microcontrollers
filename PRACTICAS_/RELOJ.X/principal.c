@@ -81,7 +81,7 @@ int y_input[MUESTRAS] __attribute__ ((space(ymemory)));
 /********************************************************************************/
 int var1 __attribute__ ((near));    // int var1;   es lo mismo
 
-
+// inicio ================================================================
 void iniPerifericos( void );
 void iniInterrupciones( void );
 
@@ -153,16 +153,15 @@ int main (void){
 	iniPerifericos();
 	iniLCD8bits();
 	init_clock(); // configura el timer 1 como un reloj externo usando un cristal de 32kHz
-	iniPerifericos();
-	init_counters(); // inicializa los registros que almacenan 
-	iniInterrupciones();
+	iniInterrupciones(); 
 
+    init_counters(); // inicializa los registros que almacenan los digitos del reloj
 	imprimeLCD("Reloj");
 	clk_start(); // T1CON, #TON = 1
 
 	while (1) {
-		busyFlagLCD();
-		// DD RAM address set as 00 1100 0100
+		busyFlagLCD(); // Espere hasta que el LCD este listo
+		// DD RAM address set as 00 1100 0100 = 0xC4
 		// 						    | Renglon                 		
 		// Pone el cursor en el renglon inferior, posicion 0x44						  
 	  	comandoLCD(0xc4); 
@@ -180,7 +179,6 @@ int main (void){
     while (1) { Nop(); }
     return 0;
 }
-
 
 
 /****************************************************************************/

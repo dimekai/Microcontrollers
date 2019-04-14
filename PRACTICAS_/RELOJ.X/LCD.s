@@ -20,23 +20,6 @@
     .GLOBAL _iniInterrupciones	; Esta en C
     .GLOBAL _T1Interrupt	; ISR_T1
     
-    ; |=============== NOTAS MUSICALES ===============|
-    .GLOBAL _NOTA_DO	    ; preescalar = 64
-    .GLOBAL _NOTA_RE	    ; preescalar = 64
-    .GLOBAL _NOTA_MI	    ; preescalar = 256
-    .GLOBAL _NOTA_FA	    ; preescalar = 1
-    .GLOBAL _NOTA_SOL	    ; preescalar = 1
-    .GLOBAL _NOTA_LA	    ; preescalar = 8
-    .GLOBAL _NOTA_SI	    ; preescalar = 1
-    
-    .GLOBAL _MENSAJE_DO
-    .GLOBAL _MENSAJE_RE
-    .GLOBAL _MENSAJE_MI
-    .GLOBAL _MENSAJE_FA
-    .GLOBAL _MENSAJE_SOL
-    .GLOBAL _MENSAJE_LA
-    .GLOBAL _MENSAJE_SI
-    
 ; |------------------ FUNCION COMANDO_LCD ------------------|
 _comandoLCD:
     CLR	    TRISD
