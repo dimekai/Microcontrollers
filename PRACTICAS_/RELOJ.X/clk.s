@@ -41,17 +41,11 @@ _clk_start:
 .GLOBAL _useg ; unidad de segundo
 
 _INT0Interrupt:
-    PUSH.S				; push w0, ..., w3 (registros sombra)
-    
-    ; Almacenamos en registros 
-    MOV     #6,    W0      
-    MOV     #10,   W1      
-    MOV     #24,   W2     
-    MOV	    #60,   W3
+    PUSH.S			; push w0, ..., w3 (registros sombra)
 
     MOV.B	#10,   W0
-    INC.B 	_useg 			; Segundos ----------------------------------------
-    CP.B		_useg 	; NZ = !(_useg - 10)
+    INC.B 	_useg 		; Segundos -----------------------------
+    CP.B	_useg		; Compare la variable con WREG
     BRA 	NZ, 	FIN 
     CLR.B 	_useg
 
@@ -62,31 +56,35 @@ _INT0Interrupt:
     CLR.B	_dseg		    
     
     MOV 	#10, 	W0
-    INC.B	_umin		   	; Minutos ---------------------------------------- 
-    CP.B	_umin 			; NZ = !(10 - _dseg)
+    INC.B	_umin		; Minutos ------------------------------ 
+    CP.B	_umin		; NZ = !(10 - _umin)
     BRA		NZ,	FIN
     CLR.B	_umin		    
     
     MOV 	#6, 	W0
     INC.B	_dmin		    
-    CP.B	_dmin 			; NZ = !(6 - _dseg)
+    CP.B	_dmin 		; NZ = !(6 - _dmin)
     BRA		NZ,	FIN
     CLR.B	_dmin		    
 
-    ; TODO
-    ; INC.B	_uhr 			; Horas -----------------------------------------		    
-    ; CP.B	_uhr,  #10 	; NZ = !(W3 - _dseg)
-    ; BRA		NZ,	FIN
-    ; CLR.B	_uhr		    
+    MOV     	#10,	W0    	
+    BTSC 	_dhr,	#1	; W0 = (_dhr == 2) ? 4 : 10
+    MOV     	#4,	W0     
 
-    ; INC.B	_dhr 			; 
-    ; CP.B	_dhr,	#3 	; NZ = !(W3 - _dseg)
-    ; BRA		NZ,	FIN
-    ; CLR.B	_dhr		    
+    INC.B	_uhr 		; Horas --------------------------------
+    CP.B	_uhr	 	; NZ = !(Wn - f)
+    BRA		NZ,	FIN
+    CLR.B	_uhr		    
+
+    MOV		#3,	W0
+    INC.B	_dhr 	
+    CP.B	_dhr		; NZ = !(Wn - f)
+    BRA		NZ,	FIN
+    CLR.B	_dhr		    
 
 FIN:
-    BCLR    IFS0,   #INT0IF ; Se apaga la bandera de activación de la interrupción.
+    BCLR    IFS0,   #INT0IF	; Se apaga la bandera de activacion de la interrupcion.
     
-    POP.S 					; POP registros sombra
+    POP.S 			; POP registros sombra
     RETFIE
     

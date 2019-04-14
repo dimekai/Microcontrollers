@@ -38,11 +38,11 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.36</languageToolchainVersion>
+        <languageToolchainVersion>1.35</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="dsPIC30F_DFP" vendor="Microchip" version="1.0.12"/>
+        <pack name="dsPIC30F_DFP" vendor="Microchip" version="1.0.10"/>
       </packs>
       <compileType>
         <linkerTool>
