@@ -165,14 +165,27 @@ int main (void){
 		// 						    | Renglon                 		
 		// Pone el cursor en el renglon inferior, posicion 0x44						  
 	  	comandoLCD(0xc4); 
-		busyFlagLCD();
-		datoLCD(dhr + '0'); busyFlagLCD(); // horas
-		datoLCD(uhr + '0'); busyFlagLCD();
-		datoLCD(':'); busyFlagLCD();
-		datoLCD(dmin + '0'); busyFlagLCD(); // minutos
-		datoLCD(umin + '0'); busyFlagLCD();
-		datoLCD(':'); busyFlagLCD();
-		datoLCD(dseg + '0'); busyFlagLCD(); // segundos
+		
+        // horas
+        busyFlagLCD();
+		datoLCD(dhr + '0'); 
+        busyFlagLCD(); 
+		datoLCD(uhr + '0'); 
+        busyFlagLCD();
+		datoLCD(':');
+        
+        // minutos
+        busyFlagLCD();
+		datoLCD(dmin + '0'); 
+        busyFlagLCD(); 
+		datoLCD(umin + '0'); 
+        busyFlagLCD();
+		datoLCD(':'); 
+        
+        // segundos
+        busyFlagLCD();
+		datoLCD(dseg + '0'); 
+        busyFlagLCD(); 
 		datoLCD(useg + '0');
 	}
 
@@ -221,6 +234,7 @@ void iniPerifericos( void ){
 	Nop();
 
 	// input, TURN ALL bits of TRISX ON 
+	// Entrada del cristal
     LATC = 0;           
 	Nop();
     TRISC = 0xffff;          

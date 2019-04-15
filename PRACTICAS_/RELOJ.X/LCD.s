@@ -11,20 +11,20 @@
     
 ; |------------ EQUIVALENCIAS ------------|
 ; Este es el equivalente a definicion de macros (#define) en C
-    .EQU    RS_LCD,	RF2 ; RS
-    .EQU    RW_LCD,	RF3 ; RW
+    .EQU    RS_LCD,	RD3 ; RS
+    .EQU    RW_LCD,	RD9 ; RW
     .EQU    ENABLE_LCD, RD2 ; ENABLE
     .EQU    BF_LCD,	RB7 ; BF: BUSY_FLAG
     
-    
+
 ; |------------------ FUNCION COMANDO_LCD ------------------|
 _comandoLCD:
     CLR	    TRISD
     NOP
     
-    BCLR    PORTF, #RS_LCD	; RS = 0
+    BCLR    PORTD, #RS_LCD	; RS = 0
     NOP
-    BCLR    PORTF, #RW_LCD	; RW = 0
+    BCLR    PORTD, #RW_LCD	; RW = 0
     NOP
     BSET    PORTD, #ENABLE_LCD	; ENABLE = 1
     NOP
@@ -39,12 +39,12 @@ _comandoLCD:
 	    
 ; |------------------- FUNCION DATO LCD -------------------|    
 _datoLCD:
-    CLR	    TRISF
+;    CLR	    TRISF
     CLR	    TRISD
     
-    BSET    PORTF, #RS_LCD	;   RS = 1
+    BSET    PORTD, #RS_LCD	;   RS = 1
     NOP
-    BCLR    PORTF, #RW_LCD	;   RW = 0
+    BCLR    PORTD, #RW_LCD	;   RW = 0
     NOP
     BSET    PORTD, #ENABLE_LCD	;   ENABLE = 1
     NOP
@@ -60,16 +60,16 @@ _datoLCD:
 ; |------------------- FUNCION BUSY_FLAG -------------------|   
 _busyFlagLCD:
     PUSH    W0
-    CLR	    TRISF
+;    CLR	    TRISF
     CLR	    TRISD
     
-    BCLR    PORTF,  #RS_LCD	;   RS = 0
+    BCLR    PORTD,  #RS_LCD	;   RS = 0
     NOP
 
     SETM.B  TRISB		;   Prendemos la parte baja - TRISB OR 0X00FF
     NOP
 
-    BSET    PORTF,  #RW_LCD	;   RW = 1
+    BSET    PORTD,  #RW_LCD	;   RW = 1
     NOP
 
     BSET    PORTD,  #ENABLE_LCD	;   ENABLE = 1
@@ -81,7 +81,7 @@ PROCESO:
     
     BCLR	PORTD,	#ENABLE_LCD ;	ENABLE = 0
     NOP
-    BCLR	PORTF, #RW_LCD	    ;   RW = 0
+    BCLR	PORTD, #RW_LCD	    ;   RW = 0
     NOP
     
     SETM	TRISB		    ; TRISB = 0xFFFF
