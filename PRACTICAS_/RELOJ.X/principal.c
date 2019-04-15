@@ -188,7 +188,12 @@ int main (void){
 /****************************************************************************/
 /*void iniInterrupciones( void ){
     // Habilitacion de interrupcion del periférico 1
+    IFS0bits.T1IF = 0;
+    IEC0bits.T1IE = 1;
+    T1CONbits.TON = 1;
+
     // Habilitacion de interrupcion del periférico 2
+
     // Habilitacion de interrupcion del periférico 3
 }*/
 
@@ -199,19 +204,29 @@ int main (void){
 /****************************************************************************/
 void iniPerifericos( void ){
 	// output
-    LATB = 0;           Nop();
-    TRISB = 0;          Nop();
-    PORTB = 0;          Nop();
-    ADPCFG=0xFFFF;      Nop();
+    LATB = 0;           
+	Nop();
+    TRISB = 0;          
+	Nop();
+    PORTB = 0;          
+	Nop();
+    ADPCFG = 0xFFFF;	// deshabilitar el modo analogico 
+	Nop();
     
-    LATD = 0;           Nop();
-    TRISD = 0;          Nop();
-    PORTD = 0;          Nop();
+    LATD = 0;           
+	Nop();
+    TRISD = 0;          
+	Nop();
+    PORTD = 0;          
+	Nop();
 
-	// input
-    LATC = 0;           Nop();
-    TRISC = 1;          Nop();
-    PORTC = 0;          Nop();
+	// input, TURN ALL bits of TRISX ON 
+    LATC = 0;           
+	Nop();
+    TRISC = 0xffff;          
+	Nop();
+    PORTC = 0;          
+	Nop();
     
     // PORTF = 0;          Nop();
     // LATF = 0;           Nop();
@@ -224,7 +239,7 @@ void iniPerifericos( void ){
 /* SE USA PUSH.S PARA GUARDAR LOS REGISTROS W0, W1, W2, W3, C, Z, N Y DC EN LOS */
 /* REGISTROS SOMBRA																*/
 /********************************************************************************/
-void __attribute__((__interrupt__)) _T1Interrupt( void )
-{
-        IFS0bits.T1IF = 0;    //SE LIMPIA LA BANDERA DE INTERRUPCION DEL TIMER 1                      
-}
+//void __attribute__((__interrupt__)) _T1Interrupt( void )
+//{
+//        IFS0bits.T1IF = 0;    //SE LIMPIA LA BANDERA DE INTERRUPCION DEL TIMER 1                      
+//}

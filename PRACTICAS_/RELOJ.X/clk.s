@@ -2,9 +2,10 @@
 .include "p30F4013.inc" ; Aqui estan todos los registros del micro.
 
 ; Declaraciones globales 
-; Funciones 
-.GLOBAL _INT0Interrupt
+; interrupcion. 
+.GLOBAL __T1Interrupt
 
+; funciones
 .GLOBAL _clk_start
 .GLOBAL _clk_remove_lock 
 
@@ -21,6 +22,14 @@
 
 ; Oscilador externo de 32768 Hz regexp(0b 0001 0000 0000 0000 0000)
 
+; |------------ FUNCION DE INICIALIZACIÓN ------------|
+.GLOBAL _iniInterrupciones  ; Esta en C
+    
+_iniInterrupciones:
+    BCLR IFS0,      #INT1IF
+    BSET IEC0,      #INT1IE
+    return
+
 _clk_remove_lock:
 	mov.b 	#0x46, 		w1 			; follow write sequence
 	mov.b 	#0x57, 		w2 			; for OSCCONL writes
@@ -28,11 +37,16 @@ _clk_remove_lock:
 	mov.b 	w1, 		w3
 	mov.b 	w2, 		w3
 	bset 	OSCCONL, 	#LPOSCEN 	; enable 32kHz external xtal 
+	return
 
 _clk_start:
 	BSET	T1CON, 	#TON
+	return
 
-_INT0Interrupt:
+; |================ ISR_T1 ================|
+; @brief: Genera el reloj por software.
+; DOS guiones bajos como prefijo denota interrupcion.
+__T1Interrupt:
     PUSH.S			; push w0, ..., w3 (registros sombra)
 
     MOV.B	#10,   W0

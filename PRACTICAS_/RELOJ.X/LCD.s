@@ -1,24 +1,21 @@
-    ; |------------ CABECERA ------------|
+; |------------ CABECERA ------------|
     .include "p30F4013.inc" ; Aqui estan todos los registros del micro.
         
-    ; |------------ FUNCIONES LCD ------------|
-    ; Estas funciones son de los diagramas que definimos
+; |------------ FUNCIONES LCD ------------|
+; Estas funciones son de los diagramas que definimos
     .GLOBAL _comandoLCD	    
     .GLOBAL _datoLCD
     .GLOBAL _busyFlagLCD
     .GLOBAL _iniLCD8bits
     .GLOBAL _imprimeLCD
     
-    ; |------------ EQUIVALENCIAS ------------|
-    ; Este es el equivalente a definicion de macros (#define) en C
+; |------------ EQUIVALENCIAS ------------|
+; Este es el equivalente a definicion de macros (#define) en C
     .EQU    RS_LCD,	RF2 ; RS
     .EQU    RW_LCD,	RF3 ; RW
     .EQU    ENABLE_LCD, RD2 ; ENABLE
     .EQU    BF_LCD,	RB7 ; BF: BUSY_FLAG
     
-    ; |------------ FUNCION DE INICIALIZACIÓN ------------|
-    .GLOBAL _iniInterrupciones	; Esta en C
-    .GLOBAL _T1Interrupt	; ISR_T1
     
 ; |------------------ FUNCION COMANDO_LCD ------------------|
 _comandoLCD:
@@ -158,13 +155,6 @@ CICLO1_1S:
     POP     W0
     return
 
-; |================ ISR_T1 ================|
-; @brief: Genera el reloj por software.
-_T1Interrupt:
-    BTG	    LATD,   #LATD8
-    NOP
-    BCLR    IFS0,   #T1IF
-    RETFIE    
     
 ; |================== IMPRIMI EN LCD ==================|
 ; |@brief: Imprime en el LCD una cadena de caracteres
@@ -185,8 +175,3 @@ FIN:
     POP	    W1
     RETURN
         
-_iniInterrupciones:
-    BCLR IFS0,	    #INT1IF
-    BSET IEC0,	    #INT1IE
-    return
-    

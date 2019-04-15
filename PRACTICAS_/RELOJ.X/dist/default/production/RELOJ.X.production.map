@@ -1,21 +1,21 @@
-Microchip Technology Inc, v1.35 (A)
+Microchip Technology Inc, v1.36 (B)
 
 Tool Name:
-  c:\program files (x86)\microchip\xc16\v1.35\bin\bin\..\bin/elf-ld.exe
+  /opt/microchip/xc16/v1.36/bin/bin/../bin/elf-ld
 
 Command:
   -p30F4013 \
   -o \
   dist/default/production/RELOJ.X.production.elf \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/.. \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/PIC24E/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/PIC24F/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/PIC24H/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/dsPIC30F/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/dsPIC33C/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/dsPIC33E/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../support/dsPIC33F/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/.. \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../lib \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/PIC24E/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/PIC24F/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/PIC24H/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC30F/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33C/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33E/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33F/gld \
   build/default/production/LCD.o \
   build/default/production/principal.o \
   build/default/production/clk.o \
@@ -46,11 +46,11 @@ Command:
 Optional library libp30F4013.a not found
 Archive member included because of file (symbol)
 
-c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+/opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
                               (__resetPRI)
-c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
-                              c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o) (__data_init_standard)
-c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
+/opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
+                              /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o) (__data_init_standard)
+/opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt_start_mode_normal.Leo)
                               (__crt_start_mode_normal)
 
 
@@ -74,28 +74,28 @@ CodeGuard EEPROM Memory:
   boot    (none)
 
 
-xc16-ld 1.35 (A)
+xc16-ld 1.36 (B)
 
 "program" Memory  [Origin = 0x100, Length = 0x7f00]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x100                0xe2           0x153  (339)
-.const                       0x1e2                 0x6             0x9  (9)
-.text                        0x1e8               0x1ee           0x2e5  (741)
-.dinit                       0x3d6                0x14            0x1e  (30)
-.prog                        0x3ea                 0x2             0x3  (3)
+.text                        0x100                0xce           0x135  (309)
+.const                       0x1ce                 0x6             0x9  (9)
+.text                        0x1d4               0x1ea           0x2df  (735)
+.dinit                       0x3be                0x14            0x1e  (30)
+.prog                        0x3d2                 0x2             0x3  (3)
 
-                 Total "program" memory used (bytes):          0x462  (1122) 2%
+                 Total "program" memory used (bytes):          0x43e  (1086) 2%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x800]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-_0350CC005cb36ebd            0x800                   0            0x80  (128)
+_0xf7769f185cb50975          0x800                   0            0x80  (128)
 .nbss                        0x880                   0             0x8  (8)
-_0350CD205cb36ebd            0xf80                   0            0x80  (128)
+_0xf7769f745cb50975          0xf80                   0            0x80  (128)
 
                  Total "data" memory used (bytes):          0x108  (264) 12%
 
@@ -138,51 +138,47 @@ External Symbols in Program Memory (by address):
 
                   0x000100                  __resetPRI
                   0x00013c                  __psv_init
-                  0x000152                  __data_init_standard
                   0x000152                  __data_init
-                  0x0001c8                  __T1Interrupt
-                  0x0001dc                  __DefaultInterrupt
-                  0x0001e8                  _comandoLCD
-                  0x000202                  _datoLCD
-                  0x00021c                  _busyFlagLCD
-                  0x00024c                  _iniLCD8bits
-                  0x0002ac                  _T1Interrupt
-                  0x0002b4                  _imprimeLCD
-                  0x0002ce                  _iniInterrupciones
-                  0x0002d4                  _init_counters
-                  0x0002e6                  _init_clock
-                  0x0002f8                  _main
-                  0x00034e                  _iniPerifericos
-                  0x000380                  _clk_remove_lock
-                  0x00038c                  _clk_start
-                  0x00038e                  _INT0Interrupt
-                  0x0003ea                  _ps_coeff
+                  0x000152                  __data_init_standard
+                  0x0001c8                  __DefaultInterrupt
+                  0x0001d4                  _comandoLCD
+                  0x0001ee                  _datoLCD
+                  0x000208                  _busyFlagLCD
+                  0x000238                  _iniLCD8bits
+                  0x000298                  _imprimeLCD
+                  0x0002b2                  _init_counters
+                  0x0002c4                  _init_clock
+                  0x0002d6                  _main
+                  0x00032c                  _iniPerifericos
+                  0x00035e                  _iniInterrupciones
+                  0x000364                  _clk_remove_lock
+                  0x000372                  _clk_start
+                  0x000376                  __T1Interrupt
+                  0x0003d2                  _ps_coeff
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x00038e                  _INT0Interrupt
-                  0x0002ac                  _T1Interrupt
-                  0x0001dc                  __DefaultInterrupt
+                  0x0001c8                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
-                  0x0001c8                  __T1Interrupt
+                  0x000376                  __T1Interrupt
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x00021c                  _busyFlagLCD
-                  0x000380                  _clk_remove_lock
-                  0x00038c                  _clk_start
-                  0x0001e8                  _comandoLCD
-                  0x000202                  _datoLCD
-                  0x0002b4                  _imprimeLCD
-                  0x0002ce                  _iniInterrupciones
-                  0x00024c                  _iniLCD8bits
-                  0x00034e                  _iniPerifericos
-                  0x0002e6                  _init_clock
-                  0x0002d4                  _init_counters
-                  0x0002f8                  _main
-                  0x0003ea                  _ps_coeff
+                  0x000208                  _busyFlagLCD
+                  0x000364                  _clk_remove_lock
+                  0x000372                  _clk_start
+                  0x0001d4                  _comandoLCD
+                  0x0001ee                  _datoLCD
+                  0x000298                  _imprimeLCD
+                  0x00035e                  _iniInterrupciones
+                  0x000238                  _iniLCD8bits
+                  0x00032c                  _iniPerifericos
+                  0x0002c4                  _init_clock
+                  0x0002b2                  _init_counters
+                  0x0002d6                  _main
+                  0x0003d2                  _ps_coeff
 
 Memory Configuration
 
@@ -214,7 +210,7 @@ LOAD build/default/production/principal.o
 LOAD build/default/production/clk.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD p30F4013
-LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libfx-elf.a
+LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/libfx-elf.a
                     0x8005c0                  __FUID0 = 0x8005c0
                     0x8005c2                  __FUID1 = 0x8005c2
                     0x8005c4                  __FUID2 = 0x8005c4
@@ -241,30 +237,28 @@ LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000100         0xe2
+.text             0x000100         0xce
  *(.init)
- .init            0x000100         0x4c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
-                  0x000100                  __resetPRI
+ .init            0x000100         0x4c /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
                   0x000100                  __reset
+                  0x000100                  __resetPRI
                   0x00013c                  __psv_init
- .init            0x00014c         0x7c c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
-                  0x000152                  __data_init_standard
+ .init            0x00014c         0x7c /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
                   0x000152                  __data_init
+                  0x000152                  __data_init_standard
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x0001c8         0x14 build/default/production/principal.o
-                  0x0001c8                  __T1Interrupt
- .isr             0x0001dc          0x4 default_isr
-                  0x0001dc                  __DefaultInterrupt
+ .isr             0x0001c8          0x4 default_isr
+                  0x0001c8                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x0001e0          0x2 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
-                  0x0001e0                  __crt_start_mode
-                  0x0001e0                  __crt_start_mode_normal
+                  0x0001cc          0x2 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt_start_mode_normal.Leo)
+                  0x0001cc                  __crt_start_mode_normal
+                  0x0001cc                  __crt_start_mode
 
 usercode
  *(usercode)
@@ -298,7 +292,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGSh,≤
+ __FGS.sec        0xf8000a          0x2 /CW/_FGSê∂'	ƒ∂'	__FGS.sec
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -313,32 +307,28 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000        0x77a
+.debug_info       0x000000        0x599
  *(.debug_info)
- .debug_info      0x000000         0xa7 build/default/production/LCD.o
- .debug_info      0x0000a7        0x62c build/default/production/principal.o
- .debug_info      0x0006d3         0xa7 build/default/production/clk.o
+ .debug_info      0x000000         0x93 build/default/production/LCD.o
+ .debug_info      0x000093        0x473 build/default/production/principal.o
+ .debug_info      0x000506         0x93 build/default/production/clk.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x121
+.debug_abbrev     0x000000         0xdf
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x14 build/default/production/LCD.o
- .debug_abbrev    0x000014         0xf9 build/default/production/principal.o
- .debug_abbrev    0x00010d         0x14 build/default/production/clk.o
+ .debug_abbrev    0x000014         0xb7 build/default/production/principal.o
+ .debug_abbrev    0x0000cb         0x14 build/default/production/clk.o
 
-.debug_line       0x000000        0x1cf
+.debug_line       0x000000        0x1b5
  *(.debug_line)
- .debug_line      0x000000         0x95 build/default/production/LCD.o
- .debug_line      0x000095         0xde build/default/production/principal.o
- .debug_line      0x000173         0x5c build/default/production/clk.o
+ .debug_line      0x000000         0x90 build/default/production/LCD.o
+ .debug_line      0x000090         0xc4 build/default/production/principal.o
+ .debug_line      0x000154         0x61 build/default/production/clk.o
 
-.debug_frame      0x000000         0xa0
+.debug_frame      0x000000         0x84
  *(.debug_frame)
- .debug_frame     0x000000         0xa0 build/default/production/principal.o
-
-.debug_str        0x000000          0x9
- *(.debug_str)
- .debug_str       0x000000          0x9 build/default/production/principal.o
+ .debug_frame     0x000000         0x84 build/default/production/principal.o
 
 .debug_loc
  *(.debug_loc)
@@ -347,10 +337,10 @@ userdata
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000         0xc2
+                  0x000000         0xb1
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0xc2 build/default/production/principal.o
+                  0x000000         0xb1 build/default/production/principal.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1057,38 +1047,38 @@ userdata
                     0x0216                  UART2 = 0x216
                     0x0216                  _UART2 = 0x216
 START GROUP
-LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a
-LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\libm-elf.a
-LOAD c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-c-elf.a
+LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a
+LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/libm-elf.a
+LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/RELOJ.X.production.elf elf32-pic30)
-LOAD /CW/_FGSh,≤
+LOAD /CW/_FGSê∂'	ƒ∂'	__FGS.sec
 LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000048         0x45
+                  0x000048         0x28
  .debug_pubtypes
-                  0x000048         0x45 build/default/production/principal.o
+                  0x000048         0x28 build/default/production/principal.o
 
 __c30_signature
-                  0x00008d         0x12
+                  0x000070         0x12
  __c30_signature
-                  0x00008d          0x6 build/default/production/principal.o
+                  0x000070          0x6 build/default/production/principal.o
  __c30_signature
-                  0x000093          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x000076          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x000099          0x6 c:/program files (x86)/microchip/xc16/v1.35/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x00007c          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
 
-_0350CC005cb36ebd
+_0xf7769f185cb50975
                     0x0800         0x80
- _0350CC005cb36ebd
+ _0xf7769f185cb50975
                     0x0800         0x80 build/default/production/principal.o
                     0x0800                  _x_input
 
-_0350CD205cb36ebd
+_0xf7769f745cb50975
                     0x0f80         0x80
- _0350CD205cb36ebd
+ _0xf7769f745cb50975
                     0x0f80         0x80 build/default/production/principal.o
                     0x0f80                  _y_input
 
@@ -1116,33 +1106,32 @@ _0350CD205cb36ebd
 .ivt._T1Interrupt
                   0x00001a          0x2
  .ivt._T1Interrupt
-                  0x00001a          0x2 build/default/production/principal.o
+                  0x00001a          0x2 build/default/production/clk.o
 
-.const              0x81e2          0x6 load address 0x0001e2  
- .const             0x81e2          0x6 build/default/production/principal.o
+.const              0x81ce          0x6 load address 0x0001ce  
+ .const             0x81ce          0x6 build/default/production/principal.o
 
-.text             0x0001e8        0x1ee
- .text            0x0001e8         0xec build/default/production/LCD.o
-                  0x0001e8                  _comandoLCD
-                  0x000202                  _datoLCD
-                  0x00021c                  _busyFlagLCD
-                  0x00024c                  _iniLCD8bits
-                  0x0002ac                  _T1Interrupt
-                  0x0002b4                  _imprimeLCD
-                  0x0002ce                  _iniInterrupciones
- .text            0x0002d4         0xac build/default/production/principal.o
-                  0x0002d4                  _init_counters
-                  0x0002e6                  _init_clock
-                  0x0002f8                  _main
-                  0x00034e                  _iniPerifericos
- .text            0x000380         0x56 build/default/production/clk.o
-                  0x000380                  _clk_remove_lock
-                  0x00038c                  _clk_start
-                  0x00038e                  _INT0Interrupt
+.text             0x0001d4        0x1ea
+ .text            0x0001d4         0xde build/default/production/LCD.o
+                  0x0001d4                  _comandoLCD
+                  0x0001ee                  _datoLCD
+                  0x000208                  _busyFlagLCD
+                  0x000238                  _iniLCD8bits
+                  0x000298                  _imprimeLCD
+ .text            0x0002b2         0xac build/default/production/principal.o
+                  0x0002b2                  _init_counters
+                  0x0002c4                  _init_clock
+                  0x0002d6                  _main
+                  0x00032c                  _iniPerifericos
+ .text            0x00035e         0x60 build/default/production/clk.o
+                  0x00035e                  _iniInterrupciones
+                  0x000364                  _clk_remove_lock
+                  0x000372                  _clk_start
+                  0x000376                  __T1Interrupt
 
-.dinit            0x0003d6         0x14
- .dinit           0x0003d6         0x14 data_init
+.dinit            0x0003be         0x14
+ .dinit           0x0003be         0x14 data_init
 
-.prog             0x0003ea          0x2
- .prog            0x0003ea          0x2 build/default/production/principal.o
-                  0x0003ea                  _ps_coeff
+.prog             0x0003d2          0x2
+ .prog            0x0003d2          0x2 build/default/production/principal.o
+                  0x0003d2                  _ps_coeff
