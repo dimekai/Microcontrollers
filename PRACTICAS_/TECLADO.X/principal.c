@@ -113,22 +113,22 @@ int main (void){
         if( !PORTFbits.RF0 ){           // NOTA DO
             if( !bp ){
                 NOTA_DO();
-                bp = 1;             // El botón ha sido presionado
-                clearLCD();         // Limpiamos el LCD
+                bp = 1;                 // El botón ha sido presionado
+                clearLCD();             // Limpiamos el LCD
                 imprimeLCD(MENSAJE_DO);
             }
         }else if( !PORTFbits.RF1 ){       // NOTA RE
             if( !bp ){
                 NOTA_RE();
-                bp = 1;             // El botón ha sido presionado
-                clearLCD();         // Limpiamos el LCD
+                bp = 1;                 // El botón ha sido presionado
+                clearLCD();             // Limpiamos el LCD
                 imprimeLCD(MENSAJE_RE);
             }
         }else if( !PORTFbits.RF2 ){       // NOTA MI
             if( !bp ){
                 NOTA_MI();
-                bp = 1;             // El botón ha sido presionado
-                clearLCD();         // Limpiamos el LCD
+                bp = 1;                 // El botón ha sido presionado
+                clearLCD();             // Limpiamos el LCD
                 imprimeLCD(MENSAJE_MI);
             }
         }else if( !PORTFbits.RF3 ){       // NOTA FA
