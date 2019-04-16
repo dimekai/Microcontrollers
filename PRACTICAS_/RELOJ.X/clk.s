@@ -3,11 +3,11 @@
 
 ; Declaraciones globales 
 ; interrupcion. 
-.GLOBAL __T1Interrupt
+.GLOBAL __T1Interrupt   ; Interrupcion del timer 1
 
 ; funciones
-.GLOBAL _clk_start
-.GLOBAL _clk_remove_lock 
+.GLOBAL _clk_start       	; Turns the timer 1 on
+.GLOBAL _clk_remove_lock 	; It removes the clock for letting use a cristal as external clock source
 
 ; Variables 
 .GLOBAL _dhr  ; decenas de hora
@@ -20,34 +20,36 @@
 ; Equivalencias
 ;  .EQU    RS_LCD,	RF2 ; RS
 
-; Oscilador externo de 32768 Hz regexp(0b 0001 0000 0000 0000 0000)
+; Oscilador externo de 32768 Hz regexp(0b 1000 0000 0000 0000 = 0x 8000)
 
 ; |------------ FUNCION DE INICIALIZACIÓN ------------|
 .GLOBAL _iniInterrupciones  ; Esta en C
     
 _iniInterrupciones:
-    BCLR IFS0,      #INT1IF
-    BSET IEC0,      #INT1IE
+    ; __T1Interrupt config
+    BCLR IFS0,      #INT1IF ; turn the flag off
+    BSET IEC0,      #INT1IE ; enable the interrupt for __T1Interrupt
     return
 
+; Write a sequence of bits over w3 in order to be capable of using a real time clock provided by a crystal
 _clk_remove_lock:
-	mov.b 	#0x46, 		w1 			; follow write sequence
-	mov.b 	#0x57, 		w2 			; for OSCCONL writes
-	mov 	#OSCCONL, 	w3 
-	mov.b 	w1, 		w3
-	mov.b 	w2, 		w3
+	mov.b 	#0x46, 		w1 		; follow write sequence
+	mov.b 	#0x57, 		w2 		; for OSCCONL writes
+	mov 	#OSCCONL, 	w3 		; w3 = &OSCCONL[0]
+	mov.b 	w1, 		[w3]		; IMPORTANT to write to write over mmap [w3]
+	mov.b 	w2, 		[w3]
 	bset 	OSCCONL, 	#LPOSCEN 	; enable 32kHz external xtal 
 	return
 
 _clk_start:
-	BSET	T1CON, 	#TON
+	BSET	T1CON, 	#TON			; Activate Timer 1
 	return
 
 ; |================ ISR_T1 ================|
 ; @brief: Genera el reloj por software.
 ; DOS guiones bajos como prefijo denota interrupcion.
 __T1Interrupt:
-    PUSH.S			; push w0, ..., w3 (registros sombra)
+    PUSH.S			; push w0, ..., w3 (shadow registers)
 
     MOV.B	#10,   W0
     INC.B 	_useg 		; Segundos -----------------------------
@@ -89,8 +91,8 @@ __T1Interrupt:
     CLR.B	_dhr		    
 
 FIN:
-    BCLR    IFS0,   #INT0IF	; Se apaga la bandera de activacion de la interrupcion.
+    BCLR    IFS0,   #INT1IF	; Turn down the appropiate flag for the executed interruption, very important
     
-    POP.S 			; POP registros sombra
+    POP.S 			; POP shadow registers
     RETFIE
     
