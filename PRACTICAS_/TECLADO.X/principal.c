@@ -85,74 +85,79 @@ void iniPerifericos( void );
 void iniInterrupciones( void );
 
 /* |----- FUNCIONES DECLARADAS EN ENSABLADOR ----| */
-void comandoLCD( char );
-void datoLCD( char );
-void busyFlagLCD( void );
-void iniLCD8bits( void );
-void imprimeLCD( char * );
-void clearLCD( void );
+extern void busyFlagLCD( void );
+extern void iniLCD8bits( void );
+extern void clearLCD( void );
+extern void comandoLCD( unsigned char );
+extern void datoLCD( unsigned char );
+extern void imprimeLCD( char * );
 
 /* |===== FUNCIONES DE NOTAS MUSICALES =====|*/
-void NOTA_DO( void );
-void NOTA_RE( void );
-void NOTA_MI( void );
-void NOTA_FA( void );
-void NOTA_SOL( void );
-void NOTA_LA( void );
-void NOTA_SI( void );
+extern void NOTA_DO( void );        extern void NOTA_RE( void );
+extern void NOTA_MI( void );        extern void NOTA_FA( void );
+extern void NOTA_SOL( void );       extern void NOTA_LA( void );
+extern void NOTA_SI( void );
 
-char * MENSAJE_DO  = "NOTA DO";
-char * MENSAJE_RE  = "NOTA RE";
-char * MENSAJE_MI  = "NOTA MI";
-char * MENSAJE_FA  = "NOTA FA";
-char * MENSAJE_SOL = "NOTA SOL";
-char * MENSAJE_LA  = "NOTA LA";
+char * MENSAJE_DO  = "NOTA DO";     char * MENSAJE_RE  = "NOTA RE";
+char * MENSAJE_MI  = "NOTA MI";     char * MENSAJE_FA  = "NOTA FA";
+char * MENSAJE_SOL = "NOTA SOL";    char * MENSAJE_LA  = "NOTA LA";
 char * MENSAJE_SI  = "NOTA SI";
 
 int main (void){       
-    
+    unsigned short int bp = 0;      // button_pressed
     iniPerifericos();
     iniLCD8bits();
     iniInterrupciones();
     
-    short bp = 0;
-    
     for(;EVER;){
-        
-        if( PORTFbits.RF0 ){           // NOTA DO
+        if( !PORTFbits.RF0 ){           // NOTA DO
             if( !bp ){
                 NOTA_DO();
-                bp = 1;
+                bp = 1;             // El botón ha sido presionado
+                clearLCD();         // Limpiamos el LCD
+                imprimeLCD(MENSAJE_DO);
             }
-        }else if( PORTFbits.RF1 ){       // NOTA RE
+        }else if( !PORTFbits.RF1 ){       // NOTA RE
             if( !bp ){
                 NOTA_RE();
-                bp = 1;
+                bp = 1;             // El botón ha sido presionado
+                clearLCD();         // Limpiamos el LCD
+                imprimeLCD(MENSAJE_RE);
             }
-        }else if( PORTFbits.RF2 ){       // NOTA MI
+        }else if( !PORTFbits.RF2 ){       // NOTA MI
             if( !bp ){
                 NOTA_MI();
-                bp = 1;
+                bp = 1;             // El botón ha sido presionado
+                clearLCD();         // Limpiamos el LCD
+                imprimeLCD(MENSAJE_MI);
             }
-        }else if( PORTFbits.RF3 ){       // NOTA FA
+        }else if( !PORTFbits.RF3 ){       // NOTA FA
             if( !bp ){
                 NOTA_FA();
-                bp = 1;
+                bp = 1;             // El botón ha sido presionado
+                clearLCD();         // Limpiamos el LCD
+                imprimeLCD(MENSAJE_FA);
             }
-        }else if( PORTFbits.RF4 ){       // NOTA SOL
+        }else if( !PORTFbits.RF4 ){       // NOTA SOL
             if( !bp ){
                 NOTA_SOL();
-                bp = 1;
+                bp = 1;             // El botón ha sido presionado
+                clearLCD();         // Limpiamos el LCD
+                imprimeLCD(MENSAJE_SOL);
             }
-        }else if( PORTFbits.RF5 ){       // NOTA LA
+        }else if( !PORTFbits.RF5 ){       // NOTA LA
             if( !bp ){
                 NOTA_LA();
-                bp = 1;
+                bp = 1;             // El botón ha sido presionado
+                clearLCD();         // Limpiamos el LCD
+                imprimeLCD(MENSAJE_LA);
             }
-        }else if( PORTFbits.RF6 ){       // NOTA SI
+        }else if( !PORTFbits.RF6 ){       // NOTA SI
             if( !bp ){
                 NOTA_SI();
-                bp = 1;
+                bp = 1;             // El botón ha sido presionado
+                clearLCD();         // Limpiamos el LCD
+                imprimeLCD(MENSAJE_SI);
             }
         }else{
             T1CONbits.TON = 0;
@@ -160,10 +165,10 @@ int main (void){
             bp = 0;
             clearLCD();
         } 
-                        
+        
         Nop();
     }
-
+    
     return 0;
 }
 /****************************************************************************/
@@ -172,11 +177,13 @@ int main (void){
 /* RETORNO: NINGUNO															*/
 /****************************************************************************/
 
-/*void iniInterrupciones( void ){
+void iniInterrupciones( void ){
+    IFS0bits.T1IF = 0;        //Interrupt Flag = 0
+    IEC0bits.T1IE = 1;        //Interrupt Enable = 1
     //Habilitacion de interrupcion del perifÃ©rico 1
     //Habilitacion de interrupcion del perifÃ©rico 2
     //Habilitacion de interrupcion del perifÃ©rico 3
-}*/
+}
 
 /****************************************************************************/
 /* DESCRICION:	ESTA RUTINA INICIALIZA LOS PERIFERICOS						*/

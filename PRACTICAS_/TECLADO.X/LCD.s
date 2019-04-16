@@ -1,25 +1,28 @@
     ; |------------ CABECERA ------------|
-    .include "p30F4013.inc" ; Aqui estan todos los registros del micro.
+    .include "p30F4013.inc"	    ; Aqui estan todos los registros del micro.
         
+    ; |============ FUNCIONES DE RETARDO ============|
+    ; Estas funciones son para generar retardos en el cto.
+    .GLOBAL _RETARDO15ms
+    .GLOBAL _RETARDO_1S
+    
     ; |------------ FUNCIONES LCD ------------|
     ; Estas funciones son de los diagramas que definimos
-    .GLOBAL _comandoLCD	    
     .GLOBAL _datoLCD
+    .GLOBAL _comandoLCD	    
     .GLOBAL _busyFlagLCD
     .GLOBAL _iniLCD8bits
     .GLOBAL _imprimeLCD
     .GLOBAL _clearLCD
     
+    .GLOBAL __T1Interrupt
+        
     ; |------------ EQUIVALENCIAS ------------|
     ; Este es el equivalente a definicion de macros (#define) en C
-    .EQU    RS_LCD,	RF2 ; RS
-    .EQU    RW_LCD,	RF3 ; RW
-    .EQU    ENABLE_LCD, RD2 ; ENABLE
-    .EQU    BF_LCD,	RB7 ; BF: BUSY_FLAG
-    
-    ; |------------ FUNCION DE INICIALIZACIÓN ------------|
-    .GLOBAL _iniInterrupciones	; Esta en C
-    .GLOBAL _T1Interrupt	; ISR_T1
+    .EQU    RS_LCD,	    RD3 ; RS
+    .EQU    RW_LCD,	    RD9 ; RW
+    .EQU    ENABLE_LCD,	    RD2 ; ENABLE
+    .EQU    BF_LCD,	    RB7 ; BF: BUSY_FLAG
     
     ; |=============== NOTAS MUSICALES ===============|
     .GLOBAL _NOTA_DO	    ; preescalar = 64
@@ -30,88 +33,63 @@
     .GLOBAL _NOTA_LA	    ; preescalar = 8
     .GLOBAL _NOTA_SI	    ; preescalar = 1
     
-    .GLOBAL _MENSAJE_DO
-    .GLOBAL _MENSAJE_RE
-    .GLOBAL _MENSAJE_MI
-    .GLOBAL _MENSAJE_FA
-    .GLOBAL _MENSAJE_SOL
-    .GLOBAL _MENSAJE_LA
-    .GLOBAL _MENSAJE_SI
-    
 ; |------------------ FUNCION COMANDO_LCD ------------------|
 _comandoLCD:
-    CLR	    TRISD
+    BCLR    PORTD,  #RS_LCD	; RS = 0
     NOP
-    
-    BCLR    PORTF, #RS_LCD	; RS = 0
+    BCLR    PORTD,  #RW_LCD	; RW = 0
     NOP
-    BCLR    PORTF, #RW_LCD	; RW = 0
+    BSET    PORTD,  #ENABLE_LCD	; ENABLE = 1
     NOP
-    BSET    PORTD, #ENABLE_LCD	; ENABLE = 1
-    NOP
-    
     MOV.B   WREG,   PORTB	; PORTB = W0
     NOP
-
-    BCLR    PORTD, #ENABLE_LCD	; ENABLE = 0
+    BCLR    PORTD,  #ENABLE_LCD	; ENABLE = 0
     NOP
-  
     RETURN
-	    
+    
 ; |------------------- FUNCION DATO LCD -------------------|    
 _datoLCD:
-    CLR	    TRISF
-    CLR	    TRISD
-    
-    BSET    PORTF, #RS_LCD	;   RS = 1
+    BSET    PORTD,  #RS_LCD	;   RS = 1
     NOP
-    BCLR    PORTF, #RW_LCD	;   RW = 0
+    BCLR    PORTD,  #RW_LCD	;   RW = 0
     NOP
-    BSET    PORTD, #ENABLE_LCD	;   ENABLE = 1
+    BSET    PORTD,  #ENABLE_LCD	;   ENABLE = 1
     NOP
-    
     MOV.B   WREG,   PORTB	;   PORTB = W0
     NOP
-
-    BCLR    PORTD, #ENABLE_LCD	;   ENABLE = 0
+    BCLR    PORTD,  #ENABLE_LCD	;   ENABLE = 0
     NOP
-  
-    RETURN    
+    RETURN  
 
 ; |------------------- FUNCION BUSY_FLAG -------------------|   
 _busyFlagLCD:
-    PUSH    W0
-    CLR	    TRISF
-    CLR	    TRISD
-    
-    BCLR    PORTF,  #RS_LCD	;   RS = 0
-    NOP
-
-    SETM.B  TRISB		;   Prendemos la parte baja - TRISB OR 0X00FF
-    NOP
-
-    BSET    PORTF,  #RW_LCD	;   RW = 1
-    NOP
-
-    BSET    PORTD,  #ENABLE_LCD	;   ENABLE = 1
-    NOP
-
-PROCESO:
-    BTSC	PORTB,	#BF_LCD	;   VERIFICA SI BF = 0, SI NO, SE EJECUTA EL GOTO
-    GOTO	PROCESO
-    
-    BCLR	PORTD,	#ENABLE_LCD ;	ENABLE = 0
-    NOP
-    BCLR	PORTF, #RW_LCD	    ;   RW = 0
+    BCLR    PORTD,  #RS_LCD	; RS = 0
     NOP
     
-    SETM	TRISB		    ; TRISB = 0xFFFF
-    NOP
-    CLR.B	TRISB		    ; TRISB = 0xFF00 ; APAGA LA PARTE BAJA
+    SETM.B  TRISB		; Prendemos la parte baja - TRISB OR 0X00FF
     NOP
     
-    POP	    W0
-    RETURN;
+    BSET    PORTD,  #RW_LCD	; RW = 0
+    NOP
+    
+    BSET    PORTD,  #ENABLE_LCD	; ENABLE = 1
+    NOP   
+
+PROCESA:
+    BTSC    PORTB,  #BF_LCD	; VERIFICA SI BF = 0, SI NO, SE EJECUTA EL GOTO
+    GOTO    PROCESA
+    
+    BCLR    PORTD,  #ENABLE_LCD	; ENABLE = 0
+    NOP 
+    BCLR    PORTD,  #RW_LCD	; RW = 0
+    NOP
+    
+    SETM	TRISB		; TRISB = 0xFFFF
+    NOP
+    CLR.B	TRISB		; TRISB = 0xFF00 ; APAGA LA PARTE BAJA
+    NOP
+    
+    RETURN
     
 ; |------------------- FUNCION INICIALIZAR LCD DE 8 BITS -------------------|
 ; | ---- INICIALIZACION ---|
@@ -129,15 +107,15 @@ PROCESO:
 _iniLCD8bits:
     CLR	    W0
     ; ------- TABLA DE INICIALIZACION -------------
-    CALL    RETARDO_15ms	; -- RETARDO 01
+    CALL    _RETARDO15ms	; -- RETARDO 01
     MOV	    #0X30,  W0
     CALL    _comandoLCD
 
-    CALL    RETARDO_15ms	; -- RETARDO 02
+    CALL    _RETARDO15ms	; -- RETARDO 02
     MOV	    #0X30,  W0
     CALL    _comandoLCD
     
-    CALL    RETARDO_15ms	; -- RETARDO 03
+    CALL    _RETARDO15ms	; -- RETARDO 03
     MOV	    #0X30,  W0
     CALL    _comandoLCD
     
@@ -172,28 +150,37 @@ _clearLCD:
     CALL    _comandoLCD
     RETURN
     
-; |=============== RETARDO ============|
+; |=============== RETARDOS ============|
 ; @brief: Genera un retardo de 15ms
-RETARDO_15ms:
+_RETARDO15ms:
     PUSH    W0
-    PUSH    W1  
-    CLR     W0
-CICLO1_1S:
-    DEC     W0,     W0
-    BRA     NZ,     CICLO1_1S
-
-    POP     W1
-    POP     W0
-    return
-
-; |================ ISR_T1 ================|
-; @brief: Genera el reloj por software.
-_T1Interrupt:
-    BTG	    LATD,   #LATD8
-    NOP
-    BCLR    IFS0,   #T1IF
-    RETFIE    
+    CLR	    W0
+    MOV	    #9275,  W0
+CICLO_15ms:
+    DEC	    W0,	    W0
+    BRA	    NZ,	    CICLO_15ms
     
+    POP	    W0
+    RETURN
+    
+;@brief: Genera un retardo de 1 seg
+_RETARDO_1S:
+    PUSH    W0  ; PUSH.D W0
+    PUSH    W1
+    MOV	    #5,	W1
+CICLO2_1S:
+    CLR	    W0	
+CICLO1_1S:	
+    DEC	    W0,	W0
+    BRA	    NZ,	CICLO1_1S	
+    
+    DEC	    W1,	W1
+    BRA	    NZ,	CICLO2_1S
+	
+    POP	    W1  ; POP.D W0
+    POP	    W0
+    RETURN
+       
 ; |================== IMPRIMI EN LCD ==================|
 ; |@brief: Imprime en el LCD una cadena de caracteres
 ; |@param: Cadena de caracteres
@@ -202,6 +189,7 @@ _imprimeLCD:
     ; A partir de esto, utilizamos [] para tomar la direccion que se manda
     PUSH    W1 
     MOV	    W0,	    W1
+    CLR	    W0
 CICLO:
     MOV.B   [W1++], W0	    ; Se utiliza .b ya que cada elemento, cada letra, es un byte
     CP0.B   W0		    ; Compara el primer byte de W0 con 0
@@ -213,122 +201,80 @@ FIN:
     POP	    W1
     RETURN
     
-    
+__T1Interrupt:
+    BTG	    LATD,   #LATD8
+    NOP
+    BCLR    IFS0,   #T1IF
+    RETFIE
+        
 ; |=============== NOTAS MUSICALES ===============|
 _NOTA_DO:
     PUSH    W0
-    
     CLR	    TMR1		; TMR1 = 0
     MOV	    #55,	W0	; 
     MOV	    W0,		PR1	; PR1 = 55
     MOV	    #0x8020,	W0	
-    MOV	    W0,		T1CON	; T1CON = 0x8020
-    
-    CALL    _clearLCD		; Limpiamos el LCD
-    MOV	    #_MENSAJE_DO, W0
-    CALL    _imprimeLCD
-    
+    MOV	    W0,		T1CON	; T1CON = 0x8020   
     POP	    W0
     RETURN
 
 _NOTA_RE:
     PUSH    W0
-    
     CLR	    TMR1		; TMR1 = 0
     MOV	    #49,	W0	; 
     MOV	    W0,		PR1	; PR1 = 49
     MOV	    #0x8020,	W0	
     MOV	    W0,		T1CON	; T1CON = 0x8020
-    
-    CALL    _clearLCD		; Limpiamos el LCD
-    MOV	    #_MENSAJE_RE, W0	
-    CALL    _imprimeLCD
-    
     POP	    W0
     RETURN
     
 _NOTA_MI:
     PUSH    W0
-    
     CLR	    TMR1		; TMR1 = 0
     MOV	    #11,	W0	; 
     MOV	    W0,		PR1	; PR1 = 11
     MOV	    #0x8030,	W0	
     MOV	    W0,		T1CON	; T1CON = 0x8030
-    
-    CALL    _clearLCD		; Limpiar el LCD
-    MOV	    #_MENSAJE_MI, W0
-    CALL    _imprimeLCD
-    
     POP	    W0
     RETURN    
 
 _NOTA_FA:
     PUSH    W0
-    
     CLR	    TMR1		; TMR1 = 0
     MOV	    #2639,	W0	; 
     MOV	    W0,		PR1	; PR1 = 2639
     MOV	    #0x8000,	W0	
     MOV	    W0,		T1CON	; T1CON = 0x8000
-    
-    CALL    _clearLCD		; Limpiear el LCD
-    MOV	    #_MENSAJE_FA, W0
-    CALL    _imprimeLCD
-    
     POP	    W0
     RETURN
 
 _NOTA_SOL:
     PUSH    W0
-    
     CLR	    TMR1		; TMR1 = 0
     MOV	    #2351,	W0	; 
     MOV	    W0,		PR1	; PR1 = 2351
     MOV	    #0x8000,	W0	
     MOV	    W0,		T1CON	; T1CON = 0x8000
-    
-    CALL    _clearLCD		; Limpiar el LCD
-    MOV	    #_MENSAJE_SOL, W0
-    CALL    _imprimeLCD
-    
     POP	    W0    
     RETURN
     
 _NOTA_LA:
     PUSH    W0
-    
     CLR	    TMR1		; TMR1 = 0
     MOV	    #262,	W0	; 
     MOV	    W0,		PR1	; PR1 = 262
     MOV	    #0x8010,	W0	
     MOV	    W0,		T1CON	; T1CON = 0x8010
-    
-    CALL    _clearLCD		; Limpiar el LCD
-    MOV	    #_MENSAJE_LA, W0
-    CALL    _imprimeLCD
-    
     POP	    W0    
     RETURN
 
 _NOTA_SI:
     PUSH    W0
-    
     CLR	    TMR1		; TMR1 = 0
     MOV	    #1866,	W0	; 
     MOV	    W0,		PR1	; PR1 = 1866
     MOV	    #0x8000,	W0	
     MOV	    W0,		T1CON	; T1CON = 0x8000
-    
-    CALL    _clearLCD		; Limpiar el LCD
-    MOV	    #_MENSAJE_SI, W0
-    CALL    _imprimeLCD		
-    
     POP	    W0
     RETURN    
-    
-_iniInterrupciones:
-    BCLR IFS0,	    #INT1IF	; Interrupt Flag   = 0
-    BSET IEC0,	    #INT1IE	; Interrupt Enable = 1
-    return
     

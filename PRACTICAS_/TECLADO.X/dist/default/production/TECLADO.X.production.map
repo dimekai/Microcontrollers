@@ -81,21 +81,21 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100                0xce           0x135  (309)
 .const                       0x1ce                0x3a            0x57  (87)
-.text                        0x208               0x29c           0x3ea  (1002)
-.dinit                       0x4a4                0x24            0x36  (54)
-.prog                        0x4c8                 0x2             0x3  (3)
+.text                        0x208               0x28a           0x3cf  (975)
+.dinit                       0x492                0x24            0x36  (54)
+.prog                        0x4b6                 0x2             0x3  (3)
 
-                 Total "program" memory used (bytes):          0x5af  (1455) 2%
+                 Total "program" memory used (bytes):          0x594  (1428) 2%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x800]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-_04CFBC605cb22763            0x800                   0            0x80  (128)
+_04D0AC605cb555b8            0x800                   0            0x80  (128)
 .ndata                       0x880                   0             0xe  (14)
 .nbss                        0x88e                   0             0x2  (2)
-_04CFBD805cb22763            0xf80                   0            0x80  (128)
+_04D0AD805cb555b8            0xf80                   0            0x80  (128)
 
                  Total "data" memory used (bytes):          0x110  (272) 13%
 
@@ -144,51 +144,55 @@ External Symbols in Program Memory (by address):
                   0x000152                  __data_init
                   0x0001c8                  __DefaultInterrupt
                   0x000208                  _comandoLCD
-                  0x000222                  _datoLCD
-                  0x00023c                  _busyFlagLCD
-                  0x00026c                  _iniLCD8bits
-                  0x0002c0                  _clearLCD
-                  0x0002dc                  _T1Interrupt
-                  0x0002e4                  _imprimeLCD
-                  0x0002fe                  _NOTA_DO
-                  0x000318                  _NOTA_RE
-                  0x000332                  _NOTA_MI
-                  0x00034c                  _NOTA_FA
-                  0x000366                  _NOTA_SOL
-                  0x000380                  _NOTA_LA
-                  0x00039a                  _NOTA_SI
-                  0x0003b4                  _iniInterrupciones
-                  0x0003ba                  _main
-                  0x000472                  _iniPerifericos
-                  0x0004c8                  _ps_coeff
+                  0x00021e                  _datoLCD
+                  0x000234                  _busyFlagLCD
+                  0x00025c                  _iniLCD8bits
+                  0x0002b0                  _clearLCD
+                  0x0002bc                  _RETARDO15ms
+                  0x0002ca                  _RETARDO_1S
+                  0x0002e0                  _imprimeLCD
+                  0x0002fc                  __T1Interrupt
+                  0x000304                  _NOTA_DO
+                  0x000314                  _NOTA_RE
+                  0x000324                  _NOTA_MI
+                  0x000334                  _NOTA_FA
+                  0x000344                  _NOTA_SOL
+                  0x000354                  _NOTA_LA
+                  0x000364                  _NOTA_SI
+                  0x000374                  _main
+                  0x000456                  _iniInterrupciones
+                  0x000460                  _iniPerifericos
+                  0x0004b6                  _ps_coeff
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x0002fe                  _NOTA_DO
-                  0x00034c                  _NOTA_FA
-                  0x000380                  _NOTA_LA
-                  0x000332                  _NOTA_MI
-                  0x000318                  _NOTA_RE
-                  0x00039a                  _NOTA_SI
-                  0x000366                  _NOTA_SOL
-                  0x0002dc                  _T1Interrupt
+                  0x000304                  _NOTA_DO
+                  0x000334                  _NOTA_FA
+                  0x000354                  _NOTA_LA
+                  0x000324                  _NOTA_MI
+                  0x000314                  _NOTA_RE
+                  0x000364                  _NOTA_SI
+                  0x000344                  _NOTA_SOL
+                  0x0002bc                  _RETARDO15ms
+                  0x0002ca                  _RETARDO_1S
                   0x0001c8                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
+                  0x0002fc                  __T1Interrupt
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x00023c                  _busyFlagLCD
-                  0x0002c0                  _clearLCD
+                  0x000234                  _busyFlagLCD
+                  0x0002b0                  _clearLCD
                   0x000208                  _comandoLCD
-                  0x000222                  _datoLCD
-                  0x0002e4                  _imprimeLCD
-                  0x0003b4                  _iniInterrupciones
-                  0x00026c                  _iniLCD8bits
-                  0x000472                  _iniPerifericos
-                  0x0003ba                  _main
-                  0x0004c8                  _ps_coeff
+                  0x00021e                  _datoLCD
+                  0x0002e0                  _imprimeLCD
+                  0x000456                  _iniInterrupciones
+                  0x00025c                  _iniLCD8bits
+                  0x000460                  _iniPerifericos
+                  0x000374                  _main
+                  0x0004b6                  _ps_coeff
 
 Memory Configuration
 
@@ -301,7 +305,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGS0m 
+ __FGS.sec        0xf8000a          0x2 /CW/_FGS8ÇŒ
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -316,29 +320,29 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000        0x728
+.debug_info       0x000000        0xa8d
  *(.debug_info)
  .debug_info      0x000000         0x99 build/default/production/LCD.o
- .debug_info      0x000099        0x68f build/default/production/principal.o
+ .debug_info      0x000099        0x9f4 build/default/production/principal.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x12d
+.debug_abbrev     0x000000        0x14f
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x14 build/default/production/LCD.o
- .debug_abbrev    0x000014        0x119 build/default/production/principal.o
+ .debug_abbrev    0x000014        0x13b build/default/production/principal.o
 
-.debug_line       0x000000        0x1b9
+.debug_line       0x000000        0x1b6
  *(.debug_line)
- .debug_line      0x000000         0xe8 build/default/production/LCD.o
- .debug_line      0x0000e8         0xd1 build/default/production/principal.o
+ .debug_line      0x000000         0xd3 build/default/production/LCD.o
+ .debug_line      0x0000d3         0xe3 build/default/production/principal.o
 
-.debug_frame      0x000000         0x4c
+.debug_frame      0x000000         0x68
  *(.debug_frame)
- .debug_frame     0x000000         0x4c build/default/production/principal.o
+ .debug_frame     0x000000         0x68 build/default/production/principal.o
 
-.debug_str        0x000000         0x1e
+.debug_str        0x000000         0x7e
  *(.debug_str)
- .debug_str       0x000000         0x1e build/default/production/principal.o
+ .debug_str       0x000000         0x7e build/default/production/principal.o
 
 .debug_loc
  *(.debug_loc)
@@ -347,10 +351,10 @@ userdata
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000         0xc6
+                  0x000000         0xdc
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0xc6 build/default/production/principal.o
+                  0x000000         0xdc build/default/production/principal.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1060,33 +1064,33 @@ LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/TECLADO.X.production.elf elf32-pic30)
-LOAD /CW/_FGS0m 
+LOAD /CW/_FGS8ÇŒ
 LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000030         0x7c
+                  0x000030         0xb6
  .debug_pubtypes
-                  0x000030         0x7c build/default/production/principal.o
+                  0x000030         0xb6 build/default/production/principal.o
 
 __c30_signature
-                  0x0000ac         0x12
+                  0x0000e6         0x12
  __c30_signature
-                  0x0000ac          0x6 build/default/production/principal.o
+                  0x0000e6          0x6 build/default/production/principal.o
  __c30_signature
-                  0x0000b2          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x0000ec          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x0000b8          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x0000f2          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
 
-_04CFBC605cb22763
+_04D0AC605cb555b8
                     0x0800         0x80
- _04CFBC605cb22763
+ _04D0AC605cb555b8
                     0x0800         0x80 build/default/production/principal.o
                     0x0800                  _x_input
 
-_04CFBD805cb22763
+_04D0AD805cb555b8
                     0x0f80         0x80
- _04CFBD805cb22763
+ _04D0AD805cb555b8
                     0x0f80         0x80 build/default/production/principal.o
                     0x0f80                  _y_input
 
@@ -1104,6 +1108,11 @@ _04CFBD805cb22763
  .nbss              0x088e          0x2 build/default/production/principal.o
                     0x088e                  _var1
 
+.ivt._T1Interrupt
+                  0x00001a          0x2
+ .ivt._T1Interrupt
+                  0x00001a          0x2 build/default/production/LCD.o
+
 .config_MCLRE     0xf80004          0x2
  .config_MCLRE    0xf80004          0x2 build/default/production/principal.o
 
@@ -1118,30 +1127,32 @@ _04CFBD805cb22763
 .const              0x81ce         0x3a load address 0x0001ce  
  .const             0x81ce         0x3a build/default/production/principal.o
 
-.text             0x000208        0x29c
- .text            0x000208        0x1b2 build/default/production/LCD.o
+.text             0x000208        0x28a
+ .text            0x000208        0x16c build/default/production/LCD.o
                   0x000208                  _comandoLCD
-                  0x000222                  _datoLCD
-                  0x00023c                  _busyFlagLCD
-                  0x00026c                  _iniLCD8bits
-                  0x0002c0                  _clearLCD
-                  0x0002dc                  _T1Interrupt
-                  0x0002e4                  _imprimeLCD
-                  0x0002fe                  _NOTA_DO
-                  0x000318                  _NOTA_RE
-                  0x000332                  _NOTA_MI
-                  0x00034c                  _NOTA_FA
-                  0x000366                  _NOTA_SOL
-                  0x000380                  _NOTA_LA
-                  0x00039a                  _NOTA_SI
-                  0x0003b4                  _iniInterrupciones
- .text            0x0003ba         0xea build/default/production/principal.o
-                  0x0003ba                  _main
-                  0x000472                  _iniPerifericos
+                  0x00021e                  _datoLCD
+                  0x000234                  _busyFlagLCD
+                  0x00025c                  _iniLCD8bits
+                  0x0002b0                  _clearLCD
+                  0x0002bc                  _RETARDO15ms
+                  0x0002ca                  _RETARDO_1S
+                  0x0002e0                  _imprimeLCD
+                  0x0002fc                  __T1Interrupt
+                  0x000304                  _NOTA_DO
+                  0x000314                  _NOTA_RE
+                  0x000324                  _NOTA_MI
+                  0x000334                  _NOTA_FA
+                  0x000344                  _NOTA_SOL
+                  0x000354                  _NOTA_LA
+                  0x000364                  _NOTA_SI
+ .text            0x000374        0x11e build/default/production/principal.o
+                  0x000374                  _main
+                  0x000456                  _iniInterrupciones
+                  0x000460                  _iniPerifericos
 
-.dinit            0x0004a4         0x24
- .dinit           0x0004a4         0x24 data_init
+.dinit            0x000492         0x24
+ .dinit           0x000492         0x24 data_init
 
-.prog             0x0004c8          0x2
- .prog            0x0004c8          0x2 build/default/production/principal.o
-                  0x0004c8                  _ps_coeff
+.prog             0x0004b6          0x2
+ .prog            0x0004b6          0x2 build/default/production/principal.o
+                  0x0004b6                  _ps_coeff
