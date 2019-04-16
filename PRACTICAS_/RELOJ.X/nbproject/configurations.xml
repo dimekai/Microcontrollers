@@ -4,20 +4,20 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>LCD.s</itemPath>
-      <itemPath>clk.s</itemPath>
-      <itemPath>p30F4013.gld</itemPath>
       <itemPath>p30F4013.h</itemPath>
       <itemPath>p30F4013.inc</itemPath>
-      <itemPath>principal.c</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
+      <itemPath>p30F4013.gld</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>clk.s</itemPath>
+      <itemPath>LCD.s</itemPath>
+      <itemPath>principal.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

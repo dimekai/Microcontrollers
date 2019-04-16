@@ -41,7 +41,7 @@ _comandoLCD:
 _datoLCD:
 ;    CLR	    TRISF
     CLR	    TRISD
-    
+    NOP
     BSET    PORTD, #RS_LCD	;   RS = 1
     NOP
     BCLR    PORTD, #RW_LCD	;   RW = 0

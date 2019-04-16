@@ -133,11 +133,11 @@ void clk_start(void);
 
 // variables compartidas con el ensamblador
 void init_counters() {
-	dhr  = 0;
-	uhr  = 0;
-	dmin = 0;
-	umin = 0;
-	dseg = 0;
+	dhr  = 2;
+	uhr  = 3;
+	dmin = 5;
+	umin = 8;
+	dseg = 3;
 	useg = 0; 
 }
 

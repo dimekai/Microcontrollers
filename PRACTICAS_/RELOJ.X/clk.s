@@ -27,8 +27,8 @@
     
 _iniInterrupciones:
     ; __T1Interrupt config
-    BCLR IFS0,      #INT1IF ; turn the flag off
-    BSET IEC0,      #INT1IE ; enable the interrupt for __T1Interrupt
+    BCLR IFS0,      #T1IF ; turn the flag off, interrupcion del timer T1 por cristal
+    BSET IEC0,      #T1IE ; enable the interrupt for __T1Interrupt
     return
 
 ; Write a sequence of bits over w3 in order to be capable of using a real time clock provided by a crystal
@@ -93,7 +93,7 @@ __T1Interrupt:
     CLR.B	_dhr		    
 
 FIN:
-    BCLR    IFS0,   #INT1IF	; Turn down the appropiate flag for the executed interruption, very important
+    BCLR    IFS0,   #T1IF	; Turn down the appropiate flag for the executed interruption, very important
     
     POP	    W0
     RETFIE
