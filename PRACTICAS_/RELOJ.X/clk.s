@@ -40,11 +40,11 @@ _clk_remove_lock:
 	mov.b 	w1, 		[w3]		; IMPORTANT to write to write over mmap [w3]
 	mov.b 	w2, 		[w3]
 	bset 	OSCCONL, 	#LPOSCEN 	; enable 32kHz external xtal 
+	pop.s
 	return
 
 _clk_start:
 	BSET	T1CON, 	#TON			; Activate Timer 1
-	pop.s
 	return
 
 ; |================ ISR_T1 ================|
