@@ -13,17 +13,9 @@
     .GLOBAL _busyFlagLCD
     .GLOBAL _iniLCD8bits
     .GLOBAL _imprimeLCD
-    .GLOBAL _clearLCD
-    
+       
     .GLOBAL __T1Interrupt
-        
-    ; |------------ EQUIVALENCIAS ------------|
-    ; Este es el equivalente a definicion de macros (#define) en C
-    .EQU    RS_LCD,	    RD3 ; RS
-    .EQU    RW_LCD,	    RD9 ; RW
-    .EQU    ENABLE_LCD,	    RD2 ; ENABLE
-    .EQU    BF_LCD,	    RB7 ; BF: BUSY_FLAG
-    
+           
     ; |=============== NOTAS MUSICALES ===============|
     .GLOBAL _NOTA_DO	    ; preescalar = 64
     .GLOBAL _NOTA_RE	    ; preescalar = 64
@@ -32,6 +24,15 @@
     .GLOBAL _NOTA_SOL	    ; preescalar = 1
     .GLOBAL _NOTA_LA	    ; preescalar = 8
     .GLOBAL _NOTA_SI	    ; preescalar = 1
+    
+    .GLOBAL _clearLCD
+    
+    ; |------------ EQUIVALENCIAS ------------|
+    ; Este es el equivalente a definicion de macros (#define) en C
+    .EQU    RS_LCD,	    RD3 ; RS
+    .EQU    RW_LCD,	    RD9 ; RW
+    .EQU    ENABLE_LCD,	    RD2 ; ENABLE
+    .EQU    BF_LCD,	    RB7 ; BF: BUSY_FLAG
     
 ; |------------------ FUNCION COMANDO_LCD ------------------|
 _comandoLCD:
@@ -78,17 +79,12 @@ _busyFlagLCD:
 PROCESA:
     BTSC    PORTB,  #BF_LCD	; VERIFICA SI BF = 0, SI NO, SE EJECUTA EL GOTO
     GOTO    PROCESA
-    
     BCLR    PORTD,  #ENABLE_LCD	; ENABLE = 0
     NOP 
     BCLR    PORTD,  #RW_LCD	; RW = 0
     NOP
-    
-    SETM	TRISB		; TRISB = 0xFFFF
-    NOP
     CLR.B	TRISB		; TRISB = 0xFF00 ; APAGA LA PARTE BAJA
     NOP
-    
     RETURN
     
 ; |------------------- FUNCION INICIALIZAR LCD DE 8 BITS -------------------|
@@ -105,7 +101,6 @@ PROCESA:
 ; | 0  | 0  | 0  | 0  | 1  | D=1 | C=1 | B=1 | DISPLAY ON/OFF |  0X0F  |
     
 _iniLCD8bits:
-    CLR	    W0
     ; ------- TABLA DE INICIALIZACION -------------
     CALL    _RETARDO15ms	; -- RETARDO 01
     MOV	    #0X30,  W0
@@ -142,14 +137,6 @@ _iniLCD8bits:
     
     RETURN
 
-; |============= CLEAR LCD =============|
-; @brief:   Funcion que limpia el LCD.
-_clearLCD:
-    CALL    _busyFlagLCD
-    MOV	    #0X01,  W0	    ;	CODIGO: 0X01 - CLEAR DISPLAY
-    CALL    _comandoLCD
-    RETURN
-    
 ; |=============== RETARDOS ============|
 ; @brief: Genera un retardo de 15ms
 _RETARDO15ms:
@@ -162,25 +149,7 @@ CICLO_15ms:
     
     POP	    W0
     RETURN
-    
-;@brief: Genera un retardo de 1 seg
-_RETARDO_1S:
-    PUSH    W0  ; PUSH.D W0
-    PUSH    W1
-    MOV	    #5,	W1
-CICLO2_1S:
-    CLR	    W0	
-CICLO1_1S:	
-    DEC	    W0,	W0
-    BRA	    NZ,	CICLO1_1S	
-    
-    DEC	    W1,	W1
-    BRA	    NZ,	CICLO2_1S
-	
-    POP	    W1  ; POP.D W0
-    POP	    W0
-    RETURN
-       
+
 ; |================== IMPRIMI EN LCD ==================|
 ; |@brief: Imprime en el LCD una cadena de caracteres
 ; |@param: Cadena de caracteres
@@ -199,6 +168,24 @@ CICLO:
     GOTO    CICLO
 FIN:
     POP	    W1
+    RETURN    
+
+;@brief: Genera un retardo de 1 seg
+_RETARDO_1S:
+    PUSH    W0  ; PUSH.D W0
+    PUSH    W1
+    MOV	    #5,	W1
+CICLO2_1S:
+    CLR	    W0	
+CICLO1_1S:	
+    DEC	    W0,	W0
+    BRA	    NZ,	CICLO1_1S	
+    
+    DEC	    W1,	W1
+    BRA	    NZ,	CICLO2_1S
+	
+    POP	    W1  ; POP.D W0
+    POP	    W0
     RETURN
     
 __T1Interrupt:
@@ -278,3 +265,10 @@ _NOTA_SI:
     POP	    W0
     RETURN    
     
+; |============= CLEAR LCD =============|
+; @brief:   Funcion que limpia el LCD.
+_clearLCD:
+    CALL    _busyFlagLCD
+    MOV	    #0X01,  W0	    ;	CODIGO: 0X01 - CLEAR DISPLAY
+    CALL    _comandoLCD
+    RETURN
