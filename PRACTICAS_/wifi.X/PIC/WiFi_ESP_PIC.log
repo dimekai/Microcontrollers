@@ -1,0 +1,14 @@
+0	1	mikroCPIC1618.exe -MSF -DBG -pP18F45K22 -DL -O11111104 -fo32 -N"D:\Stefan Popovic\Projekti\Click_WiFi_3_ESP8266\example\PIC\WiFi_ESP_PIC.mcppi" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for PIC\uses\P18\" -SP"D:\Stefan Popovic\Projekti\Click_WiFi_3_ESP8266\example\PIC\" "WiFi_ESP_PIC.c" "WiFi_Routines.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_Conversions.mcl" "__Lib_Button.mcl" "__Lib_UART_c67d67.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl"	 
+hint: 0	1139	Available RAM: 1515 [bytes], Available ROM: 32768 [bytes]	 
+diagnostics: 0	122	Compilation Started	stdbool.h
+warning: 217	1509	Generated baud rate is 115942 bps (error = 0.64 percent)	WiFi_ESP_PIC.c
+diagnostics: 589	123	Compiled Successfully	WiFi_ESP_PIC.c
+diagnostics: 0	122	Compilation Started	WiFi_Routines.c
+diagnostics: 105	123	Compiled Successfully	WiFi_Routines.c
+diagnostics: 0	127	All files Compiled in 125 ms	 
+hint: 0	1144	Used RAM (bytes): 1126 (74%)  Free RAM (bytes): 389 (26%)	Used RAM (bytes): 1126 (74%)  Free RAM (bytes): 389 (26%)
+hint: 0	1144	Used ROM (bytes): 6292 (19%)  Free ROM (bytes): 26476 (81%)	Used ROM (bytes): 6292 (19%)  Free ROM (bytes): 26476 (81%)
+diagnostics: 0	125	Project Linked Successfully	WiFi_ESP_PIC.mcppi
+diagnostics: 0	128	Linked in 47 ms	 
+diagnostics: 0	129	Project 'WiFi_ESP_PIC.mcppi' completed: 203 ms	 
+diagnostics: 0	103	Finished successfully: 13 Mar 2017, 15:53:57	WiFi_ESP_PIC.mcppi
