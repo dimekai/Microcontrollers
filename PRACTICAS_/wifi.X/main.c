@@ -5,13 +5,13 @@
  * BROWN OUT RESET, POWER ON RESET Y CODIGO DE PROTECCION
  * BLOQUE 2. EQUIVALENCIAS Y DECLARACIONES GLOBALES
  * BLOQUE 3. ESPACIOS DE MEMORIA: PROGRAMA, DATOS X, DATOS Y, DATOS NEAR
- * BLOQUE 4. CÃ“DIGO DE APLICACIÃ“N
+ * BLOQUE 4. CÓDIGO DE APLICACIÓN
  * @device: DSPIC30F4013
  * @oscillator: FRC, 7.3728MHz
  */
 #include "p30F4013.h"
 /********************************************************************************/
-/* 						BITS DE CONFIGURACIÃ“N									*/	
+/* 						BITS DE CONFIGURACIÓN									*/	
 /********************************************************************************/
 /* SE DESACTIVA EL CLOCK SWITCHING Y EL FAIL-SAFE CLOCK MONITOR (FSCM) Y SE 	*/
 /* ACTIVA EL OSCILADOR INTERNO (FAST RC) PARA TRABAJAR							*/
@@ -30,11 +30,11 @@
 /* SE ACTIVA EL POWER ON RESET (POR), BROWN OUT RESET (BOR), 					*/	
 /* POWER UP TIMER (PWRT) Y EL MASTER CLEAR (MCLR)								*/
 /* POR: AL MOMENTO DE ALIMENTAR EL DSPIC OCURRE UN RESET CUANDO EL VOLTAJE DE 	*/	
-/* ALIMENTACIÃ“N ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V			*/
-/* BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÃ“N DECAE		*/
+/* ALIMENTACIÓN ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V			*/
+/* BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÓN DECAE		*/
 /* POR DEBAJO DE UN CIERTO UMBRAL ESTABLECIDO (2.7V) 							*/
 /* PWRT: MANTIENE AL DSPIC EN RESET POR UN CIERTO TIEMPO ESTABLECIDO, ESTO 		*/
-/* AYUDA A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÃ“N SE HA ESTABILIZADO (16ms) 	*/
+/* AYUDA A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÓN SE HA ESTABILIZADO (16ms) 	*/
 /********************************************************************************/
 //_FBORPOR( PBOR_ON & BORV27 & PWRT_16 & MCLR_EN ); 
 // FBORPOR
@@ -43,7 +43,7 @@
 #pragma config BOREN  = PBOR_ON          // PBOR Enable (Enabled)
 #pragma config MCLRE  = MCLR_EN          // Master Clear Enable (Enabled)
 /********************************************************************************/
-/*SE DESACTIVA EL CÃ“DIGO DE PROTECCIÃ“N											*/
+/*SE DESACTIVA EL CÓDIGO DE PROTECCIÓN											*/
 /********************************************************************************/
 //_FGS(CODE_PROT_OFF);      
 // FGS
@@ -51,7 +51,7 @@
 #pragma config GCP = CODE_PROT_OFF      // General Segment Code Protection (Disabled)
 
 /********************************************************************************/
-/* SECCIÃ“N DE DECLARACIÃ“N DE CONSTANTES CON DEFINE								*/
+/* SECCIÓN DE DECLARACIÓN DE CONSTANTES CON DEFINE								*/
 /********************************************************************************/
 #define EVER 1
 #define MUESTRAS 64
@@ -85,11 +85,11 @@ void retardo15ms();
 void retardo1s();
 
 // LCD functions
-//void comandoLCD(char);
-//void busyFlagLCD();
-//void iniLCD();
-//void charLCD(char);
-//void stringLCD(char *);
+void comandoLCD(char);
+void busyFlagLCD();
+void iniLCD();
+void charLCD(char);
+void stringLCD(char *);
 
 
 void sleep(char t) {
@@ -97,11 +97,11 @@ void sleep(char t) {
 }
 
 void iniPerifericos() {
-    // LCD, opcional
-    // PORTB = 0; Nop();
-    // LATB = 0; Nop();
-    // TRISB = 0; Nop();
-    // ADPCFG = 0xFFFF; Nop();
+    // LCD, para depuracion
+    PORTB = 0; Nop();
+    LATB = 0; Nop();
+    TRISB = 0; Nop();
+    ADPCFG = 0xFFFF; Nop();
     
     PORTA = 0; Nop();
     LATA = 0; Nop();
@@ -163,9 +163,9 @@ void iniWifi() {
 // Envia comando AT mediante el UART1
 void cmdWifi(const char * s) {
     while (*s) {
-        //IFS0bits.U1TXIF = 0;
+        IFS0bits.U1TXIF = 0;
         U1TXREG = *s;
-        //while (IFS0bits.U1TXIF == 0) { }
+        while (IFS0bits.U1TXIF == 0);
         ++s;
     }
 }
@@ -175,7 +175,7 @@ void cmdWifi(const char * s) {
 const char CMD_RST[]      = "AT+RST\r\n"; // Manda reset al modulo wi-fi
 const char CMD_CWMODE[]   = "AT+CWMODE=1\r\n"; // Establece el modo wifi, 1: Modo SoftAp
 const char CMD_CIPMUX[]   = "AT+CIPMUX=0\r\n"; // Habilita multiples conexiones, 0: single connection
-const char CMD_CWJAP[]    = "AT+CWJAP=\"INFINITUM3F97_2.4\",\"t81rae98na\"\r\n"; // Join access point
+const char CMD_CWJAP[]    = "AT+CWJAP=\"INFINITUM3F97_2.4\",\"passwordChida\"\r\n"; // Join access point
 const char CMD_CIFSR[]    = "AT+CIFSR\r\n"; // Obtiene una direccion IP local
 const char CMD_CIPSTART[] = "AT+CIPSTART=\"TCP\",\"192.168.1.73\",50007\r\n"; // Se conecta al servidor como cliente
 const char CMD_CIPMODE[]  = "AT+CIPMODE=1\r\n";
@@ -183,6 +183,9 @@ const char CMD_CIPSEND[]  = "AT+CIPSEND=4\r\n"; // Establece la cantidad de byte
 const char CMD_STOPPT[]   = "+++";
 const char CMD_CIPCLOSE[] = "AT+CIPCLOSE\r\n";
 
+/**TODO
+ Para depuracion, mostrar las repuestas dadas por el ESP 8266 desplegandolas en el LCD comentando las siguientes del posible comando con error
+ */
 void configWifi() {
     cmdWifi(CMD_RST); retardo1s(); // Reinicie modulo wifi
 	cmdWifi(CMD_CWMODE); retardo1s(); // Estableciendo
@@ -203,7 +206,7 @@ void cerrarConexion() {
 
 int main() {
     iniPerifericos();
-	// iniLCD();
+    iniLCD();
     iniUARTs();
     iniInterrupciones();
     habilitarUARTs();
@@ -229,7 +232,8 @@ int main() {
 //    char c = U1RXREG;
 //    IFS1bits.U2TXIF = 0;
 //    U2TXREG = c;
-//    while (IFS1bits.U2TXIF != 1) { }
+//    charLCD(c); 
+//    while (IFS1bits.U2TXIF != 1) { } // Aqui va 1 ?
 //    IFS0bits.U1RXIF = 0; //Desactivar interrupcion
 //}
 

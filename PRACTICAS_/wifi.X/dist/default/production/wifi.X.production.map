@@ -82,22 +82,22 @@ xc16-ld 1.36 (B)
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100                0xce           0x135  (309)
-.const                       0x1ce                0xb6           0x111  (273)
-.text                        0x284               0x1f8           0x2f4  (756)
-.dinit                       0x47c                0x14            0x1e  (30)
-.text                        0x490                 0xc            0x12  (18)
-.prog                        0x49c                 0x2             0x3  (3)
+.const                       0x1ce                0xb8           0x114  (276)
+.text                        0x286               0x21a           0x327  (807)
+.dinit                       0x4a0                0x14            0x1e  (30)
+.text                        0x4b4                 0xc            0x12  (18)
+.prog                        0x4c0                 0x2             0x3  (3)
 
-                 Total "program" memory used (bytes):          0x56d  (1389) 2%
+                 Total "program" memory used (bytes):          0x5a3  (1443) 2%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x800]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-_0xf7764f185ceb3ef8          0x800                   0            0x80  (128)
+_0xf7732f185cec2c7d          0x800                   0            0x80  (128)
 .nbss                        0x880                   0             0x2  (2)
-_0xf7764f745ceb3ef8          0xf80                   0            0x80  (128)
+_0xf7732f745cec2c7d          0xf80                   0            0x80  (128)
 
                  Total "data" memory used (bytes):          0x102  (258) 12%
 
@@ -135,70 +135,70 @@ External Symbols in Program Memory (by address):
                   0x0001d7                  _CMD_CWMODE
                   0x0001e5                  _CMD_CIPMUX
                   0x0001f3                  _CMD_CWJAP
-                  0x00021f                  _CMD_CIFSR
-                  0x00022a                  _CMD_CIPSTART
-                  0x000253                  _CMD_CIPMODE
-                  0x000262                  _CMD_CIPSEND
-                  0x000271                  _CMD_STOPPT
-                  0x000275                  _CMD_CIPCLOSE
-                  0x000284                  _sleep
-                  0x00029e                  _iniPerifericos
-                  0x0002d4                  _iniUARTs
-                  0x0002ea                  _iniInterrupciones
-                  0x0002f8                  _habilitarUARTs
-                  0x000306                  _iniWifi
-                  0x00031c                  _cmdWifi
-                  0x000338                  _configWifi
-                  0x00036e                  _cerrarConexion
-                  0x000384                  _main
-                  0x0003aa                  _busyFlagLCD
-                  0x0003ce                  _comandoLCD
-                  0x0003e8                  _iniLCD
-                  0x000426                  _charLCD
-                  0x000440                  _stringLCD
-                  0x000458                  _retardo1s
-                  0x00046e                  _retardo15ms
-                  0x000490                  __U2RXInterrupt
-                  0x00049c                  _ps_coeff
+                  0x000222                  _CMD_CIFSR
+                  0x00022d                  _CMD_CIPSTART
+                  0x000256                  _CMD_CIPMODE
+                  0x000265                  _CMD_CIPSEND
+                  0x000274                  _CMD_STOPPT
+                  0x000278                  _CMD_CIPCLOSE
+                  0x000286                  _sleep
+                  0x0002a0                  _iniPerifericos
+                  0x0002e8                  _iniUARTs
+                  0x0002fe                  _iniInterrupciones
+                  0x00030c                  _habilitarUARTs
+                  0x00031a                  _iniWifi
+                  0x000330                  _cmdWifi
+                  0x00035a                  _configWifi
+                  0x000390                  _cerrarConexion
+                  0x0003a6                  _main
+                  0x0003ce                  _busyFlagLCD
+                  0x0003f2                  _comandoLCD
+                  0x00040c                  _iniLCD
+                  0x00044a                  _charLCD
+                  0x000464                  _stringLCD
+                  0x00047c                  _retardo1s
+                  0x000492                  _retardo15ms
+                  0x0004b4                  __U2RXInterrupt
+                  0x0004c0                  _ps_coeff
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x00021f                  _CMD_CIFSR
-                  0x000275                  _CMD_CIPCLOSE
-                  0x000253                  _CMD_CIPMODE
+                  0x000222                  _CMD_CIFSR
+                  0x000278                  _CMD_CIPCLOSE
+                  0x000256                  _CMD_CIPMODE
                   0x0001e5                  _CMD_CIPMUX
-                  0x000262                  _CMD_CIPSEND
-                  0x00022a                  _CMD_CIPSTART
+                  0x000265                  _CMD_CIPSEND
+                  0x00022d                  _CMD_CIPSTART
                   0x0001f3                  _CMD_CWJAP
                   0x0001d7                  _CMD_CWMODE
                   0x0001ce                  _CMD_RST
-                  0x000271                  _CMD_STOPPT
+                  0x000274                  _CMD_STOPPT
                   0x0001c8                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
-                  0x000490                  __U2RXInterrupt
+                  0x0004b4                  __U2RXInterrupt
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x0003aa                  _busyFlagLCD
-                  0x00036e                  _cerrarConexion
-                  0x000426                  _charLCD
-                  0x00031c                  _cmdWifi
-                  0x0003ce                  _comandoLCD
-                  0x000338                  _configWifi
-                  0x0002f8                  _habilitarUARTs
-                  0x0002ea                  _iniInterrupciones
-                  0x0003e8                  _iniLCD
-                  0x00029e                  _iniPerifericos
-                  0x0002d4                  _iniUARTs
-                  0x000306                  _iniWifi
-                  0x000384                  _main
-                  0x00049c                  _ps_coeff
-                  0x00046e                  _retardo15ms
-                  0x000458                  _retardo1s
-                  0x000284                  _sleep
-                  0x000440                  _stringLCD
+                  0x0003ce                  _busyFlagLCD
+                  0x000390                  _cerrarConexion
+                  0x00044a                  _charLCD
+                  0x000330                  _cmdWifi
+                  0x0003f2                  _comandoLCD
+                  0x00035a                  _configWifi
+                  0x00030c                  _habilitarUARTs
+                  0x0002fe                  _iniInterrupciones
+                  0x00040c                  _iniLCD
+                  0x0002a0                  _iniPerifericos
+                  0x0002e8                  _iniUARTs
+                  0x00031a                  _iniWifi
+                  0x0003a6                  _main
+                  0x0004c0                  _ps_coeff
+                  0x000492                  _retardo15ms
+                  0x00047c                  _retardo1s
+                  0x000286                  _sleep
+                  0x000464                  _stringLCD
 
 Memory Configuration
 
@@ -313,7 +313,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGS0ØN	dØN	__FGS.sec
+ __FGS.sec        0xf8000a          0x2 /CW/_FGSêã“	ƒã“	__FGS.sec
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -328,12 +328,12 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x1542
+.debug_info       0x000000       0x15c2
  *(.debug_info)
- .debug_info      0x000000       0x13d4 build/default/production/main.o
- .debug_info      0x0013d4         0x7e build/default/production/interrupts.o
- .debug_info      0x001452         0x79 build/default/production/delay.o
- .debug_info      0x0014cb         0x77 build/default/production/lcd.o
+ .debug_info      0x000000       0x1454 build/default/production/main.o
+ .debug_info      0x001454         0x7e build/default/production/interrupts.o
+ .debug_info      0x0014d2         0x79 build/default/production/delay.o
+ .debug_info      0x00154b         0x77 build/default/production/lcd.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x1a0
@@ -343,12 +343,12 @@ userdata
  .debug_abbrev    0x000178         0x14 build/default/production/delay.o
  .debug_abbrev    0x00018c         0x14 build/default/production/lcd.o
 
-.debug_line       0x000000        0x1d3
+.debug_line       0x000000        0x1da
  *(.debug_line)
- .debug_line      0x000000         0xdb build/default/production/main.o
- .debug_line      0x0000db         0x3b build/default/production/interrupts.o
- .debug_line      0x000116         0x45 build/default/production/delay.o
- .debug_line      0x00015b         0x78 build/default/production/lcd.o
+ .debug_line      0x000000         0xe2 build/default/production/main.o
+ .debug_line      0x0000e2         0x3b build/default/production/interrupts.o
+ .debug_line      0x00011d         0x45 build/default/production/delay.o
+ .debug_line      0x000162         0x78 build/default/production/lcd.o
 
 .debug_frame      0x000000        0x12c
  *(.debug_frame)
@@ -1082,7 +1082,7 @@ LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/libm-elf.a
 LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/wifi.X.production.elf elf32-pic30)
-LOAD /CW/_FGS0ØN	dØN	__FGS.sec
+LOAD /CW/_FGSêã“	ƒã“	__FGS.sec
 LOAD default_isr
 LOAD data_init
 
@@ -1100,15 +1100,15 @@ __c30_signature
  __c30_signature
                   0x00021a          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
 
-_0xf7764f185ceb3ef8
+_0xf7732f185cec2c7d
                     0x0800         0x80
- _0xf7764f185ceb3ef8
+ _0xf7732f185cec2c7d
                     0x0800         0x80 build/default/production/main.o
                     0x0800                  _x_input
 
-_0xf7764f745ceb3ef8
+_0xf7732f745cec2c7d
                     0x0f80         0x80
- _0xf7764f745ceb3ef8
+ _0xf7732f745cec2c7d
                     0x0f80         0x80 build/default/production/main.o
                     0x0f80                  _y_input
 
@@ -1132,48 +1132,48 @@ _0xf7764f745ceb3ef8
  .ivt._U2RXInterrupt
                   0x000044          0x2 build/default/production/interrupts.o
 
-.const              0x81ce         0xb6 load address 0x0001ce  
- .const             0x81ce         0xb6 build/default/production/main.o
+.const              0x81ce         0xb8 load address 0x0001ce  
+ .const             0x81ce         0xb8 build/default/production/main.o
                     0x81ce                  _CMD_RST
                     0x81d7                  _CMD_CWMODE
                     0x81e5                  _CMD_CIPMUX
                     0x81f3                  _CMD_CWJAP
-                    0x821f                  _CMD_CIFSR
-                    0x822a                  _CMD_CIPSTART
-                    0x8253                  _CMD_CIPMODE
-                    0x8262                  _CMD_CIPSEND
-                    0x8271                  _CMD_STOPPT
-                    0x8275                  _CMD_CIPCLOSE
+                    0x8222                  _CMD_CIFSR
+                    0x822d                  _CMD_CIPSTART
+                    0x8256                  _CMD_CIPMODE
+                    0x8265                  _CMD_CIPSEND
+                    0x8274                  _CMD_STOPPT
+                    0x8278                  _CMD_CIPCLOSE
 
-.text             0x000284        0x1f8
- .text            0x000284        0x126 build/default/production/main.o
-                  0x000284                  _sleep
-                  0x00029e                  _iniPerifericos
-                  0x0002d4                  _iniUARTs
-                  0x0002ea                  _iniInterrupciones
-                  0x0002f8                  _habilitarUARTs
-                  0x000306                  _iniWifi
-                  0x00031c                  _cmdWifi
-                  0x000338                  _configWifi
-                  0x00036e                  _cerrarConexion
-                  0x000384                  _main
- .text            0x0003aa         0xae build/default/production/lcd.o
-                  0x0003aa                  _busyFlagLCD
-                  0x0003ce                  _comandoLCD
-                  0x0003e8                  _iniLCD
-                  0x000426                  _charLCD
-                  0x000440                  _stringLCD
- .text            0x000458         0x24 build/default/production/delay.o
-                  0x000458                  _retardo1s
-                  0x00046e                  _retardo15ms
+.text             0x000286        0x21a
+ .text            0x000286        0x148 build/default/production/main.o
+                  0x000286                  _sleep
+                  0x0002a0                  _iniPerifericos
+                  0x0002e8                  _iniUARTs
+                  0x0002fe                  _iniInterrupciones
+                  0x00030c                  _habilitarUARTs
+                  0x00031a                  _iniWifi
+                  0x000330                  _cmdWifi
+                  0x00035a                  _configWifi
+                  0x000390                  _cerrarConexion
+                  0x0003a6                  _main
+ .text            0x0003ce         0xae build/default/production/lcd.o
+                  0x0003ce                  _busyFlagLCD
+                  0x0003f2                  _comandoLCD
+                  0x00040c                  _iniLCD
+                  0x00044a                  _charLCD
+                  0x000464                  _stringLCD
+ .text            0x00047c         0x24 build/default/production/delay.o
+                  0x00047c                  _retardo1s
+                  0x000492                  _retardo15ms
 
-.dinit            0x00047c         0x14
- .dinit           0x00047c         0x14 data_init
+.dinit            0x0004a0         0x14
+ .dinit           0x0004a0         0x14 data_init
 
-.text             0x000490          0xc
- .text            0x000490          0xc build/default/production/interrupts.o
-                  0x000490                  __U2RXInterrupt
+.text             0x0004b4          0xc
+ .text            0x0004b4          0xc build/default/production/interrupts.o
+                  0x0004b4                  __U2RXInterrupt
 
-.prog             0x00049c          0x2
- .prog            0x00049c          0x2 build/default/production/main.o
-                  0x00049c                  _ps_coeff
+.prog             0x0004c0          0x2
+ .prog            0x0004c0          0x2 build/default/production/main.o
+                  0x0004c0                  _ps_coeff
