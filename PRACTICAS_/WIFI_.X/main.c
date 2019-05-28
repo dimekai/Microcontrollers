@@ -4,13 +4,13 @@
  * BROWN OUT RESET, POWER ON RESET Y CODIGO DE PROTECCION
  * BLOQUE 2. EQUIVALENCIAS Y DECLARACIONES GLOBALES
  * BLOQUE 3. ESPACIOS DE MEMORIA: PROGRAMA, DATOS X, DATOS Y, DATOS NEAR
- * BLOQUE 4. CÓDIGO DE APLICACIÓN
+ * BLOQUE 4. Cï¿½DIGO DE APLICACIï¿½N
  * @device: DSPIC30F4013
  * @oscillator: FRC, 7.3728MHz
  */
 #include "p30F4013.h"
 /********************************************************************************/
-/* 						BITS DE CONFIGURACIÓN									*/	
+/* 						BITS DE CONFIGURACIï¿½N									*/	
 /********************************************************************************/
 /* SE DESACTIVA EL CLOCK SWITCHING Y EL FAIL-SAFE CLOCK MONITOR (FSCM) Y SE 	*/
 /* ACTIVA EL OSCILADOR INTERNO (FAST RC) PARA TRABAJAR							*/
@@ -29,11 +29,11 @@
 /* SE ACTIVA EL POWER ON RESET (POR), BROWN OUT RESET (BOR), 					*/	
 /* POWER UP TIMER (PWRT) Y EL MASTER CLEAR (MCLR)								*/
 /* POR: AL MOMENTO DE ALIMENTAR EL DSPIC OCURRE UN RESET CUANDO EL VOLTAJE DE 	*/	
-/* ALIMENTACIÓN ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V			*/
-/* BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÓN DECAE		*/
+/* ALIMENTACIï¿½N ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V			*/
+/* BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIï¿½N DECAE		*/
 /* POR DEBAJO DE UN CIERTO UMBRAL ESTABLECIDO (2.7V) 							*/
 /* PWRT: MANTIENE AL DSPIC EN RESET POR UN CIERTO TIEMPO ESTABLECIDO, ESTO 		*/
-/* AYUDA A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÓN SE HA ESTABILIZADO (16ms) 	*/
+/* AYUDA A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIï¿½N SE HA ESTABILIZADO (16ms) 	*/
 /********************************************************************************/
 //_FBORPOR( PBOR_ON & BORV27 & PWRT_16 & MCLR_EN ); 
 // FBORPOR
@@ -42,7 +42,7 @@
 #pragma config BOREN  = PBOR_ON          // PBOR Enable (Enabled)
 #pragma config MCLRE  = MCLR_EN          // Master Clear Enable (Enabled)
 /********************************************************************************/
-/*SE DESACTIVA EL CÓDIGO DE PROTECCIÓN											*/
+/*SE DESACTIVA EL Cï¿½DIGO DE PROTECCIï¿½N											*/
 /********************************************************************************/
 //_FGS(CODE_PROT_OFF);      
 // FGS
@@ -50,7 +50,7 @@
 #pragma config GCP = CODE_PROT_OFF      // General Segment Code Protection (Disabled)
 
 /********************************************************************************/
-/* SECCIÓN DE DECLARACIÓN DE CONSTANTES CON DEFINE								*/
+/* SECCIï¿½N DE DECLARACIï¿½N DE CONSTANTES CON DEFINE								*/
 /********************************************************************************/
 #define EVER 1
 #define MUESTRAS 64
@@ -58,7 +58,7 @@
 /********************************************************************************/
 /* DECLARACIONES GLOBALES														*/
 /********************************************************************************/
-/*DECLARACIÓN DE LA ISR DEL TIMER 1 USANDO __attribute__						*/
+/*DECLARACIï¿½N DE LA ISR DEL TIMER 1 USANDO __attribute__						*/
 /********************************************************************************/
 void __attribute__((__interrupt__)) _T1Interrupt( void );
 
@@ -89,8 +89,10 @@ void iniPerifericos( void );    // Inicializacion de perifericos
 void iniWIFI( void );           // Inicializacion del WiFi
 void configWIFI( void );        // Configuracion del WiFi
 void cerrarConexion( void );    // Cerramos la conexion para deshabilitar modo continuo
-void RETARDO_1S( void );        // Generacion de retardos de 1 segundo - Esta en retardos.s
-void comandoAT( char * msg );   // Funcion para mandar comandos AT.
+void comandoAT( char * );   // Funcion para mandar comandos AT.
+
+void retardo_1s( void );        // Generacion de retardos de 1 segundo - Esta en retardos.s
+
 
 void iniUART1( void );             // Inicializamos UART1
 void iniUART2( void );             // Inicializamos UART1
@@ -112,31 +114,31 @@ char CMD_CIPCLOSE[] = "AT+CIPCLOSE\r\n";
 
 int main (void){
     iniPerifericos();
-    // Establecemos el BAUDAJE del UART1 a 115200 
-    iniUART1();
-    // Establecemos el BAUDAJE del UART2 a 115200 
+    iniUART1(); // Establecemos el BAUDAJE del UART a 11520 
     iniUART2();
+    
     // Establecemos las interrupciones
     iniInterrupciones();
+    
     // Habilitamos el UART1
     U1MODEbits.UARTEN = 1;      // Habilitar UART1
     U1STAbits.UTXEN = 1;        // Habilitar transmision del UART1
+    
     // Habilitamos el UART2 
     U2MODEbits.UARTEN = 1;      // Habilitar UART2
     U2STAbits.UTXEN = 1;        // Habilitar transmision del UART2
-    // Inicializamos el WiFi
+    // RXEN habilitada por defecto
+    
     iniWIFI();
-    // Configuramos el WiFi
     configWIFI();
     
-    // **duda** al parecer hay que esperar antes de poder seguir enviando, lo cual lo hace comandoAT
-    //U1TXREG = 'H';
-    //U1TXREG = 'O';
-    //U1TXREG = 'L';
-    //U1TXREG = 'A';
-    comandoAT("HOLA");
+    U1TXREG = 'H';
+    U1TXREG = 'O';
+    U1TXREG = 'L';
+    U1TXREG = 'A'; // Cuando se llene el buffer con 4 caracteres se envia ?
+    //comandoAT("HOLA");
     
-    RETARDO_1S();
+    retardo_1s();
     cerrarConexion();
     
     for (;EVER;) { Nop(); }
@@ -145,7 +147,7 @@ int main (void){
 
 void delay_s(unsigned char seconds) { 
     while (seconds--) {
-        RETARDO_1S();
+        retardo_1s();
     }
 }
 
@@ -155,7 +157,7 @@ void delay_s(unsigned char seconds) {
  * @return          void
  * @description     Establece el baudaje del UART1 en 115200
  */
-void iniUART1( void ){
+void iniUART1( void ) {
     U1MODE = 0x0000;
     U1STA  = 0x8000;    // 0b 1000 0000 0000 0000
     U1BRG  = 0; 
@@ -167,7 +169,7 @@ void iniUART1( void ){
  * @return          void
  * @description     Establece el baudaje del UART2 en 115200
  */
-void iniUART2( void ){
+void iniUART2( void ) {
     U2MODE = 0x0000;
     U2STA  = 0x8000;    // 0b 1000 0000 0000 0000
     U2BRG  = 0; 
@@ -179,13 +181,14 @@ void iniUART2( void ){
  * @return          void
  * @description     Establece las interrupciones para el programa
  */
-void iniInterrupciones( void ){
-    IFS0bits.U1RXIF = 0;
-    IEC0bits.U1RXIE = 1;
+void iniInterrupciones( void ) {
+    // ESP 8266
+    IFS0bits.U1RXIF = 0; // flag 
+    IEC0bits.U1RXIE = 1; // enable
     
-    // Recepcion ** DUDA ** Checar el diagrama
-    IFS1bits.U2RXIF = 0; // Interrupt Flag
-    IEC1bits.U2RXIE = 1; // Enable reception interrupt from UART2
+    // FT232
+    //IFS1bits.U2RXIF = 0; // Interrupt Flag
+    //IEC1bits.U2RXIE = 1; // Enable reception interrupt from UART2
 }
 
 /**
@@ -193,7 +196,7 @@ void iniInterrupciones( void ){
  * @param           void
  * @return          void
  * @description     Se inicializan los perifericos que se van a 
- *                  usar durante la práctica, utilizando ambos UARTs
+ *                  usar durante la prï¿½ctica, utilizando ambos UARTs
  * 
  *          -------------------------
  *          |         FT232         |
@@ -227,8 +230,7 @@ void iniInterrupciones( void ){
  *         --------------------------
  * 
  */
-void iniPerifericos( void ){   
-    
+void iniPerifericos( void ) {
     PORTB = 0;                  Nop();
     LATB = 0;                   Nop();
     TRISB = 0;                  Nop();
@@ -251,7 +253,6 @@ void iniPerifericos( void ){
     
     TRISFbits.TRISF4 = 1;       Nop(); // Rx UART2
     TRISFbits.TRISF5 = 0;       Nop(); // Tx UART2
-
 }
 
 /**
@@ -263,53 +264,43 @@ void iniPerifericos( void ){
 void iniWIFI(void){
     PORTAbits.RA11 = 1;      // EN = 1
     Nop();
-    RETARDO_1S();
+    retardo_1s();
   
     PORTDbits.RD0 = 1;      // RST = 1  
     Nop();
-    RETARDO_1S();
+    retardo_1s();
     
     PORTDbits.RD0 = 0;      // RST = 0
     Nop();
-    RETARDO_1S();
+    retardo_1s();
 
     PORTDbits.RD0 = 1;      // RST = 1
     Nop();
-    RETARDO_1S();  
+    retardo_1s();  
 }
 
-void configWIFI(void){
-    comandoAT(CMD_RST);     // Reiniciar modulo WiFi
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();   
-    comandoAT(CMD_CWMODE);  // Estableciendo CWMODE = 1
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();
-    comandoAT(CMD_CIPMUX);  // Establecienod CIPMUX = 0
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();
-    comandoAT(CMD_CWJAP);   // Conectando al punto de acceso
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();
-    comandoAT(CMD_CIFSR);   // Obtener IP Local
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();
-    comandoAT(CMD_CIPSTART);    // Conectandose
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();
-    comandoAT(CMD_CIPMODE);     // Debemos dehabilitar el modo continuo
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();
-    comandoAT(CMD_CIPSEND);     // Configuracion de cantidad de bytes
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();
+void configWIFI(void) {
+    comandoAT(CMD_RST); // Reiniciar modulo WiFi
+    delay_s(5);
+    comandoAT(CMD_CWMODE); // Estableciendo CWMODE = 1
+    delay_s(5);
+    comandoAT(CMD_CIPMUX); // Establecienod CIPMUX = 0
+    delay_s(5);
+    comandoAT(CMD_CWJAP); // Conectando al punto de acceso
+    delay_s(5);
+    comandoAT(CMD_CIFSR); // Obtener IP Local
+    delay_s(5);
+    comandoAT(CMD_CIPSTART); // Conectandose
+    delay_s(5);
+    comandoAT(CMD_CIPMODE); // Debemos dehabilitar el modo continuo
+    delay_s(5);
+    comandoAT(CMD_CIPSEND); // Configuracion de cantidad de bytes
+    delay_s(5);
 }
 
-void cerrarConexion( void ){
+void cerrarConexion( void ) {
     comandoAT(CMD_STOPPT);     // Reiniciar modulo WiFi
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();   
+    delay_s(5);
     comandoAT(CMD_CIPCLOSE);  // Estableciendo CWMODE = 1
-    RETARDO_1S();       RETARDO_1S();
-    RETARDO_1S();       RETARDO_1S();       RETARDO_1S();
+    delay_s(5);
 }

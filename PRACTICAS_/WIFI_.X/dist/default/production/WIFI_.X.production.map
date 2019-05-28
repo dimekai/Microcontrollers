@@ -81,13 +81,12 @@ xc16-ld 1.36 (B)
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100                0xce           0x135  (309)
-.const                       0x1ce                 0x6             0x9  (9)
-.text                        0x1d4               0x164           0x216  (534)
-.dinit                       0x338                0x90            0xd8  (216)
-.text                        0x3c8                0x54            0x7e  (126)
-.prog                        0x41c                 0x2             0x3  (3)
+.text                        0x1ce               0x130           0x1c8  (456)
+.dinit                       0x2fe                0x90            0xd8  (216)
+.text                        0x38e                0x42            0x63  (99)
+.prog                        0x3d0                 0x2             0x3  (3)
 
-                 Total "program" memory used (bytes):          0x4ad  (1197) 2%
+                 Total "program" memory used (bytes):          0x43b  (1083) 2%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x800]
@@ -95,9 +94,9 @@ section                    address   length (PC units)   length (bytes) (dec)
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .ndata                       0x800                   0            0xb0  (176)
-_0xf777ef185ced5523          0x8b0                   0            0x80  (128)
+_0xf76fef185ced7a24          0x8b0                   0            0x80  (128)
 .nbss                        0x930                   0             0x2  (2)
-_0xf777ef745ced5523          0xf80                   0            0x80  (128)
+_0xf76fef745ced7a24          0xf80                   0            0x80  (128)
 
                  Total "data" memory used (bytes):          0x1b2  (434) 21%
 
@@ -151,44 +150,42 @@ External Symbols in Program Memory (by address):
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x0001c8                  __DefaultInterrupt
-                  0x0001d4                  _main
-                  0x0001f6                  _delay_s
-                  0x000210                  _iniUART1
-                  0x00021e                  _iniUART2
-                  0x00022c                  _iniInterrupciones
-                  0x00023a                  _iniPerifericos
-                  0x000282                  _iniWIFI
-                  0x0002a0                  _configWIFI
-                  0x000316                  _cerrarConexion
-                  0x0003c8                  _comandoAT
-                  0x0003e8                  __U1RXInterrupt
-                  0x0003f2                  __U2RXInterrupt
-                  0x000406                  _RETARDO_1S
-                  0x00041c                  _ps_coeff
+                  0x0001ce                  _main
+                  0x0001fc                  _delay_s
+                  0x000216                  _iniUART1
+                  0x000224                  _iniUART2
+                  0x000232                  _iniInterrupciones
+                  0x00023c                  _iniPerifericos
+                  0x000284                  _iniWIFI
+                  0x0002a2                  _configWIFI
+                  0x0002e8                  _cerrarConexion
+                  0x00038e                  _comandoAT
+                  0x0003ae                  __U1RXInterrupt
+                  0x0003ba                  _retardo_1s
+                  0x0003d0                  _ps_coeff
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x000406                  _RETARDO_1S
                   0x0001c8                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
-                  0x0003e8                  __U1RXInterrupt
-                  0x0003f2                  __U2RXInterrupt
+                  0x0003ae                  __U1RXInterrupt
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x000316                  _cerrarConexion
-                  0x0003c8                  _comandoAT
-                  0x0002a0                  _configWIFI
-                  0x0001f6                  _delay_s
-                  0x00022c                  _iniInterrupciones
-                  0x00023a                  _iniPerifericos
-                  0x000210                  _iniUART1
-                  0x00021e                  _iniUART2
-                  0x000282                  _iniWIFI
-                  0x0001d4                  _main
-                  0x00041c                  _ps_coeff
+                  0x0002e8                  _cerrarConexion
+                  0x00038e                  _comandoAT
+                  0x0002a2                  _configWIFI
+                  0x0001fc                  _delay_s
+                  0x000232                  _iniInterrupciones
+                  0x00023c                  _iniPerifericos
+                  0x000216                  _iniUART1
+                  0x000224                  _iniUART2
+                  0x000284                  _iniWIFI
+                  0x0001ce                  _main
+                  0x0003d0                  _ps_coeff
+                  0x0003ba                  _retardo_1s
 
 Memory Configuration
 
@@ -302,7 +299,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGSðˆ˜	$‰˜	__FGS.sec
+ __FGS.sec        0xf8000a          0x2 /CW/_FGS`+©	”+©	__FGS.sec
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -317,11 +314,11 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x14f2
+.debug_info       0x000000       0x12cc
  *(.debug_info)
- .debug_info      0x000000       0x13c2 build/default/production/main.o
- .debug_info      0x0013c2         0x98 build/default/production/comandos.o
- .debug_info      0x00145a         0x98 build/default/production/retardos.o
+ .debug_info      0x000000       0x119c build/default/production/main.o
+ .debug_info      0x00119c         0x98 build/default/production/comandos.o
+ .debug_info      0x001234         0x98 build/default/production/retardos.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x195
@@ -330,19 +327,19 @@ userdata
  .debug_abbrev    0x00016d         0x14 build/default/production/comandos.o
  .debug_abbrev    0x000181         0x14 build/default/production/retardos.o
 
-.debug_line       0x000000        0x180
+.debug_line       0x000000        0x16d
  *(.debug_line)
- .debug_line      0x000000         0xed build/default/production/main.o
- .debug_line      0x0000ed         0x54 build/default/production/comandos.o
- .debug_line      0x000141         0x3f build/default/production/retardos.o
+ .debug_line      0x000000         0xe4 build/default/production/main.o
+ .debug_line      0x0000e4         0x4a build/default/production/comandos.o
+ .debug_line      0x00012e         0x3f build/default/production/retardos.o
 
 .debug_frame      0x000000        0x110
  *(.debug_frame)
  .debug_frame     0x000000        0x110 build/default/production/main.o
 
-.debug_str        0x000000         0xe7
+.debug_str        0x000000         0xd5
  *(.debug_str)
- .debug_str       0x000000         0xe7 build/default/production/main.o
+ .debug_str       0x000000         0xd5 build/default/production/main.o
 
 .debug_loc
  *(.debug_loc)
@@ -1066,23 +1063,23 @@ LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/libm-elf.a
 LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/WIFI_.X.production.elf elf32-pic30)
-LOAD /CW/_FGSðˆ˜	$‰˜	__FGS.sec
+LOAD /CW/_FGS`+©	”+©	__FGS.sec
 LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000048        0x1ae
+                  0x000048        0x174
  .debug_pubtypes
-                  0x000048        0x1ae build/default/production/main.o
+                  0x000048        0x174 build/default/production/main.o
 
 __c30_signature
-                  0x0001f6         0x12
+                  0x0001bc         0x12
  __c30_signature
-                  0x0001f6          0x6 build/default/production/main.o
+                  0x0001bc          0x6 build/default/production/main.o
  __c30_signature
-                  0x0001fc          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
+                  0x0001c2          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x000202          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
+                  0x0001c8          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
 
 .ndata              0x0800         0xb0
  .ndata             0x0800         0xb0 build/default/production/main.o
@@ -1097,15 +1094,15 @@ __c30_signature
                     0x089e                  _CMD_STOPPT
                     0x08a2                  _CMD_CIPCLOSE
 
-_0xf777ef185ced5523
+_0xf76fef185ced7a24
                     0x08b0         0x80
- _0xf777ef185ced5523
+ _0xf76fef185ced7a24
                     0x08b0         0x80 build/default/production/main.o
                     0x08b0                  _x_input
 
-_0xf777ef745ced5523
+_0xf76fef745ced7a24
                     0x0f80         0x80
- _0xf777ef745ced5523
+ _0xf76fef745ced7a24
                     0x0f80         0x80 build/default/production/main.o
                     0x0f80                  _y_input
 
@@ -1129,37 +1126,28 @@ _0xf777ef745ced5523
  .ivt._U1RXInterrupt
                   0x000026          0x2 build/default/production/comandos.o
 
-.ivt._U2RXInterrupt
-                  0x000044          0x2
- .ivt._U2RXInterrupt
-                  0x000044          0x2 build/default/production/comandos.o
+.text             0x0001ce        0x130
+ .text            0x0001ce        0x130 build/default/production/main.o
+                  0x0001ce                  _main
+                  0x0001fc                  _delay_s
+                  0x000216                  _iniUART1
+                  0x000224                  _iniUART2
+                  0x000232                  _iniInterrupciones
+                  0x00023c                  _iniPerifericos
+                  0x000284                  _iniWIFI
+                  0x0002a2                  _configWIFI
+                  0x0002e8                  _cerrarConexion
 
-.const              0x81ce          0x6 load address 0x0001ce  
- .const             0x81ce          0x6 build/default/production/main.o
+.dinit            0x0002fe         0x90
+ .dinit           0x0002fe         0x90 data_init
 
-.text             0x0001d4        0x164
- .text            0x0001d4        0x164 build/default/production/main.o
-                  0x0001d4                  _main
-                  0x0001f6                  _delay_s
-                  0x000210                  _iniUART1
-                  0x00021e                  _iniUART2
-                  0x00022c                  _iniInterrupciones
-                  0x00023a                  _iniPerifericos
-                  0x000282                  _iniWIFI
-                  0x0002a0                  _configWIFI
-                  0x000316                  _cerrarConexion
+.text             0x00038e         0x42
+ .text            0x00038e         0x2c build/default/production/comandos.o
+                  0x00038e                  _comandoAT
+                  0x0003ae                  __U1RXInterrupt
+ .text            0x0003ba         0x16 build/default/production/retardos.o
+                  0x0003ba                  _retardo_1s
 
-.dinit            0x000338         0x90
- .dinit           0x000338         0x90 data_init
-
-.text             0x0003c8         0x54
- .text            0x0003c8         0x3e build/default/production/comandos.o
-                  0x0003c8                  _comandoAT
-                  0x0003e8                  __U1RXInterrupt
-                  0x0003f2                  __U2RXInterrupt
- .text            0x000406         0x16 build/default/production/retardos.o
-                  0x000406                  _RETARDO_1S
-
-.prog             0x00041c          0x2
- .prog            0x00041c          0x2 build/default/production/main.o
-                  0x00041c                  _ps_coeff
+.prog             0x0003d0          0x2
+ .prog            0x0003d0          0x2 build/default/production/main.o
+                  0x0003d0                  _ps_coeff

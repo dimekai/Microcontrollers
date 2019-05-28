@@ -3,9 +3,9 @@
         
     ; |===================== FUNCIONES DE RETARDO =====================|
     ; Estas funciones son para generar retardos de 1 segundo en el cto.
-    .GLOBAL _RETARDO_1S
+    .GLOBAL _retardo_1s
     
-    _RETARDO_1S:
+    _retardo_1s:
 	PUSH	W0
 	PUSH	W1
 	
