@@ -98,16 +98,17 @@ void iniInterrupciones( void );    // Establecemos las interrupciones
 
 
 // Comandos AT
+// la funcion comandoAT no soporta const char *
 char CMD_RST[]      = "AT+RST\r\n"; // Manda reset al modulo wi-fi
-const char CMD_CWMODE[]   = "AT+CWMODE=1\r\n"; // Establece el modo wifi, 1: Modo SoftAp
-const char CMD_CIPMUX[]   = "AT+CIPMUX=0\r\n"; // Habilita multiples conexiones, 0: single connection
-const char CMD_CWJAP[]    = "AT+CWJAP=\"RED_WIFI\",\"PASSWORD_WIFI\"\r\n"; // Join access point
-const char CMD_CIFSR[]    = "AT+CIFSR\r\n"; // Obtiene una direccion IP local
-const char CMD_CIPSTART[] = "AT+CIPSTART=\"TCP\",\"IP_COMPU\",PTO_SERVER\r\n"; // Se conecta al servidor como cliente
-const char CMD_CIPMODE[]  = "AT+CIPMODE=1\r\n";
-const char CMD_CIPSEND[]  = "AT+CIPSEND=4\r\n"; // Establece la cantidad de bytes a enviar
-const char CMD_STOPPT[]   = "+++";
-const char CMD_CIPCLOSE[] = "AT+CIPCLOSE\r\n";
+char CMD_CWMODE[]   = "AT+CWMODE=1\r\n"; // Establece el modo wifi, 1: Modo SoftAp
+char CMD_CIPMUX[]   = "AT+CIPMUX=0\r\n"; // Habilita multiples conexiones, 0: single connection
+char CMD_CWJAP[]    = "AT+CWJAP=\"RED_WIFI\",\"PASSWORD_WIFI\"\r\n"; // Join access point
+char CMD_CIFSR[]    = "AT+CIFSR\r\n"; // Obtiene una direccion IP local
+char CMD_CIPSTART[] = "AT+CIPSTART=\"TCP\",\"IP_COMPU\",PTO_SERVER\r\n"; // Se conecta al servidor como cliente
+char CMD_CIPMODE[]  = "AT+CIPMODE=1\r\n";
+char CMD_CIPSEND[]  = "AT+CIPSEND=4\r\n"; // Establece la cantidad de bytes a enviar
+char CMD_STOPPT[]   = "+++";
+char CMD_CIPCLOSE[] = "AT+CIPCLOSE\r\n";
 
 int main (void){
     iniPerifericos();
@@ -128,16 +129,24 @@ int main (void){
     // Configuramos el WiFi
     configWIFI();
     
-    U1TXREG = 'H';
-    U1TXREG = 'O';
-    U1TXREG = 'L';
-    U1TXREG = 'A';
+    // **duda** al parecer hay que esperar antes de poder seguir enviando, lo cual lo hace comandoAT
+    //U1TXREG = 'H';
+    //U1TXREG = 'O';
+    //U1TXREG = 'L';
+    //U1TXREG = 'A';
+    comandoAT("HOLA");
     
     RETARDO_1S();
     cerrarConexion();
     
-    for(;EVER;){ Nop(); }
+    for (;EVER;) { Nop(); }
     return 0;
+}
+
+void delay_s(unsigned char seconds) { 
+    while (seconds--) {
+        RETARDO_1S();
+    }
 }
 
 /**
@@ -177,7 +186,6 @@ void iniInterrupciones( void ){
     // Recepcion ** DUDA ** Checar el diagrama
     IFS1bits.U2RXIF = 0; // Interrupt Flag
     IEC1bits.U2RXIE = 1; // Enable reception interrupt from UART2
-    
 }
 
 /**

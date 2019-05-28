@@ -1,21 +1,21 @@
 Microchip Technology Inc, v1.36 (B)
 
 Tool Name:
-  c:\program files (x86)\microchip\xc16\v1.36\bin\bin\..\bin/elf-ld.exe
+  /opt/microchip/xc16/v1.36/bin/bin/../bin/elf-ld
 
 Command:
   -p30F4013 \
   -o \
   dist/default/production/WIFI_.X.production.elf \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/.. \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/PIC24E/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/PIC24F/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/PIC24H/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC30F/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33C/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33E/gld \
-  -Lc:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33F/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/.. \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../lib \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/PIC24E/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/PIC24F/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/PIC24H/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC30F/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33C/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33E/gld \
+  -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33F/gld \
   build/default/production/main.o \
   build/default/production/comandos.o \
   build/default/production/retardos.o \
@@ -46,11 +46,11 @@ Command:
 Optional library libp30F4013.a not found
 Archive member included because of file (symbol)
 
-c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+/opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
                               (__resetPRI)
-c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
-                              c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o) (__data_init_standard)
-c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
+/opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
+                              /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o) (__data_init_standard)
+/opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt_start_mode_normal.Leo)
                               (__crt_start_mode_normal)
 
 
@@ -81,25 +81,25 @@ xc16-ld 1.36 (B)
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100                0xce           0x135  (309)
-.const                       0x1ce                0xa8            0xfc  (252)
-.text                        0x276               0x156           0x201  (513)
-.dinit                       0x3cc                0x22            0x33  (51)
-.text                        0x3ee                0x32            0x4b  (75)
-.prog                        0x420                 0x2             0x3  (3)
+.const                       0x1ce                 0x6             0x9  (9)
+.text                        0x1d4               0x164           0x216  (534)
+.dinit                       0x338                0x90            0xd8  (216)
+.text                        0x3c8                0x54            0x7e  (126)
+.prog                        0x41c                 0x2             0x3  (3)
 
-                 Total "program" memory used (bytes):          0x4b3  (1203) 2%
+                 Total "program" memory used (bytes):          0x4ad  (1197) 2%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x800]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-_04D1BC605cecbaf3            0x800                   0            0x80  (128)
-.ndata                       0x880                   0             0xa  (10)
-.nbss                        0x88a                   0             0x2  (2)
-_04D1BD805cecbaf3            0xf80                   0            0x80  (128)
+.ndata                       0x800                   0            0xb0  (176)
+_0xf777ef185ced5523          0x8b0                   0            0x80  (128)
+.nbss                        0x930                   0             0x2  (2)
+_0xf777ef745ced5523          0xf80                   0            0x80  (128)
 
-                 Total "data" memory used (bytes):          0x10c  (268) 13%
+                 Total "data" memory used (bytes):          0x1b2  (434) 21%
 
 
 Dynamic Memory Usage
@@ -107,82 +107,88 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x88c                               0x6f4  (1780)
+stack                        0x932                               0x64e  (1614)
 
-                 Maximum dynamic memory (bytes):          0x6f4  (1780)
+                 Maximum dynamic memory (bytes):          0x64e  (1614)
 
 
 External Symbols in Data Memory (by address):
 
-                    0x0800                  _x_input
-                    0x0880                  _CMD_RST
-                    0x088a                  _var1
+                    0x0800                  _CMD_RST
+                    0x0809                  _CMD_CWMODE
+                    0x0817                  _CMD_CIPMUX
+                    0x0825                  _CMD_CWJAP
+                    0x084b                  _CMD_CIFSR
+                    0x0856                  _CMD_CIPSTART
+                    0x0880                  _CMD_CIPMODE
+                    0x088f                  _CMD_CIPSEND
+                    0x089e                  _CMD_STOPPT
+                    0x08a2                  _CMD_CIPCLOSE
+                    0x08b0                  _x_input
+                    0x0930                  _var1
                     0x0f80                  _y_input
 
 External Symbols in Data Memory (by name):
 
-                    0x0880                  _CMD_RST
-                    0x088a                  _var1
-                    0x0800                  _x_input
+                    0x084b                  _CMD_CIFSR
+                    0x08a2                  _CMD_CIPCLOSE
+                    0x0880                  _CMD_CIPMODE
+                    0x0817                  _CMD_CIPMUX
+                    0x088f                  _CMD_CIPSEND
+                    0x0856                  _CMD_CIPSTART
+                    0x0825                  _CMD_CWJAP
+                    0x0809                  _CMD_CWMODE
+                    0x0800                  _CMD_RST
+                    0x089e                  _CMD_STOPPT
+                    0x0930                  _var1
+                    0x08b0                  _x_input
                     0x0f80                  _y_input
 
 External Symbols in Program Memory (by address):
 
                   0x000100                  __resetPRI
                   0x00013c                  __psv_init
-                  0x000152                  __data_init_standard
                   0x000152                  __data_init
+                  0x000152                  __data_init_standard
                   0x0001c8                  __DefaultInterrupt
-                  0x0001ce                  _CMD_CWMODE
-                  0x0001dc                  _CMD_CIPMUX
-                  0x0001ea                  _CMD_CWJAP
-                  0x000210                  _CMD_CIFSR
-                  0x00021b                  _CMD_CIPSTART
-                  0x000245                  _CMD_CIPMODE
-                  0x000254                  _CMD_CIPSEND
-                  0x000263                  _CMD_STOPPT
-                  0x000267                  _CMD_CIPCLOSE
-                  0x000276                  _main
-                  0x0002a4                  _iniUART1
-                  0x0002b2                  _iniUART2
-                  0x0002c0                  _iniInterrupciones
-                  0x0002ce                  _iniPerifericos
-                  0x000316                  _iniWIFI
-                  0x000334                  _configWIFI
-                  0x0003aa                  _cerrarConexion
-                  0x0003ee                  _comandoAT
-                  0x00040a                  _RETARDO_1S
-                  0x000420                  _ps_coeff
+                  0x0001d4                  _main
+                  0x0001f6                  _delay_s
+                  0x000210                  _iniUART1
+                  0x00021e                  _iniUART2
+                  0x00022c                  _iniInterrupciones
+                  0x00023a                  _iniPerifericos
+                  0x000282                  _iniWIFI
+                  0x0002a0                  _configWIFI
+                  0x000316                  _cerrarConexion
+                  0x0003c8                  _comandoAT
+                  0x0003e8                  __U1RXInterrupt
+                  0x0003f2                  __U2RXInterrupt
+                  0x000406                  _RETARDO_1S
+                  0x00041c                  _ps_coeff
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x000210                  _CMD_CIFSR
-                  0x000267                  _CMD_CIPCLOSE
-                  0x000245                  _CMD_CIPMODE
-                  0x0001dc                  _CMD_CIPMUX
-                  0x000254                  _CMD_CIPSEND
-                  0x00021b                  _CMD_CIPSTART
-                  0x0001ea                  _CMD_CWJAP
-                  0x0001ce                  _CMD_CWMODE
-                  0x000263                  _CMD_STOPPT
-                  0x00040a                  _RETARDO_1S
+                  0x000406                  _RETARDO_1S
                   0x0001c8                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
+                  0x0003e8                  __U1RXInterrupt
+                  0x0003f2                  __U2RXInterrupt
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x0003aa                  _cerrarConexion
-                  0x0003ee                  _comandoAT
-                  0x000334                  _configWIFI
-                  0x0002c0                  _iniInterrupciones
-                  0x0002ce                  _iniPerifericos
-                  0x0002a4                  _iniUART1
-                  0x0002b2                  _iniUART2
-                  0x000316                  _iniWIFI
-                  0x000276                  _main
-                  0x000420                  _ps_coeff
+                  0x000316                  _cerrarConexion
+                  0x0003c8                  _comandoAT
+                  0x0002a0                  _configWIFI
+                  0x0001f6                  _delay_s
+                  0x00022c                  _iniInterrupciones
+                  0x00023a                  _iniPerifericos
+                  0x000210                  _iniUART1
+                  0x00021e                  _iniUART2
+                  0x000282                  _iniWIFI
+                  0x0001d4                  _main
+                  0x00041c                  _ps_coeff
 
 Memory Configuration
 
@@ -214,7 +220,7 @@ LOAD build/default/production/comandos.o
 LOAD build/default/production/retardos.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD p30F4013
-LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libfx-elf.a
+LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/libfx-elf.a
                     0x8005c0                  __FUID0 = 0x8005c0
                     0x8005c2                  __FUID1 = 0x8005c2
                     0x8005c4                  __FUID2 = 0x8005c4
@@ -243,13 +249,13 @@ LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libfx-elf.a
 
 .text             0x000100         0xce
  *(.init)
- .init            0x000100         0x4c c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
-                  0x000100                  __resetPRI
+ .init            0x000100         0x4c /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
                   0x000100                  __reset
+                  0x000100                  __resetPRI
                   0x00013c                  __psv_init
- .init            0x00014c         0x7c c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
-                  0x000152                  __data_init_standard
+ .init            0x00014c         0x7c /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
                   0x000152                  __data_init
+                  0x000152                  __data_init_standard
  *(.user_init)
  *(.handle)
  *(.isr*)
@@ -260,9 +266,9 @@ LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libfx-elf.a
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x0001cc          0x2 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
-                  0x0001cc                  __crt_start_mode
+                  0x0001cc          0x2 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt_start_mode_normal.Leo)
                   0x0001cc                  __crt_start_mode_normal
+                  0x0001cc                  __crt_start_mode
 
 usercode
  *(usercode)
@@ -296,7 +302,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGS0”Ì
+ __FGS.sec        0xf8000a          0x2 /CW/_FGSðˆ˜	$‰˜	__FGS.sec
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -311,28 +317,28 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x154d
+.debug_info       0x000000       0x14f2
  *(.debug_info)
- .debug_info      0x000000       0x1415 build/default/production/main.o
- .debug_info      0x001415         0x9c build/default/production/comandos.o
- .debug_info      0x0014b1         0x9c build/default/production/retardos.o
+ .debug_info      0x000000       0x13c2 build/default/production/main.o
+ .debug_info      0x0013c2         0x98 build/default/production/comandos.o
+ .debug_info      0x00145a         0x98 build/default/production/retardos.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x176
+.debug_abbrev     0x000000        0x195
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x14e build/default/production/main.o
- .debug_abbrev    0x00014e         0x14 build/default/production/comandos.o
- .debug_abbrev    0x000162         0x14 build/default/production/retardos.o
+ .debug_abbrev    0x000000        0x16d build/default/production/main.o
+ .debug_abbrev    0x00016d         0x14 build/default/production/comandos.o
+ .debug_abbrev    0x000181         0x14 build/default/production/retardos.o
 
-.debug_line       0x000000        0x17e
+.debug_line       0x000000        0x180
  *(.debug_line)
- .debug_line      0x000000         0xff build/default/production/main.o
- .debug_line      0x0000ff         0x40 build/default/production/comandos.o
- .debug_line      0x00013f         0x3f build/default/production/retardos.o
+ .debug_line      0x000000         0xed build/default/production/main.o
+ .debug_line      0x0000ed         0x54 build/default/production/comandos.o
+ .debug_line      0x000141         0x3f build/default/production/retardos.o
 
-.debug_frame      0x000000         0xf4
+.debug_frame      0x000000        0x110
  *(.debug_frame)
- .debug_frame     0x000000         0xf4 build/default/production/main.o
+ .debug_frame     0x000000        0x110 build/default/production/main.o
 
 .debug_str        0x000000         0xe7
  *(.debug_str)
@@ -345,10 +351,10 @@ userdata
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x151
+                  0x000000        0x15d
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000        0x151 build/default/production/main.o
+                  0x000000        0x15d build/default/production/main.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1055,12 +1061,12 @@ userdata
                     0x0216                  UART2 = 0x216
                     0x0216                  _UART2 = 0x216
 START GROUP
-LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a
-LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\libm-elf.a
-LOAD c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-c-elf.a
+LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a
+LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/libm-elf.a
+LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/WIFI_.X.production.elf elf32-pic30)
-LOAD /CW/_FGS0”Ì
+LOAD /CW/_FGSðˆ˜	$‰˜	__FGS.sec
 LOAD default_isr
 LOAD data_init
 
@@ -1074,29 +1080,38 @@ __c30_signature
  __c30_signature
                   0x0001f6          0x6 build/default/production/main.o
  __c30_signature
-                  0x0001fc          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x0001fc          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x000202          0x6 c:/program files (x86)/microchip/xc16/v1.36/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x000202          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
 
-_04D1BC605cecbaf3
-                    0x0800         0x80
- _04D1BC605cecbaf3
-                    0x0800         0x80 build/default/production/main.o
-                    0x0800                  _x_input
+.ndata              0x0800         0xb0
+ .ndata             0x0800         0xb0 build/default/production/main.o
+                    0x0800                  _CMD_RST
+                    0x0809                  _CMD_CWMODE
+                    0x0817                  _CMD_CIPMUX
+                    0x0825                  _CMD_CWJAP
+                    0x084b                  _CMD_CIFSR
+                    0x0856                  _CMD_CIPSTART
+                    0x0880                  _CMD_CIPMODE
+                    0x088f                  _CMD_CIPSEND
+                    0x089e                  _CMD_STOPPT
+                    0x08a2                  _CMD_CIPCLOSE
 
-_04D1BD805cecbaf3
+_0xf777ef185ced5523
+                    0x08b0         0x80
+ _0xf777ef185ced5523
+                    0x08b0         0x80 build/default/production/main.o
+                    0x08b0                  _x_input
+
+_0xf777ef745ced5523
                     0x0f80         0x80
- _04D1BD805cecbaf3
+ _0xf777ef745ced5523
                     0x0f80         0x80 build/default/production/main.o
                     0x0f80                  _y_input
 
-.ndata              0x0880          0xa
- .ndata             0x0880          0xa build/default/production/main.o
-                    0x0880                  _CMD_RST
-
-.nbss               0x088a          0x2
- .nbss              0x088a          0x2 build/default/production/main.o
-                    0x088a                  _var1
+.nbss               0x0930          0x2
+ .nbss              0x0930          0x2 build/default/production/main.o
+                    0x0930                  _var1
 
 .config_MCLRE     0xf80004          0x2
  .config_MCLRE    0xf80004          0x2 build/default/production/main.o
@@ -1109,38 +1124,42 @@ _04D1BD805cecbaf3
  .config_FCKSMEN
                   0xf80000          0x2 build/default/production/main.o
 
-.const              0x81ce         0xa8 load address 0x0001ce  
- .const             0x81ce         0xa8 build/default/production/main.o
-                    0x81ce                  _CMD_CWMODE
-                    0x81dc                  _CMD_CIPMUX
-                    0x81ea                  _CMD_CWJAP
-                    0x8210                  _CMD_CIFSR
-                    0x821b                  _CMD_CIPSTART
-                    0x8245                  _CMD_CIPMODE
-                    0x8254                  _CMD_CIPSEND
-                    0x8263                  _CMD_STOPPT
-                    0x8267                  _CMD_CIPCLOSE
+.ivt._U1RXInterrupt
+                  0x000026          0x2
+ .ivt._U1RXInterrupt
+                  0x000026          0x2 build/default/production/comandos.o
 
-.text             0x000276        0x156
- .text            0x000276        0x156 build/default/production/main.o
-                  0x000276                  _main
-                  0x0002a4                  _iniUART1
-                  0x0002b2                  _iniUART2
-                  0x0002c0                  _iniInterrupciones
-                  0x0002ce                  _iniPerifericos
-                  0x000316                  _iniWIFI
-                  0x000334                  _configWIFI
-                  0x0003aa                  _cerrarConexion
+.ivt._U2RXInterrupt
+                  0x000044          0x2
+ .ivt._U2RXInterrupt
+                  0x000044          0x2 build/default/production/comandos.o
 
-.dinit            0x0003cc         0x22
- .dinit           0x0003cc         0x22 data_init
+.const              0x81ce          0x6 load address 0x0001ce  
+ .const             0x81ce          0x6 build/default/production/main.o
 
-.text             0x0003ee         0x32
- .text            0x0003ee         0x1c build/default/production/comandos.o
-                  0x0003ee                  _comandoAT
- .text            0x00040a         0x16 build/default/production/retardos.o
-                  0x00040a                  _RETARDO_1S
+.text             0x0001d4        0x164
+ .text            0x0001d4        0x164 build/default/production/main.o
+                  0x0001d4                  _main
+                  0x0001f6                  _delay_s
+                  0x000210                  _iniUART1
+                  0x00021e                  _iniUART2
+                  0x00022c                  _iniInterrupciones
+                  0x00023a                  _iniPerifericos
+                  0x000282                  _iniWIFI
+                  0x0002a0                  _configWIFI
+                  0x000316                  _cerrarConexion
 
-.prog             0x000420          0x2
- .prog            0x000420          0x2 build/default/production/main.o
-                  0x000420                  _ps_coeff
+.dinit            0x000338         0x90
+ .dinit           0x000338         0x90 data_init
+
+.text             0x0003c8         0x54
+ .text            0x0003c8         0x3e build/default/production/comandos.o
+                  0x0003c8                  _comandoAT
+                  0x0003e8                  __U1RXInterrupt
+                  0x0003f2                  __U2RXInterrupt
+ .text            0x000406         0x16 build/default/production/retardos.o
+                  0x000406                  _RETARDO_1S
+
+.prog             0x00041c          0x2
+ .prog            0x00041c          0x2 build/default/production/main.o
+                  0x00041c                  _ps_coeff
