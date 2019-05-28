@@ -88,10 +88,10 @@ int var1 __attribute__ ((near));
 // void stringLCD(char *);
 
 // retardos.s
-void RETARDO_1S();
+void retardo_1s();
 
 void delay_s(unsigned char seconds) {
-    while (seconds--) RETARDO_1S();
+    while (seconds--) retardo_1s();
 }
 
 // Modificar TRISX para poner entrada o salida
@@ -136,6 +136,10 @@ void iniADC() {
     ADPCFG = 0xFFF8;    // AD PORT config
     ADCSSL = 0;         // 
 }
+
+// Probabilidad condicionada
+// informavion mutua
+// maximun likilihood estimaion
 
 void habilitarUART() {
     U1MODEbits.UARTEN = 1; // Habilitar UART1
