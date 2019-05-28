@@ -5,13 +5,13 @@
  * BROWN OUT RESET, POWER ON RESET Y CODIGO DE PROTECCION
  * BLOQUE 2. EQUIVALENCIAS Y DECLARACIONES GLOBALES
  * BLOQUE 3. ESPACIOS DE MEMORIA: PROGRAMA, DATOS X, DATOS Y, DATOS NEAR
- * BLOQUE 4. CÓDIGO DE APLICACIÓN
+ * BLOQUE 4. Cï¿½DIGO DE APLICACIï¿½N
  * @device: DSPIC30F4013
  * @oscillator: FRC, 7.3728MHz
  */
 #include "p30F4013.h"
 /********************************************************************************/
-/* 						BITS DE CONFIGURACIÓN									*/	
+/* 						BITS DE CONFIGURACIï¿½N									*/	
 /********************************************************************************/
 /* SE DESACTIVA EL CLOCK SWITCHING Y EL FAIL-SAFE CLOCK MONITOR (FSCM) Y SE 	*/
 /* ACTIVA EL OSCILADOR INTERNO (FAST RC) PARA TRABAJAR							*/
@@ -30,11 +30,11 @@
 /* SE ACTIVA EL POWER ON RESET (POR), BROWN OUT RESET (BOR), 					*/	
 /* POWER UP TIMER (PWRT) Y EL MASTER CLEAR (MCLR)								*/
 /* POR: AL MOMENTO DE ALIMENTAR EL DSPIC OCURRE UN RESET CUANDO EL VOLTAJE DE 	*/	
-/* ALIMENTACIÓN ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V			*/
-/* BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIÓN DECAE		*/
+/* ALIMENTACIï¿½N ALCANZA UN VOLTAJE DE UMBRAL (VPOR), EL CUAL ES 1.85V			*/
+/* BOR: ESTE MODULO GENERA UN RESET CUANDO EL VOLTAJE DE ALIMENTACIï¿½N DECAE		*/
 /* POR DEBAJO DE UN CIERTO UMBRAL ESTABLECIDO (2.7V) 							*/
 /* PWRT: MANTIENE AL DSPIC EN RESET POR UN CIERTO TIEMPO ESTABLECIDO, ESTO 		*/
-/* AYUDA A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIÓN SE HA ESTABILIZADO (16ms) 	*/
+/* AYUDA A ASEGURAR QUE EL VOLTAJE DE ALIMENTACIï¿½N SE HA ESTABILIZADO (16ms) 	*/
 /********************************************************************************/
 //_FBORPOR( PBOR_ON & BORV27 & PWRT_16 & MCLR_EN ); 
 // FBORPOR
@@ -43,7 +43,7 @@
 #pragma config BOREN  = PBOR_ON          // PBOR Enable (Enabled)
 #pragma config MCLRE  = MCLR_EN          // Master Clear Enable (Enabled)
 /********************************************************************************/
-/*SE DESACTIVA EL CÓDIGO DE PROTECCIÓN											*/
+/*SE DESACTIVA EL Cï¿½DIGO DE PROTECCIï¿½N											*/
 /********************************************************************************/
 //_FGS(CODE_PROT_OFF);      
 // FGS
@@ -51,7 +51,7 @@
 #pragma config GCP = CODE_PROT_OFF      // General Segment Code Protection (Disabled)
 
 /********************************************************************************/
-/* SECCIÓN DE DECLARACIÓN DE CONSTANTES CON DEFINE								*/
+/* SECCIï¿½N DE DECLARACIï¿½N DE CONSTANTES CON DEFINE								*/
 /********************************************************************************/
 #define EVER 1
 #define MUESTRAS 64
@@ -74,17 +74,24 @@ int y_input[MUESTRAS] __attribute__ ((space(ymemory)));
 /********************************************************************************/
 int var1 __attribute__ ((near));
 
-//Funciones del LCD
-void retardo15ms();
-void retardo1s();
-void comandoLCD(char);
-void busyFlagLCD();
-void iniLCD();
-void charLCD(char);
-void stringLCD(char*);
 
-void sleep(char t){
-    while (t--) retardo1s();
+
+// begin -----------------------------------------------------------------------=========
+#define nop_after(arg_var, arg_val) arg_var = arg_val; Nop();
+
+//Funciones del LCD
+// void retardo15ms();
+// void comandoLCD(char);
+// void busyFlagLCD();
+// void iniLCD();
+// void charLCD(char);
+// void stringLCD(char *);
+
+// retardos.s
+void RETARDO_1S();
+
+void delay_s(unsigned char seconds) {
+    while (seconds--) RETARDO_1S();
 }
 
 // Modificar TRISX para poner entrada o salida
@@ -93,8 +100,7 @@ void iniPerifericos() {
     LATB = 0; Nop();
     TRISBbits.TRISB2 = 1; Nop(); // Activar ADC
 
-    // ADPCFG = 0xFFFF; Nop(); // NO
-    
+    // ADPCFG = 0xFFFF; Nop(); // En este caso usaremos el ADC
     PORTF = 0; Nop();
     LATF = 0; Nop();
     TRISF = 0; Nop();
@@ -110,7 +116,7 @@ void iniReloj() {
 }
 
 // 115200 Baudios
-void iniUARTs(){
+void iniUART() {
     U1MODE = 0x0000;
     U1STA = 0x8000; // 1000 0000 0000 0000
     U1BRG = 0;
@@ -123,15 +129,15 @@ void iniInterrupciones() {
 
 // Info: dsPIC30F_FamilyReferenceManual pag. 465
 void iniADC() {
-    ADCON1 = 0x0044; // 0b 0000 0000 0100 0100
-    ADCON2 = 0x6000; // 0b 0110 0000 0000 0000
-    ADCON3 = 0x0f02; // 0b 0000 1111 0000 0010
-    ADCHS = 2; // canal
-    ADPCFG = 0xFFF8; // AD PORT config
-    ADCSSL = 0; // 
+    ADCON1 = 0x0044;    // 0b 0000 0000 0100 0100
+    ADCON2 = 0x6000;    // 0b 0110 0000 0000 0000
+    ADCON3 = 0x0f02;    // 0b 0000 1111 0000 0010
+    ADCHS = 2;          // canal
+    ADPCFG = 0xFFF8;    // AD PORT config
+    ADCSSL = 0;         // 
 }
 
-void habilitarUARTs(){
+void habilitarUART() {
     U1MODEbits.UARTEN = 1; // Habilitar UART1
     U1STAbits.UTXEN = 1;   // Habilitar transmision del UART1
 }
@@ -149,41 +155,23 @@ void habilitarInterrupciones() {
 }
 
 //UART1 TODO
-void __attribute__((__interrupt__)) _U1RXInterrupt( void ){
+void __attribute__((__interrupt__)) _U1RXInterrupt( void ) {
     char c = U2RXREG;
-    
     IFS0bits.U1TXIF = 0;
     U1TXREG = c;
     while (IFS0bits.U1TXIF == 0) { }
-    
     IFS1bits.U2RXIF = 0; //Desactivar interrupcion
 }
 
 int main() {
     iniPerifericos();
     iniReloj();
-    iniUARTs();
-    
+    iniUART();
     iniInterrupciones();
-    habilitarUARTs();
+    habilitarUART();
+    iniADC();
+    habilitarADC();
     
-    /*
-    cmdWifi("AT+CIPSTART=\"TCP\",\"192.168.1.1\",1234\r\n");
-    cmdWifi("AT+CIPMODE=1\r\n");
-    cmdWifi("AT+CIPSEND\r\n");
-    
-    U1TXREG = 'H';
-    U1TXREG = 'O';
-    U1TXREG = 'L';
-    U1TXREG = 'A';
-    
-    retardo1s();
-    
-    cerrarConexion();*/
-    
-    while (1) {
-        Nop();
-    }
-    
+    while (1) { Nop(); }
     return 0;
 }

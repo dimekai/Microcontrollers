@@ -17,6 +17,8 @@ Command:
   -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33E/gld \
   -L/opt/microchip/xc16/v1.36/bin/bin/../../support/dsPIC33F/gld \
   build/default/production/main.o \
+  build/default/production/interrupts.o \
+  build/default/production/retardos.o \
   --defsym=__MPLAB_BUILD=1 \
   -Tp30F4013.gld.00 \
   --stack=16 \
@@ -79,20 +81,20 @@ xc16-ld 1.36 (B)
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100                0xf8           0x174  (372)
-.text                        0x1f8                0xb0           0x108  (264)
-.dinit                       0x2a8                0x14            0x1e  (30)
-.prog                        0x2bc                 0x2             0x3  (3)
+.text                        0x1f8                0xe6           0x159  (345)
+.dinit                       0x2de                0x14            0x1e  (30)
+.prog                        0x2f2                 0x2             0x3  (3)
 
-                 Total "program" memory used (bytes):          0x29d  (669) 1%
+                 Total "program" memory used (bytes):          0x2ee  (750) 1%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x800]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-_0xf7778f185ce82497          0x800                   0            0x80  (128)
+_0xf76f0f185ced64ee          0x800                   0            0x80  (128)
 .nbss                        0x880                   0             0x2  (2)
-_0xf7778f745ce82497          0xf80                   0            0x80  (128)
+_0xf76f0f745ced64ee          0xf80                   0            0x80  (128)
 
                  Total "data" memory used (bytes):          0x102  (258) 12%
 
@@ -127,39 +129,45 @@ External Symbols in Program Memory (by address):
                   0x000152                  __data_init_standard
                   0x0001c8                  __U1RXInterrupt
                   0x0001f2                  __DefaultInterrupt
-                  0x0001f8                  _sleep
+                  0x0001f8                  _delay_s
                   0x000212                  _iniPerifericos
                   0x000234                  _iniReloj
-                  0x000242                  _iniUARTs
+                  0x000242                  _iniUART
                   0x000250                  _iniInterrupciones
                   0x00025a                  _iniADC
-                  0x000276                  _habilitarUARTs
+                  0x000276                  _habilitarUART
                   0x000280                  _habilitarADC
                   0x00028a                  _habilitarInterrupciones
                   0x000298                  _main
-                  0x0002bc                  _ps_coeff
+                  0x0002ac                  __T3Interrupt
+                  0x0002b2                  __ADCInterrupt
+                  0x0002c8                  _RETARDO_1S
+                  0x0002f2                  _ps_coeff
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
+                  0x0002c8                  _RETARDO_1S
+                  0x0002b2                  __ADCInterrupt
                   0x0001f2                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
+                  0x0002ac                  __T3Interrupt
                   0x0001c8                  __U1RXInterrupt
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
+                  0x0001f8                  _delay_s
                   0x000280                  _habilitarADC
                   0x00028a                  _habilitarInterrupciones
-                  0x000276                  _habilitarUARTs
+                  0x000276                  _habilitarUART
                   0x00025a                  _iniADC
                   0x000250                  _iniInterrupciones
                   0x000212                  _iniPerifericos
                   0x000234                  _iniReloj
-                  0x000242                  _iniUARTs
+                  0x000242                  _iniUART
                   0x000298                  _main
-                  0x0002bc                  _ps_coeff
-                  0x0001f8                  _sleep
+                  0x0002f2                  _ps_coeff
 
 Memory Configuration
 
@@ -187,6 +195,8 @@ FICD             0xf8000c           0x000002
 Linker script and memory map
 
 LOAD build/default/production/main.o
+LOAD build/default/production/interrupts.o
+LOAD build/default/production/retardos.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD p30F4013
 LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/libfx-elf.a
@@ -273,7 +283,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGSàäü	åü	__FGS.sec
+ __FGS.sec        0xf8000a          0x2 /CW/_FGSÐ1	1	__FGS.sec
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -288,18 +298,24 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x1043
+.debug_info       0x000000       0x1192
  *(.debug_info)
- .debug_info      0x000000       0x1043 build/default/production/main.o
+ .debug_info      0x000000       0x1064 build/default/production/main.o
+ .debug_info      0x001064         0x98 build/default/production/interrupts.o
+ .debug_info      0x0010fc         0x96 build/default/production/retardos.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x130
+.debug_abbrev     0x000000        0x158
  *(.debug_abbrev)
  .debug_abbrev    0x000000        0x130 build/default/production/main.o
+ .debug_abbrev    0x000130         0x14 build/default/production/interrupts.o
+ .debug_abbrev    0x000144         0x14 build/default/production/retardos.o
 
-.debug_line       0x000000         0xd8
+.debug_line       0x000000        0x15c
  *(.debug_line)
- .debug_line      0x000000         0xd8 build/default/production/main.o
+ .debug_line      0x000000         0xd7 build/default/production/main.o
+ .debug_line      0x0000d7         0x46 build/default/production/interrupts.o
+ .debug_line      0x00011d         0x3f build/default/production/retardos.o
 
 .debug_frame      0x000000        0x156
  *(.debug_frame)
@@ -324,10 +340,14 @@ userdata
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000         0x18
+.debug_aranges    0x000000         0x48
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/default/production/main.o
+ .debug_aranges
+                  0x000018         0x18 build/default/production/interrupts.o
+ .debug_aranges
+                  0x000030         0x18 build/default/production/retardos.o
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -1027,33 +1047,33 @@ LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/libm-elf.a
 LOAD /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-c-elf.a
 END GROUP
 OUTPUT(dist/default/production/adc.X.production.elf elf32-pic30)
-LOAD /CW/_FGSàäü	åü	__FGS.sec
+LOAD /CW/_FGSÐ1	1	__FGS.sec
 LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000018        0x134
+                  0x000048        0x134
  .debug_pubtypes
-                  0x000018        0x134 build/default/production/main.o
+                  0x000048        0x134 build/default/production/main.o
 
 __c30_signature
-                  0x00014c         0x12
+                  0x00017c         0x12
  __c30_signature
-                  0x00014c          0x6 build/default/production/main.o
+                  0x00017c          0x6 build/default/production/main.o
  __c30_signature
-                  0x000152          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
+                  0x000182          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x000158          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
+                  0x000188          0x6 /opt/microchip/xc16/v1.36/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
 
-_0xf7778f185ce82497
+_0xf76f0f185ced64ee
                     0x0800         0x80
- _0xf7778f185ce82497
+ _0xf76f0f185ced64ee
                     0x0800         0x80 build/default/production/main.o
                     0x0800                  _x_input
 
-_0xf7778f745ce82497
+_0xf76f0f745ced64ee
                     0x0f80         0x80
- _0xf7778f745ce82497
+ _0xf76f0f745ced64ee
                     0x0f80         0x80 build/default/production/main.o
                     0x0f80                  _y_input
 
@@ -1077,22 +1097,37 @@ _0xf7778f745ce82497
  .ivt._U1RXInterrupt
                   0x000026          0x2 build/default/production/main.o
 
-.text             0x0001f8         0xb0
- .text            0x0001f8         0xb0 build/default/production/main.o
-                  0x0001f8                  _sleep
+.ivt._T3Interrupt
+                  0x000022          0x2
+ .ivt._T3Interrupt
+                  0x000022          0x2 build/default/production/interrupts.o
+
+.ivt._ADCInterrupt
+                  0x00002a          0x2
+ .ivt._ADCInterrupt
+                  0x00002a          0x2 build/default/production/interrupts.o
+
+.text             0x0001f8         0xe6
+ .text            0x0001f8         0xb4 build/default/production/main.o
+                  0x0001f8                  _delay_s
                   0x000212                  _iniPerifericos
                   0x000234                  _iniReloj
-                  0x000242                  _iniUARTs
+                  0x000242                  _iniUART
                   0x000250                  _iniInterrupciones
                   0x00025a                  _iniADC
-                  0x000276                  _habilitarUARTs
+                  0x000276                  _habilitarUART
                   0x000280                  _habilitarADC
                   0x00028a                  _habilitarInterrupciones
                   0x000298                  _main
+ .text            0x0002ac         0x1c build/default/production/interrupts.o
+                  0x0002ac                  __T3Interrupt
+                  0x0002b2                  __ADCInterrupt
+ .text            0x0002c8         0x16 build/default/production/retardos.o
+                  0x0002c8                  _RETARDO_1S
 
-.dinit            0x0002a8         0x14
- .dinit           0x0002a8         0x14 data_init
+.dinit            0x0002de         0x14
+ .dinit           0x0002de         0x14 data_init
 
-.prog             0x0002bc          0x2
- .prog            0x0002bc          0x2 build/default/production/main.o
-                  0x0002bc                  _ps_coeff
+.prog             0x0002f2          0x2
+ .prog            0x0002f2          0x2 build/default/production/main.o
+                  0x0002f2                  _ps_coeff
