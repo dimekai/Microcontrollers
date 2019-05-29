@@ -94,22 +94,38 @@ void delay_s(unsigned char seconds) {
     while (seconds--) retardo_1s();
 }
 
-// Modificar TRISX para poner entrada o salida
+
+/**
+ * 
+ *                   _________________
+ *                  |      DSPIC chido|
+ *                  |                 |
+ * analog input --->|AN1(4)           |
+ *                  |                 |
+ *                  |          RD0(34)|---> TMR3 output 256 Hz
+ *                  |                 |     ___________
+ *                  |         U1RX(26)|<---|Tx   FT-232|  
+ *                  |         U1TX(25)|--->|Rx         |
+ *                  |                 |    |           |
+ *                  |                 |    |           |
+ *                   -----------------      ----------- 
+ */
 void iniPerifericos() {
+    // Modificar TRISX para poner entrada o salida
     PORTB = 0; Nop();
     LATB = 0; Nop();
-    TRISBbits.TRISB2 = 1; Nop(); // Activar ADC
-
+    TRISBbits.TRISB2 = 1; Nop(); // Activar ADC en este bit
+    
     // ADPCFG = 0xFFFF; Nop(); // En este caso usaremos el ADC
+    
     PORTF = 0; Nop();
     LATF = 0; Nop();
     TRISF = 0; Nop();
     TRISFbits.TRISF2 = 1; Nop(); 
 }
 
-// TODO
 // f_{T31F} = f_s = 512 Hz
-void iniReloj() {
+void iniTimer() {
     TMR3 = 0;
     PR3 = 3600;
     T3CON = 0;
@@ -118,13 +134,13 @@ void iniReloj() {
 // 115200 Baudios
 void iniUART() {
     U1MODE = 0x0000;
-    U1STA = 0x8000; // 1000 0000 0000 0000
+    U1STA = 0x8000; // 0b 1000 0000 0000 0000
     U1BRG = 0;
 }
 
 void iniInterrupciones() {
     IFS0bits.U1RXIF = 0;
-    IEC0bits.U1RXIE = 1; //Interrupcion de recepcion del UART1
+    IEC0bits.U1RXIE = 1; // Interrupcion de recepcion del UART1
 }
 
 // Info: dsPIC30F_FamilyReferenceManual pag. 465
@@ -140,7 +156,6 @@ void iniADC() {
 // Probabilidad condicionada
 // informavion mutua
 // maximun likilihood estimaion
-
 void habilitarUART() {
     U1MODEbits.UARTEN = 1; // Habilitar UART1
     U1STAbits.UTXEN = 1;   // Habilitar transmision del UART1
@@ -152,28 +167,23 @@ void habilitarADC() {
 }
 
 void habilitarInterrupciones() {
+    // TMR3
     IFS0bits.T3IF = 0;  
     IEC0bits.T3IE = 1;
+
+    // ADC
     IFS0bits.ADIF = 0;
     IEC0bits.ADIE = 1; 
 }
 
-//UART1 TODO
-void __attribute__((__interrupt__)) _U1RXInterrupt( void ) {
-    char c = U2RXREG;
-    IFS0bits.U1TXIF = 0;
-    U1TXREG = c;
-    while (IFS0bits.U1TXIF == 0) { }
-    IFS1bits.U2RXIF = 0; //Desactivar interrupcion
-}
-
 int main() {
     iniPerifericos();
-    iniReloj();
+    iniTimer();
     iniUART();
-    iniInterrupciones();
-    habilitarUART();
     iniADC();
+    iniInterrupciones();
+    
+    habilitarUART();
     habilitarADC();
     
     while (1) { Nop(); }
