@@ -1,0 +1,4 @@
+
+MCP 4821/4822
+
+12-bit DAC with internal V_{REF} and SPI^{TM} interface

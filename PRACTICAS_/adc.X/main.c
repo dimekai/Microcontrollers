@@ -131,7 +131,7 @@ void iniTimer() {
     T3CON = 0;
 }
 
-// 115200 Baudios
+// 15200 Baudios
 void iniUART() {
     U1MODE = 0x0000;
     U1STA = 0x8000; // 0b 1000 0000 0000 0000
