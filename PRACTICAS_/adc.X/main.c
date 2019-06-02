@@ -114,33 +114,28 @@ void iniPerifericos() {
     // Modificar TRISX para poner entrada o salida
     PORTB = 0; Nop();
     LATB = 0; Nop();
-    TRISBbits.TRISB2 = 1; Nop(); // Activar ADC en este bit
+    TRISBbits.TRISB2 = 1; Nop(); // entrada analogica
     
     // ADPCFG = 0xFFFF; Nop(); // En este caso usaremos el ADC
     
     PORTF = 0; Nop();
     LATF = 0; Nop();
     TRISF = 0; Nop();
-    TRISFbits.TRISF2 = 1; Nop(); 
+    TRISFbits.TRISF2 = 1; Nop(); // Recepcion del UART 1
 }
 
 // f_{T31F} = f_s = 512 Hz
-void iniTimer() {
+void iniTMR3() {
     TMR3 = 0;
     PR3 = 3600;
     T3CON = 0;
 }
 
-// 15200 Baudios
-void iniUART() {
+// 115200 Baudios
+void iniUART1() {
     U1MODE = 0x0000;
     U1STA = 0x8000; // 0b 1000 0000 0000 0000
     U1BRG = 0;
-}
-
-void iniInterrupciones() {
-    IFS0bits.U1RXIF = 0;
-    IEC0bits.U1RXIE = 1; // Interrupcion de recepcion del UART1
 }
 
 // Info: dsPIC30F_FamilyReferenceManual pag. 465
@@ -148,44 +143,47 @@ void iniADC() {
     ADCON1 = 0x0044;    // 0b 0000 0000 0100 0100
     ADCON2 = 0x6000;    // 0b 0110 0000 0000 0000
     ADCON3 = 0x0f02;    // 0b 0000 1111 0000 0010
-    ADCHS = 2;          // canal
+    ADCHS  = 2;          // canal
     ADPCFG = 0xFFF8;    // AD PORT config
     ADCSSL = 0;         // 
 }
 
-// Probabilidad condicionada
-// informavion mutua
-// maximun likilihood estimaion
-void habilitarUART() {
+void habilitarUART1() {
     U1MODEbits.UARTEN = 1; // Habilitar UART1
     U1STAbits.UTXEN = 1;   // Habilitar transmision del UART1
 }
 
 void habilitarADC() {
     ADCON1bits.ADON = 1;
-    T3CONbits.TON = 1;
+    T3CONbits.TON = 1; // TMR3 controla al ADC
 }
 
 void habilitarInterrupciones() {
     // TMR3
-    IFS0bits.T3IF = 0;  
+    IFS0bits.T3IF = 0;   
     IEC0bits.T3IE = 1;
 
     // ADC
     IFS0bits.ADIF = 0;
     IEC0bits.ADIE = 1; 
+
 }
 
 int main() {
     iniPerifericos();
-    iniTimer();
-    iniUART();
+    iniTMR3();
+    iniUART1();
     iniADC();
-    iniInterrupciones();
-    
-    habilitarUART();
+
+    habilitarInterrupciones();    
+    habilitarUART1();
     habilitarADC();
     
     while (1) { Nop(); }
     return 0;
 }
+
+
+// Probabilidad condicionada
+// informavion mutua
+// maximun likilihood estimaion

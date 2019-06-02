@@ -19,7 +19,12 @@ int main()
 	unsigned char dato;
 	unsigned short int tempL, tempH, temp;
 
+<<<<<<< HEAD
+	//fd_serie = config_serial( "/dev/ttyUSB0", B9600 ); // B15200
+	fd_serie = config_serial( "/dev/ttyS3", B115200 ); // B15200
+=======
 	fd_serie = config_serial( "/dev/ttyUSB0", B115200 ); // B115200
+>>>>>>> 2a6fcde9dd407c8328ad62057b722fae9849598d
 	printf("serial abierto con descriptor: %d\n", fd_serie);
 
 	//Leemos N datos del UART

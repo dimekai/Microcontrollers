@@ -16,16 +16,19 @@ __T3Interrupt:
 ; al llegar al servidor se sabra que el dato es parte alta si w(7) es 1, en caso
 ; contrario es parte baja.
 __ADCInterrupt:
-    PUSH.S
+    PUSH    W0
+    PUSH    W1
+    
     MOV     ADCBUF0,    W0              ;
     LSR     W0,         #6,     W1      ; W1 = W0 >> 6 = w0 >> 0b 0110 ; lit5
     BSET    W1,         #7              
     AND     #0x003f,    W0              ; W0 &= 0X03F ssi w0 &= 0b 0011 1111 ; lit10
     
     MOV     W0,         U1TXREG         
-    NOP                                 ; Necesario ?
     MOV     W1,         U1TXREG         
 
     BCLR    IFS0,       #ADIF            
-    POP.S
+    
+    POP	    W1
+    POP	    W0
     RETFIE
