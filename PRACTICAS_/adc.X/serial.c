@@ -11,33 +11,48 @@
 
 #define N  1024
 #define EVER 1
+#define SAMPLES_AMOUNT 8
 
 int config_serial ( char *, speed_t );
 
 typedef unsigned char byte;
 
+
+short avg(const byte *samples, const int n) {
+    int sum = 0, i = 0;
+    for (i = 0; i < n; ++i) sum += samples[i];
+    return sum / n;
+}
+
+float to_volt(const short diginput, const int vref) { 
+    return (diginput >> 11) * vref; 
+}
+
 int main() {
 	register int i;
 	int fd_serie;
-	unsigned char dato;
+	short dato;
     short result;
-    byte high_part, prev = 0;
+    short high_part, prev = 0;
+    short samples[SAMPLES_AMOUNT];
 
-	fd_serie = config_serial( "/dev/ttyUSB0", B115200 ); // B115200
+	fd_serie = config_serial( "/dev/ttyUSB1", B115200 ); // B115200
 	printf("serial abierto con descriptor: %d\n", fd_serie);
 
+    int acc = 0;
 	// Leemos datos del UART
-	while (true) {
+	for (; EVER;) {
 		read ( fd_serie, &dato, 1 );
-		// printf("%d\n", (int) dato);		
+		// printf("dato: %d\n", (int) dato & 0x3f);
         if (dato & 0x80) { // preguntamos por el bit 7
-            high_part = dato << 6; // recorremos 6 bits a la izquierda
+            high_part = (dato & 0x3F) << 6; // recorremos 6 bits a la izquierda, quitamos el bit que indica parte alta o baja
+            // printf("valor recorrido : %d\n", high_part);		
             prev = 1;
         } else { // dato es parte baja
-            if (prev == 1) { // la anterior lectura fue parte alta
-                result = (high_part | (dato & 0x3F)) & 0x0FFF; // concatenamos los bits de la lectura anterior con la actual, al hacemos una mask para asegurar un valor de 12 bits
+            if (prev) { // la anterior lectura fue parte alta
+                result = high_part | (dato & 0x3F); // concatenamos los bits de la lectura anterior con la actual
                 prev = 0;
-                printf("%d\t", result);
+                printf("%d\t", result);		
             }
         }
     }
