@@ -7,37 +7,41 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include <stdbool.h>
+
 #define N  1024
 #define EVER 1
 
 int config_serial ( char *, speed_t );
 
-int main()
-{
+typedef unsigned char byte;
+
+int main() {
 	register int i;
 	int fd_serie;
 	unsigned char dato;
-	unsigned short int tempL, tempH, temp;
+    short result;
+    byte high_part, prev = 0;
 
-<<<<<<< HEAD
-	//fd_serie = config_serial( "/dev/ttyUSB0", B9600 ); // B15200
-	fd_serie = config_serial( "/dev/ttyS3", B115200 ); // B15200
-=======
 	fd_serie = config_serial( "/dev/ttyUSB0", B115200 ); // B115200
->>>>>>> 2a6fcde9dd407c8328ad62057b722fae9849598d
 	printf("serial abierto con descriptor: %d\n", fd_serie);
 
-	//Leemos N datos del UART
-	dato = 0x55;
-	for( ; EVER; ){
+	// Leemos datos del UART
+	while (true) {
 		read ( fd_serie, &dato, 1 );
-		printf("%c", dato);		
-		//printf("Ingrese una letra: ");
-		//scanf(" %c", &dato);
-		//write(fd_serie, &dato, 1);
-	}
+		// printf("%d\n", (int) dato);		
+        if (dato & 0x80) { // preguntamos por el bit 7
+            high_part = dato << 6; // recorremos 6 bits a la izquierda
+            prev = 1;
+        } else { // dato es parte baja
+            if (prev == 1) { // la anterior lectura fue parte alta
+                result = (high_part | (dato & 0x3F)) & 0x0FFF; // concatenamos los bits de la lectura anterior con la actual, al hacemos una mask para asegurar un valor de 12 bits
+                prev = 0;
+                printf("%d\t", result);
+            }
+        }
+    }
 	close( fd_serie );
-
 	return 0;
 }
 
@@ -129,4 +133,3 @@ int config_serial( char *dispositivo_serial, speed_t baudios )
     //Retorna el descriptor de archivo
 	return fd;
 }
-
