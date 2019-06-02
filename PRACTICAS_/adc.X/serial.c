@@ -17,15 +17,14 @@ int config_serial ( char *, speed_t );
 
 typedef unsigned char byte;
 
-
 short avg(const byte *samples, const int n) {
     int sum = 0, i = 0;
     for (i = 0; i < n; ++i) sum += samples[i];
     return sum / n;
 }
 
-float to_volt(const short diginput, const int vref) { 
-    return (diginput >> 11) * vref; 
+float to_volt(const unsigned short diginput, const unsigned int vref) { 
+    return ((diginput + 1) / 4096) * vref; 
 }
 
 int main() {
@@ -34,12 +33,11 @@ int main() {
 	short dato;
     short result;
     short high_part, prev = 0;
-    short samples[SAMPLES_AMOUNT];
-
+  
 	fd_serie = config_serial( "/dev/ttyUSB1", B115200 ); // B115200
 	printf("serial abierto con descriptor: %d\n", fd_serie);
 
-    int acc = 0;
+    unsigned int acc = 0;
 	// Leemos datos del UART
 	for (; EVER;) {
 		read ( fd_serie, &dato, 1 );
@@ -52,7 +50,13 @@ int main() {
             if (prev) { // la anterior lectura fue parte alta
                 result = high_part | (dato & 0x3F); // concatenamos los bits de la lectura anterior con la actual
                 prev = 0;
-                printf("%d\t", result);		
+                // printf("%d\t", result);		
+                acc += result;
+                if (++i == 4) {
+                    printf("%d\t", acc >> 2);
+                    acc = 0;
+                    i = 0;
+                }
             }
         }
     }
